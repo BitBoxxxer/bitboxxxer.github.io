@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Обо мне - разработчик, который любит осуществять мечты в реальность :D">
+    <title>DevGuides // Обо мне</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="index.html" class="nav__link">Главная</a></li>
+                <li><a href="about.html" class="nav__link nav__link--active">Обо мне</a></li>
+                <li><a href="projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="guides.html" class="nav__link">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <h1 class="section__title">Обо мне</h1>
+            
+            <!-- Terminal Style Intro -->
+            <div class="terminal">
+                <div class="terminal__header">
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__title">about.sh</span>
+                </div>
+                <div class="terminal__body">
+                    <p class="terminal__line">
+                        <span class="terminal__prompt">whoami</span>
+                    </p>
+                    <p class="terminal__output">
+                        Программист с интузиазмом и любовью к математике
+                    </p>
+                    <p class="terminal__line mt-2">
+                        <span class="terminal__prompt">cat description.txt</span>
+                    </p>
+                    <p class="terminal__output">
+                        Привет! Я занимаюсь разработкой и создаю гайды для тех, кто хочет понять нишевые темы,
+                        по которым доступно мало информации. Или просто для любопытных ахах.
+                    </p>
+                    <p class="terminal__output">
+                        Здесь я делюсь своим опытом и знаниями в программировании
+                    </p>
+                    <p class="terminal__line mt-2">
+                        <span class="terminal__prompt">echo $INTERESTS</span>
+                    </p>
+                    <p class="terminal__output">
+                        GameDev // Engine // Web // Mobile // Softs // Open Source
+                    </p>
+                    <p class="terminal__output">
+                        И конечно же Менторство uwu
+                    </p>
+                </div>
+            </div>
+
+            <!-- Skills Section -->
+            <h2 class="section__title">Навыки</h2>
+            <div class="skills">
+                <!-- Programming Languages -->
+                <div class="skill-category">
+                    <h3 class="skill-category__title">Языки программирования</h3>
+                    <ul class="skill-list">
+                        <li class="skill-list__item">C#, Dart, css, xaml, http</li>
+                        <li class="skill-list__item">Flutter, WPF, Custom</li>
+                        <li class="skill-list__item">Python</li>
+                        <li class="skill-list__item">TypeScript</li>
+                    </ul>
+                </div>
+
+                <!-- Frameworks & Tools -->
+                <div class="skill-category">
+                    <h3 class="skill-category__title">Фреймворки и пр</h3>
+                    <ul class="skill-list">
+                        <li class="skill-list__item">Godot in past</li>
+                        <li class="skill-list__item">.NET</li>
+                        <li class="skill-list__item">Node.js</li>
+                        <li class="skill-list__item">Git</li>
+                    </ul>
+                </div>
+
+                <!-- Other Skills -->
+                <div class="skill-category">
+                    <h3 class="skill-category__title">Другое</h3>
+                    <ul class="skill-list">
+                        <li class="skill-list__item">Game Development</li>
+                        <li class="skill-list__item">Web Development</li>
+                        <li class="skill-list__item">Database Design</li>
+                        <li class="skill-list__item">Technical Writing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <h2 class="section__title mt-4">Контакты</h2>
+            <div class="contact-links">
+                <a href="https://github.com/BitBoxxxer" target="_blank" class="contact-link">
+                    <span>[ GitHub ]</span>
+                </a>
+                <a href="https://telegram.me/ImKaseyFuck" target="_blank" class="contact-link">
+                    <span>[ Telegram ]</span>
+                </a>
+                <a href="https://discord.com/users/nimf0374" class="contact-link">
+                    <span>[ Discord ]</span>
+                </a>
+            </div>
+
+            <!-- ASCII Art Decoration -->
+            <div class="text-center mt-4">
+                <pre style="display: inline-block; text-align: left; color: var(--text-dim); font-size: 0.75rem;">
+ ___
+  |  |     |
+  |  |__   |
+  |   __   |
+  |  |  |  |
+  |__|  |__|
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">Зачем вы это читаете... :D</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

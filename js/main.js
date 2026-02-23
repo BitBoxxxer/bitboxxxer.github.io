@@ -1,0 +1,182 @@
+/* ============================================
+   DevGuides - Main JavaScript
+   ============================================ */
+
+// Mobile Navigation Toggle
+function toggleNav() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('nav__links--active');
+}
+
+// Close mobile nav when clicking outside
+document.addEventListener('click', function(event) {
+    const nav = document.querySelector('.nav');
+    const navLinks = document.getElementById('navLinks');
+    const navToggle = document.querySelector('.nav__toggle');
+    
+    if (!nav.contains(event.target) && navLinks.classList.contains('nav__links--active')) {
+        navLinks.classList.remove('nav__links--active');
+    }
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Add fade-in animation on scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+// Observe all cards
+document.querySelectorAll('.card').forEach(card => {
+    card.style.opacity = '0';
+    observer.observe(card);
+});
+
+// Typing effect for hero title (optional)
+function typeWriter(element, text, speed = 100) {
+    let i = 0;
+    element.textContent = '';
+    
+    function type() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    
+    type();
+}
+
+// Copy code to clipboard
+function copyCode(button) {
+    const codeBlock = button.closest('.code-block').querySelector('code');
+    const text = codeBlock.textContent;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = '[ COPIED! ]';
+        setTimeout(() => {
+            button.textContent = originalText;
+        }, 2000);
+    });
+}
+
+// Add copy buttons to code blocks
+document.querySelectorAll('.code-block').forEach(block => {
+    const button = document.createElement('button');
+    button.className = 'btn';
+    button.style.cssText = 'position: absolute; top: 0.5rem; right: 3rem; font-size: 0.75rem; padding: 0.25rem 0.5rem;';
+    button.textContent = '[ COPY ]';
+    button.onclick = () => copyCode(button);
+    
+    block.style.position = 'relative';
+    block.appendChild(button);
+});
+
+// Console Easter Egg
+console.log('%c> DevGuides v1.0', 'color: #00ff41; font-family: monospace; font-size: 16px;');
+console.log('%c> Welcome, Developer!', 'color: #00ff41; font-family: monospace;');
+console.log('%c> Made with code and passion', 'color: #00cc33; font-family: monospace;');
+
+// Matrix rain effect in background (optional - can be enabled)
+function createMatrixRain() {
+    const canvas = document.createElement('canvas');
+    canvas.id = 'matrix-canvas';
+    canvas.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.05;';
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+    
+    function draw() {
+        ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#00ff41';
+        ctx.font = `${fontSize}px monospace`;
+        
+        for (let i = 0; i < drops.length; i++) {
+            const char = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+    
+    setInterval(draw, 50);
+    
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
+
+// Uncomment to enable matrix rain effect:
+// createMatrixRain();
+
+// Active navigation link highlighting
+function setActiveNavLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav__link');
+    
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        const linkPage = href.split('/').pop();
+        
+        if (linkPage === currentPage || 
+            (currentPage === '' && linkPage === 'index.html') ||
+            (currentPage.includes('guide') && linkPage === 'guides.html')) {
+            link.classList.add('nav__link--active');
+        } else {
+            link.classList.remove('nav__link--active');
+        }
+    });
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', () => {
+    setActiveNavLink();
+});
+
+// Glitch effect on hover for elements with .glitch class
+document.querySelectorAll('.glitch').forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        element.style.animation = 'glitch 0.3s ease infinite';
+    });
+    
+    element.addEventListener('mouseleave', () => {
+        element.style.animation = 'none';
+    });
+});

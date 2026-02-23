@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Гайды по разработке и проекты">
+    <title>DevGuides // Главная</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="index.html" class="nav__link nav__link--active">Главная</a></li>
+                <li><a href="about.html" class="nav__link">Обо мне</a></li>
+                <li><a href="projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="guides.html" class="nav__link">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Привет, я Кейси -uO</h1>
+            <p class="hero__subtitle">
+                Создаю гайды по разработке // Пишу код // Делаю проекты
+            </p>
+            <p class="hero__subtitle">
+                Иногда сплю, но желание работать часто побеждает
+            </p>
+            <div class="hero__buttons">
+                <a href="guides.html" class="btn btn--primary">Гайды</a>
+                <a href="projects.html" class="btn">Проекты</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Guides Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section__title">Последние гайды с личным пояснением от Кейси :D</h2>
+            <div class="cards-grid">
+                <!-- Guide Card 1 -->
+                <article class="card guide-card">
+                    <span class="guide-card__number">SS14_#1</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Proto SS14</h3>
+                        <span class="card__date">22-02-2026</span>
+                    </div>
+                    <p class="card__description">
+                        Разработка прототипов для Space Station 14 с нуля
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">SS14</span>
+                        <span class="tag">prototype</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">yaml</span>
+                        <span class="tag">туториал</span>
+                        <span class="tag">начинающим</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="guides/guide-template.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+
+                <!-- Guide Card 2 -->
+                <article class="card guide-card">
+                    <span class="guide-card__number">Основы_Git</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Git основы</h3>
+                        <span class="card__date">2025 год</span>
+                    </div>
+                    <p class="card__description">
+                        Базовые команды Git для повседневной работы. Коммиты, ветки, слияния.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">git</span>
+                        <span class="tag">version control</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="guides/guide-template.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+
+                <!-- Guide Card 3 -->
+                <article class="card guide-card">
+                    <span class="guide-card__number">Основы_Terminal</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Терминал</h3>
+                        <span class="card__date">2026 год</span>
+                    </div>
+                    <p class="card__description">
+                        Основные команды терминала для разработчика. Навигация, файлы, процессы.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">terminal</span>
+                        <span class="tag">windows_10 & 11</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="guides/guide-template.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="guides.html" class="btn">Все гайды</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section__title">Избранные проекты</h2>
+            <div class="cards-grid">
+                <!-- Project Card 1 -->
+                <article class="card project-card">
+                    <span class="project-card__status project-card__status--active">ACTIVE</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Hlebec Engine</h3>
+                    </div>
+                    <p class="card__description">
+                        Описание проекта. Какие технологии используются и что делает проект.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">XAML</span>
+                        <span class="tag">Silk.Net</span>
+                        <span class="tag">WPF</span>
+                        <span class="tag">Math</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="#" class="card__link">GitHub</a>
+                        <a href="#" class="card__link">Demo</a>
+                    </div>
+                </article>
+
+                <!-- Project Card 2 -->
+                <article class="card project-card">
+                    <span class="project-card__status">COMPLETED</span>
+                    <div class="card__header">
+                        <h3 class="card__title">SS14 UI Framework</h3>
+                    </div>
+                    <p class="card__description">
+                        UI расширения для серверов. Расширяет возможности для разметок
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">WPF</span>
+                        <span class="tag">CSS</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="#" class="card__link">GitHub</a>
+                        <a href="#" class="card__link">Demo</a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="text-center mt-4">
+                <a href="projects.html" class="btn">Все проекты</a>
+            </div>
+        </div>
+    </section>
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Мои проекты - разработка и гайды">
+    <title>DevGuides // Проекты</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="index.html" class="nav__link">Главная</a></li>
+                <li><a href="about.html" class="nav__link">Обо мне</a></li>
+                <li><a href="projects.html" class="nav__link nav__link--active">Проекты</a></li>
+                <li><a href="guides.html" class="nav__link">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Projects Section -->
+    <section class="section" style="padding-top: 120px;">
+        <div class="container">
+            <h1 class="section__title">Проекты</h1>
+            
+            <!-- Terminal Style Header -->
+            <div class="terminal">
+                <div class="terminal__header">
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__title">projects.sh</span>
+                </div>
+                <div class="terminal__body">
+                    <p class="terminal__line">
+                        <span class="terminal__prompt">ls -la ~/projects</span>
+                    </p>
+                    <p class="terminal__output">
+                        Найдено проектов: 4 // Статус: в разработке и завершённые
+                    </p>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="cards-grid">
+                <!-- Project 1 -->
+                <article class="card project-card">
+                    <span class="project-card__status project-card__status--active">ACTIVE</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Project Alpha</h3>
+                    </div>
+                    <p class="card__description">
+                        Крупный проект в разработке. Использует современные технологии и подходы. 
+                        Подробнее будет в гайдах.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">Unity</span>
+                        <span class="tag">GameDev</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="#" class="card__link">GitHub</a>
+                        <a href="#" class="card__link">Документация</a>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="card project-card">
+                    <span class="project-card__status project-card__status--active">ACTIVE</span>
+                    <div class="card__header">
+                        <h3 class="card__title">DevGuides Site</h3>
+                    </div>
+                    <p class="card__description">
+                        Этот сайт! Статический сайт-портфолио с гайдами. Хостится на GitHub Pages.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="#" class="card__link">GitHub</a>
+                        <a href="index.html" class="card__link">Live</a>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="card project-card">
+                    <span class="project-card__status">COMPLETED</span>
+                    <div class="card__header">
+                        <h3 class="card__title">CLI Tool</h3>
+                    </div>
+                    <p class="card__description">
+                        Консольная утилита для автоматизации рутинных задач. 
+                        Кроссплатформенная, работает на Windows/Linux/macOS.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">CLI</span>
+                        <span class="tag">Automation</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="#" class="card__link">GitHub</a>
+                        <a href="#" class="card__link">PyPI</a>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="card project-card">
+                    <span class="project-card__status">COMPLETED</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Web Scraper</h3>
+                    </div>
+                    <p class="card__description">
+                        Веб-скрапер для сбора данных. Использует асинхронное программирование 
+                        для высокой производительности.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Async</span>
+                        <span class="tag">Data</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="#" class="card__link">GitHub</a>
+                    </div>
+                </article>
+
+                <!-- Project 5 - Placeholder -->
+                <article class="card project-card">
+                    <span class="project-card__status">PLANNED</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Secret Project</h3>
+                    </div>
+                    <p class="card__description">
+                        Тсс... Это секретный проект. Скоро расскажу подробнее!
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">???</span>
+                        <span class="tag">Coming Soon</span>
+                    </div>
+                    <div class="card__links">
+                        <span class="card__link text-dim">Скоро...</span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="terminal mt-4">
+                <div class="terminal__header">
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__dot"></span>
+                    <span class="terminal__title">stats.sh</span>
+                </div>
+                <div class="terminal__body">
+                    <p class="terminal__line">
+                        <span class="terminal__prompt">echo $STATS</span>
+                    </p>
+                    <p class="terminal__output">
+                        Всего проектов: 5 | Активных: 2 | Завершённых: 2 | В планах: 1
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
