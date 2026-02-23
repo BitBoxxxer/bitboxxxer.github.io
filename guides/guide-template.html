@@ -29,141 +29,119 @@
         </div>
     </nav>
 
+    <!-- Guide Header -->
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Название гайда</h1>
+            <p class="hero__subtitle">
+                GUIDE_XXX // Дата // Время чтения: X мин
+            </p>
+        </div>
+    </section>
+
     <!-- Guide Content -->
     <article class="guide">
-        <header class="guide__header">
-            <h1 class="guide__title">Название гайда</h1>
-            <div class="guide__meta">
-                <span>GUIDE_001</span>
-                <span>Дата: 2024-02-20</span>
-                <span>Время чтения: 5 мин</span>
-            </div>
-        </header>
+        <div class="container">
+            <div class="guide__content">
+                <!-- Introduction -->
+                <h2>Введение</h2>
+                <p>
+                    Краткое введение в тему гайда. Что будет рассмотрено и для кого этот гайд.
+                </p>
 
-        <div class="guide__content">
-            <!-- Introduction -->
-            <h2>Введение</h2>
-            <p>
-                Это шаблон гайда. Используй его как основу для создания новых гайдов. 
-                Просто скопируй этот файл, переименуй и заполни контентом.
-            </p>
+                <!-- Section 1 -->
+                <h2>Раздел 1: Название раздела</h2>
+                <p>
+                    Основной контент гайда. Разбивай на логические разделы для удобства чтения.
+                </p>
 
-            <!-- Section 1 -->
-            <h2>Раздел 1: Базовая информация</h2>
-            <p>
-                Здесь пиши основной контент гайда. Разбивай на логические разделы 
-                для удобства чтения.
-            </p>
-
-            <!-- Code Example -->
-            <h3>Пример кода</h3>
-            <p>Вот пример блока кода:</p>
-            <div class="code-block">
-                <span class="code-block__lang">bash</span>
-                <pre><code># Это пример команды в терминале
-echo "Hello, World!"
-
-# Установка пакетов
-npm install package-name
-
-# Запуск проекта
-npm start</code></pre>
-            </div>
-
-            <!-- Another Code Example -->
-            <h3>Пример на JavaScript</h3>
-            <div class="code-block">
-                <span class="code-block__lang">javascript</span>
-                <pre><code>// Функция приветствия
-function greet(name) {
-    return `Hello, ${name}!`;
-}
-
-// Использование
-const message = greet('Developer');
-console.log(message); // Output: Hello, Developer!</code></pre>
-            </div>
-
-            <!-- Section 2 -->
-            <h2>Раздел 2: Пошаговая инструкция</h2>
-            <p>Разбивай сложные процессы на шаги:</p>
-            
-            <ol>
-                <li>
-                    <strong>Первый шаг</strong> - описание первого шага. 
-                    Можно использовать <code>inline код</code> для выделения.
-                </li>
-                <li>
-                    <strong>Второй шаг</strong> - описание второго шага.
-                </li>
-                <li>
-                    <strong>Третий шаг</strong> - описание третьего шага.
-                </li>
-            </ol>
-
-            <!-- Tips Section -->
-            <h2>Советы</h2>
-            <ul>
-                <li>Используй <code>code blocks</code> для примеров кода</li>
-                <li>Разбивай длинный текст на абзацы</li>
-                <li>Добавляй примеры для наглядности</li>
-                <li>Структурируй контент заголовками</li>
-            </ul>
-
-            <!-- Terminal Example -->
-            <h2>Пример терминала</h2>
-            <div class="terminal">
-                <div class="terminal__header">
-                    <span class="terminal__dot"></span>
-                    <span class="terminal__dot"></span>
-                    <span class="terminal__dot"></span>
-                    <span class="terminal__title">terminal</span>
+                <!-- Code Example -->
+                <h3>Пример кода</h3>
+                <p>Описание примера:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">язык</span>
+                    <pre><code>// Твой код здесь
+// Пример:
+function example() {
+    return "Hello, World!";
+}</code></pre>
                 </div>
-                <div class="terminal__body">
-                    <p class="terminal__line">
-                        <span class="terminal__prompt">npm --version</span>
-                    </p>
-                    <p class="terminal__output">
-                        10.2.4
-                    </p>
-                    <p class="terminal__line mt-2">
-                        <span class="terminal__prompt">node --version</span>
-                    </p>
-                    <p class="terminal__output">
-                        v20.11.0
-                    </p>
+
+                <!-- Section 2 -->
+                <h2>Раздел 2: Пошаговая инструкция</h2>
+                <p>Разбивай сложные процессы на шаги:</p>
+                
+                <ol>
+                    <li>
+                        <strong>Первый шаг</strong> - описание первого шага. 
+                        Можно использовать <code>inline код</code> для выделения.
+                    </li>
+                    <li>
+                        <strong>Второй шаг</strong> - описание второго шага.
+                    </li>
+                    <li>
+                        <strong>Третий шаг</strong> - описание третьего шага.
+                    </li>
+                </ol>
+
+                <!-- Terminal Example -->
+                <h2>Пример терминала</h2>
+                <div class="terminal">
+                    <div class="terminal__header">
+                        <span class="terminal__dot"></span>
+                        <span class="terminal__dot"></span>
+                        <span class="terminal__dot"></span>
+                        <span class="terminal__title">terminal</span>
+                    </div>
+                    <div class="terminal__body">
+                        <p class="terminal__line">
+                            <span class="terminal__prompt">команда</span>
+                        </p>
+                        <p class="terminal__output">
+                            вывод команды
+                        </p>
+                    </div>
                 </div>
+
+                <!-- Tips Section -->
+                <h2>Советы</h2>
+                <ul>
+                    <li>Используй <code>code blocks</code> для примеров кода</li>
+                    <li>Разбивай длинный текст на абзацы</li>
+                    <li>Добавляй примеры для наглядности</li>
+                    <li>Структурируй контент заголовками</li>
+                </ul>
+
+                <!-- Conclusion -->
+                <h2>Заключение</h2>
+                <p>
+                    Подведи итоги гайда. Что было рассмотрено, какие навыки получит читатель.
+                </p>
+
+                <!-- Related Links -->
+                <h3>Полезные ссылки</h3>
+                <ul>
+                    <li><a href="#">Официальная документация</a></li>
+                    <li><a href="#">Связанный гайд</a></li>
+                    <li><a href="#">GitHub репозиторий</a></li>
+                </ul>
             </div>
 
-            <!-- Conclusion -->
-            <h2>Заключение</h2>
-            <p>
-                Подведи итоги гайда. Что было рассмотрено, какие навыки получит читатель.
-                Можно добавить ссылки на дополнительные материалы.
-            </p>
-
-            <!-- Related Links -->
-            <h3>Полезные ссылки</h3>
-            <ul>
-                <li><a href="#">Официальная документация</a></li>
-                <li><a href="#">Связанный гайд</a></li>
-                <li><a href="#">GitHub репозиторий</a></li>
-            </ul>
+            <!-- Navigation between guides -->
+            <nav class="guide-nav">
+                <a href="guide-template.html" class="guide-nav__link guide-nav__link--prev">
+                    Предыдущий гайд
+                </a>
+                <a href="../guides.html" class="btn">
+                    Все гайды
+                </a>
+                <a href="guide-template.html" class="guide-nav__link guide-nav__link--next">
+                    Следующий гайд
+                </a>
+            </nav>
         </div>
-
-        <!-- Navigation between guides -->
-        <nav class="guide-nav">
-            <a href="guide-template.html" class="guide-nav__link guide-nav__link--prev">
-                Предыдущий гайд
-            </a>
-            <a href="../guides.html" class="btn">
-                Все гайды
-            </a>
-            <a href="guide-template.html" class="guide-nav__link guide-nav__link--next">
-                Следующий гайд
-            </a>
-        </nav>
     </article>
+
     <!-- Scripts -->
     <script src="../js/main.js"></script>
 </body>

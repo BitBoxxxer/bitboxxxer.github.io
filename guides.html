@@ -29,63 +29,100 @@
         </div>
     </nav>
 
-    <!-- Guides Section -->
-    <section class="section" style="padding-top: 120px;">
-        <div class="container">
-            <h1 class="section__title">Гайды</h1>
-            
-            <!-- Terminal Style Header -->
-            <div class="terminal">
-                <div class="terminal__header">
-                    <span class="terminal__dot"></span>
-                    <span class="terminal__dot"></span>
-                    <span class="terminal__dot"></span>
-                    <span class="terminal__title">guides.sh</span>
-                </div>
-                <div class="terminal__body">
-                    <p class="terminal__line">
-                        <span class="terminal__prompt">ls -la ~/guides</span>
-                    </p>
-                    <p class="terminal__output">
-                        Найдено гайдов: 6 // Категории: разработка, инструменты, туториалы
-                    </p>
-                </div>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Гайды от Кейси</h1>
+            <p class="hero__subtitle">
+                Учимся вместе // Разбираем сложные темы // Практические примеры
+            </p>
+            <p class="hero__subtitle">
+                Здесь собраны мои заметки и туториалы по разработке
+            </p>
+        </div>
+    </section>
 
-            <!-- Category: Getting Started -->
-            <h2 class="section__title mt-4">Начало работы</h2>
+    <!-- SS14 Guides Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section__title">Space Station 14</h2>
             <div class="cards-grid">
-                <!-- Guide 1 -->
+                <!-- SS14 Guide 1 -->
                 <article class="card guide-card">
-                    <span class="guide-card__number">001</span>
+                    <span class="guide-card__number">SS14_#1</span>
                     <div class="card__header">
-                        <h3 class="card__title">Настройка окружения</h3>
-                        <span class="card__date">2024-02-20</span>
+                        <h3 class="card__title">Proto SS14</h3>
+                        <span class="card__date">22-02-2026</span>
                     </div>
                     <p class="card__description">
-                        Как настроить среду разработки с нуля. Установка необходимых инструментов, 
-                        настройка редактора кода и первые шаги.
+                        Разработка прототипов для Space Station 14 с нуля
                     </p>
                     <div class="card__tags">
-                        <span class="tag">туториал</span>
-                        <span class="tag">начинающим</span>
-                        <span class="tag">setup</span>
+                        <span class="tag">SS14</span>
+                        <span class="tag">prototype</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">yaml</span>
                     </div>
                     <div class="card__links">
                         <a href="guides/guide-template.html" class="card__link">Читать</a>
                     </div>
                 </article>
 
-                <!-- Guide 2 -->
+                <!-- SS14 Guide 2 -->
                 <article class="card guide-card">
-                    <span class="guide-card__number">002</span>
+                    <span class="guide-card__number">SS14_#2</span>
                     <div class="card__header">
-                        <h3 class="card__title">Git основы</h3>
-                        <span class="card__date">2024-02-18</span>
+                        <h3 class="card__title">Название гайда</h3>
+                        <span class="card__date">дата</span>
                     </div>
                     <p class="card__description">
-                        Базовые команды Git для повседневной работы. Коммиты, ветки, слияния 
-                        и решение конфликтов.
+                        Краткое описание гайда. О чём будет рассказано.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">SS14</span>
+                        <span class="tag">тег</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="guides/guide-template.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+
+                <!-- SS14 Guide 3 -->
+                <article class="card guide-card">
+                    <span class="guide-card__number">SS14_#3</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Название гайда</h3>
+                        <span class="card__date">дата</span>
+                    </div>
+                    <p class="card__description">
+                        Краткое описание гайда. О чём будет рассказано.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">SS14</span>
+                        <span class="tag">тег</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="guides/guide-template.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Basics Guides Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section__title">Основы разработки</h2>
+            <div class="cards-grid">
+                <!-- Basics Guide 1 -->
+                <article class="card guide-card">
+                    <span class="guide-card__number">Основы_Git</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Git основы</h3>
+                        <span class="card__date">2025 год</span>
+                    </div>
+                    <p class="card__description">
+                        Базовые команды Git для повседневной работы. Коммиты, ветки, слияния.
                     </p>
                     <div class="card__tags">
                         <span class="tag">git</span>
@@ -96,97 +133,116 @@
                     </div>
                 </article>
 
-                <!-- Guide 3 -->
+                <!-- Basics Guide 2 -->
                 <article class="card guide-card">
-                    <span class="guide-card__number">003</span>
+                    <span class="guide-card__number">Основы_Terminal</span>
                     <div class="card__header">
-                        <h3 class="card__title">Терминал для начинающих</h3>
-                        <span class="card__date">2024-02-15</span>
+                        <h3 class="card__title">Терминал</h3>
+                        <span class="card__date">2026 год</span>
                     </div>
                     <p class="card__description">
-                        Основные команды терминала для разработчика. Навигация, работа с файлами, 
-                        процессы и права доступа.
+                        Основные команды терминала для разработчика. Навигация, файлы, процессы.
                     </p>
                     <div class="card__tags">
                         <span class="tag">terminal</span>
-                        <span class="tag">linux</span>
-                        <span class="tag">bash</span>
+                        <span class="tag">windows_10 & 11</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="guides/guide-template.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+
+                <!-- Basics Guide 3 -->
+                <article class="card guide-card">
+                    <span class="guide-card__number">Основы_#3</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Название гайда</h3>
+                        <span class="card__date">дата</span>
+                    </div>
+                    <p class="card__description">
+                        Краткое описание гайда. О чём будет рассказано.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">тег</span>
+                        <span class="tag">тег</span>
                     </div>
                     <div class="card__links">
                         <a href="guides/guide-template.html" class="card__link">Читать</a>
                     </div>
                 </article>
             </div>
+        </div>
+    </section>
 
-            <!-- Category: Development -->
-            <h2 class="section__title mt-4">Разработка</h2>
+    <!-- C# Guides Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section__title">C# разработка</h2>
             <div class="cards-grid">
-                <!-- Guide 4 -->
+                <!-- C# Guide 1 -->
                 <article class="card guide-card">
-                    <span class="guide-card__number">004</span>
+                    <span class="guide-card__number">CSharp_#1</span>
                     <div class="card__header">
-                        <h3 class="card__title">C# для начинающих</h3>
-                        <span class="card__date">2024-02-10</span>
+                        <h3 class="card__title">Название гайда</h3>
+                        <span class="card__date">дата</span>
                     </div>
                     <p class="card__description">
-                        Введение в C#. Основы синтаксиса, типы данных, управляющие конструкции 
-                        и объектно-ориентированное программирование.
+                        Краткое описание гайда. О чём будет рассказано.
                     </p>
                     <div class="card__tags">
                         <span class="tag">C#</span>
                         <span class="tag">.NET</span>
-                        <span class="tag">OOP</span>
                     </div>
                     <div class="card__links">
                         <a href="guides/guide-template.html" class="card__link">Читать</a>
                     </div>
                 </article>
 
-                <!-- Guide 5 -->
+                <!-- C# Guide 2 -->
                 <article class="card guide-card">
-                    <span class="guide-card__number">005</span>
+                    <span class="guide-card__number">CSharp_#2</span>
                     <div class="card__header">
-                        <h3 class="card__title">JavaScript основы</h3>
-                        <span class="card__date">2024-02-05</span>
+                        <h3 class="card__title">Название гайда</h3>
+                        <span class="card__date">дата</span>
                     </div>
                     <p class="card__description">
-                        Базовый курс по JavaScript. Переменные, функции, массивы, объекты 
-                        и работа с DOM.
+                        Краткое описание гайда. О чём будет рассказано.
                     </p>
                     <div class="card__tags">
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">Web</span>
-                        <span class="tag">Frontend</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">тег</span>
                     </div>
                     <div class="card__links">
                         <a href="guides/guide-template.html" class="card__link">Читать</a>
                     </div>
                 </article>
 
-                <!-- Guide 6 -->
+                <!-- C# Guide 3 -->
                 <article class="card guide-card">
-                    <span class="guide-card__number">006</span>
+                    <span class="guide-card__number">CSharp_#3</span>
                     <div class="card__header">
-                        <h3 class="card__title">HTML & CSS</h3>
-                        <span class="card__date">2024-01-28</span>
+                        <h3 class="card__title">Название гайда</h3>
+                        <span class="card__date">дата</span>
                     </div>
                     <p class="card__description">
-                        Основы веб-разработки. Структура HTML, стилизация CSS, flexbox, grid 
-                        и адаптивный дизайн.
+                        Краткое описание гайда. О чём будет рассказано.
                     </p>
                     <div class="card__tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">Web</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">тег</span>
                     </div>
                     <div class="card__links">
                         <a href="guides/guide-template.html" class="card__link">Читать</a>
                     </div>
                 </article>
             </div>
+        </div>
+    </section>
 
-            <!-- Coming Soon Section -->
-            <div class="terminal mt-4">
+    <!-- Coming Soon Terminal -->
+    <section class="section">
+        <div class="container">
+            <div class="terminal">
                 <div class="terminal__header">
                     <span class="terminal__dot"></span>
                     <span class="terminal__dot"></span>
@@ -207,6 +263,7 @@
             </div>
         </div>
     </section>
+
     <!-- Scripts -->
     <script src="js/main.js"></script>
 </body>
