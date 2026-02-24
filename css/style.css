@@ -765,6 +765,71 @@ p code, li code {
 }
 
 /* ============================================
+   TOPIC CARDS - Широкие горизонтальные карточки
+   ============================================ */
+
+.topic-card {
+    display: block;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.topic-card:hover {
+    border-color: var(--text-primary);
+    box-shadow: var(--glow);
+    transform: translateX(5px);
+}
+
+.topic-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.topic-card__title {
+    font-size: 1.5rem;
+    text-shadow: var(--glow);
+    margin-bottom: 0;
+}
+
+.topic-card__count {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+.topic-card__description {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.topic-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.topic-card__link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.topic-card:hover .topic-card__link {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 
