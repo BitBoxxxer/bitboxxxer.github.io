@@ -180,3 +180,126 @@ document.querySelectorAll('.glitch').forEach(element => {
         element.style.animation = 'none';
     });
 });
+
+// ============================================
+// Table of Contents (TOC)
+// ============================================
+
+let tocHeadings = [];
+let tocLinks = [];
+
+function initToc() {
+    const tocContent = document.getElementById('tocContent');
+    const guideContent = document.querySelector('.guide__content');
+    
+    if (!tocContent || !guideContent) return;
+    
+    // Находим все заголовки h2, h3, h4
+    tocHeadings = Array.from(guideContent.querySelectorAll('h2, h3, h4'));
+    
+    if (tocHeadings.length === 0) return;
+    
+    // Создаём список
+    const list = document.createElement('ul');
+    list.className = 'toc__list';
+    
+    tocHeadings.forEach((heading, index) => {
+        // Добавляем id к заголовку если нет
+        if (!heading.id) {
+            heading.id = 'section-' + index;
+        }
+        
+        // Создаём элемент списка
+        const item = document.createElement('li');
+        const level = parseInt(heading.tagName.charAt(1));
+        item.className = 'toc__item toc__item--level-' + level;
+        
+        // Создаём ссылку
+        const link = document.createElement('a');
+        link.href = '#' + heading.id;
+        link.className = 'toc__link';
+        // Убираем префикс ## или ### из текста
+        link.textContent = heading.textContent.replace(/^#+\s/, '');
+        
+        // Обработчик клика
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        
+        item.appendChild(link);
+        list.appendChild(item);
+    });
+    
+    tocContent.appendChild(list);
+    
+    // Сохраняем ссылки для scroll spy
+    tocLinks = Array.from(document.querySelectorAll('.toc__link'));
+    
+    // Инициализируем отслеживание прокрутки
+    initTocScrollSpy();
+}
+
+function toggleToc() {
+    const toc = document.querySelector('.toc');
+    if (!toc) return;
+    
+    toc.classList.toggle('toc--collapsed');
+    
+    const toggleBtn = document.querySelector('.toc__toggle');
+    if (toc.classList.contains('toc--collapsed')) {
+        toggleBtn.textContent = '[ + ]';
+    } else {
+        toggleBtn.textContent = '[ − ]';
+    }
+}
+
+function initTocScrollSpy() {
+    const tocCurrentTitle = document.getElementById('tocCurrentTitle');
+    const tocCurrent = document.querySelector('.toc__current');
+    
+    function updateActiveSection() {
+        let currentSection = null;
+        
+        tocHeadings.forEach(heading => {
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 150) {
+                currentSection = heading;
+            }
+        });
+        
+        if (currentSection) {
+            // Обновляем активную ссылку
+            tocLinks.forEach(link => {
+                link.classList.remove('toc__link--active');
+                if (link.getAttribute('href') === '#' + currentSection.id) {
+                    link.classList.add('toc__link--active');
+                }
+            });
+            
+            // Обновляем текущую главу
+            if (tocCurrentTitle) {
+                tocCurrentTitle.textContent = currentSection.textContent.replace(/^#+\s/, '');
+            }
+        }
+    }
+    
+    // Клик по текущей главе разворачивает TOC
+    if (tocCurrent) {
+        tocCurrent.addEventListener('click', () => {
+            const toc = document.querySelector('.toc');
+            if (toc && toc.classList.contains('toc--collapsed')) {
+                toggleToc();
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', updateActiveSection);
+    // Запускаем начальное обновление
+    updateActiveSection();
+}
+
+// Инициализация TOC при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    initToc();
+});

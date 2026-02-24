@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Гайд по программированию прототипов в Space Station 14 - основы YAML, компоненты, наследование">
+    <meta name="keywords" content="SS14, Space Station 14, прототипы, YAML, C#, разработка, гайд, туториал">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/guides/ss14-prototypes.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Прототипы SS14 - DevGuides">
+    <meta property="og:description" content="Полный гайд по программированию прототипов в Space Station 14.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-prototypes.html">
+    <meta property="og:site_name" content="DevGuides">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    
+    <title>DevGuides // Прототипы SS14</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="../index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="../index.html" class="nav__link">Главная</a></li>
+                <li><a href="../about.html" class="nav__link">Обо мне</a></li>
+                <li><a href="../projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="../guides.html" class="nav__link nav__link--active">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Guide Header -->
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Прототипы в Space Station 14</h1>
+            <p class="hero__subtitle">
+                SS14_#1 // Полный гайд по YAML-прототипам // Время чтения: 30 мин
+            </p>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+            <!-- Генерируется JavaScript -->
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
+    <!-- Guide Content -->
+    <article class="guide">
+        <div class="container">
+            <div class="guide__content">
+                
+                <!-- Введение -->
+                <h2>Введение</h2>
+                <p>
+                    Прототипы - это фундаментальный механизм Space Station 14 для определения данных игры в <strong>YAML-файлах</strong>, которые затем загружаются и используются движком Robust Toolbox. Они помогают <strong>отделить логику от данных</strong>: например, если вы хотите изменить внешний вид или характеристики предмета, вам не нужно перекомпилировать весь код - достаточно изменить соответствующий YAML-прототип.
+                </p>
+
+                <!-- Основные концепции -->
+                <h2>Основные концепции</h2>
+                
+                <h3>1. Что такое прототип?</h3>
+                <p>
+                    Прототип - это <strong>шаблон</strong> или <strong>описание</strong> игрового объекта (или другого элемента игры), написанный в YAML-формате. Каждый прототип имеет:
+                </p>
+                <ul>
+                    <li>Уникальный <strong>идентификатор (ID)</strong> - по нему код находит и использует прототип</li>
+                    <li>Набор <strong>свойств</strong> - определяют, как будет выглядеть и вести себя объект в игре</li>
+                    <li>Возможность <strong>наследования</strong> - прототип может взять свойства от одного или нескольких других прототипов (как класс в программировании)</li>
+                </ul>
+
+                <h3>2. Что такое компонент?</h3>
+                <p>
+                    <strong>Компонент</strong> - это модуль функционала для сущностей. Каждый компонент добавляет определённую способность сущности:
+                </p>
+                <ul>
+                    <li><code>Sprite</code> - добавляет спрайт (графику)</li>
+                    <li><code>Physics</code> - делает сущность физическим объектом (с массой, гравитацией)</li>
+                    <li><code>Item</code> - делает объект поднимаемым и переносимым</li>
+                    <li><code>Damageable</code> - позволяет сущности получать урон</li>
+                </ul>
+                <p>Сущность - это <strong>собрание компонентов</strong>. Без компонентов сущность не будет ни видно, ни взаимодействовать с миром.</p>
+
+                <h3>3. Ключевые интерфейсы</h3>
+                <p>В Robust Toolbox существуют два основных интерфейса для работы с прототипами:</p>
+                
+                <h4>IPrototype</h4>
+                <p>Базовый интерфейс для всех прототипов. Определяет обязательное свойство <code>ID</code>.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>public interface IPrototype
+{
+    string ID { get; }
+}</code></pre>
+                </div>
+
+                <h4>IInheritingPrototype</h4>
+                <p>Расширение IPrototype, позволяющее прототипу наследовать свойства от родительских прототипов.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>public interface IInheritingPrototype
+{
+    string[]? Parents { get; }
+    bool Abstract { get; }
+}</code></pre>
+                </div>
+
+                <!-- Структура YAML -->
+                <h2>Структура YAML-прототипа</h2>
+                
+                <h3>Общий формат</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: <тип_прототипа>
+  id: <уникальный_идентификатор>
+  <свойство1>: <значение1>
+  <свойство2>: <значение2></code></pre>
+                </div>
+
+                <h3>Пример: EntityPrototype (Сущность)</h3>
+                <p>Сущности - это основные игровые объекты. Они описываются с помощью компонентов.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  id: BaseControllable
+  abstract: true
+  save: false
+  components:
+  - type: Sprite
+    noRot: true
+    drawdepth: Mobs
+  - type: GravityAffected
+  - type: Physics
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeCircle
+          radius: 0.35
+        density: 50
+        mask: [MobMask]
+        layer: [MobLayer]</code></pre>
+                </div>
+
+                <!-- Типы прототипов -->
+                <h2>Основные типы прототипов</h2>
+
+                <h3>EntityPrototype (Сущности и предметы)</h3>
+                <p><strong>Сущность</strong> - это основной игровой объект: моб, предмет, устройство, стены и т.д.</p>
+
+                <h4>Пример: Простой предмет (гаечный ключ)</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  name: wrench
+  parent: BaseItem
+  id: Wrench
+  description: "A common tool for assembly and disassembly."
+  components:
+  - type: Sprite
+    sprite: Objects/Tools/wrench.rsi
+    state: icon
+  - type: Item
+    size: Small
+  - type: Tag
+    tags:
+    - Wrench
+  - type: MeleeWeapon
+    wideAnimationRotation: 135
+    attackRate: 1.5
+    damage:
+      types:
+        Blunt: 4.5
+  - type: Tool
+    qualities:
+      - Anchoring
+    useSound:
+      path: /Audio/Items/ratchet.ogg</code></pre>
+                </div>
+
+                <h3>TagPrototype (Теги)</h3>
+                <p>Теги используются для классификации сущностей и создания белых/чёрных списков.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: Tag
+  id: Airlock</code></pre>
+                </div>
+
+                <h3>SoundCollectionPrototype (Звуковые коллекции)</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: soundCollection
+  id: MetalThud
+  files:
+    - /Audio/Effects/metal_thud1.ogg
+    - /Audio/Effects/metal_thud2.ogg
+    - /Audio/Effects/metal_thud3.ogg</code></pre>
+                </div>
+
+                <!-- Наследование -->
+                <h2>Наследование прототипов</h2>
+                
+                <h3>Базовое наследование</h3>
+                <p>Прототипы могут наследовать свойства от других прототипов, используя поле <code>parent</code>.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  id: BaseMob
+  abstract: true
+  parent: BaseControllable
+  components:
+  - type: MobCollision
+  - type: Physics
+    bodyType: KinematicController</code></pre>
+                </div>
+
+                <h3>Множественное наследование</h3>
+                <p>Для множественного наследования используется массив в <code>parent</code>.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  id: ComplexMob
+  abstract: true
+  parent: [BaseMob, MobDamageable, MobCombat]
+  components:
+  - type: CustomComponent
+    customProperty: "value"</code></pre>
+                </div>
+
+                <!-- Абстрактные прототипы -->
+                <h2>Абстрактные прототипы</h2>
+                <p>Абстрактные прототипы не могут быть использованы напрямую, только наследованы. Они используются для создания базовых шаблонов.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  id: BaseControllable
+  abstract: true
+  save: false
+  components:
+  - type: Sprite
+  - type: Input</code></pre>
+                </div>
+
+                <!-- Создание собственного типа -->
+                <h2>Создание собственного типа прототипа</h2>
+                <p>Если вам нужен новый тип прототипа, создайте класс в C#:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.Manager.Attributes;
+
+namespace Content.Shared.MyModule
+{
+    [Prototype("customItem")]
+    public sealed class CustomItemPrototype : IPrototype
+    {
+        [IdDataField]
+        public string ID { get; private set; } = default!;
+
+        [DataField("name")]
+        public string Name { get; private set; } = "Неизвестный предмет";
+
+        [DataField("price")]
+        public int Price { get; private set; } = 0;
+
+        [DataField("modifiers")]
+        public ItemModifiers Modifiers { get; private set; } = new();
+    }
+
+    public sealed class ItemModifiers
+    {
+        [DataField("fireDamage")]
+        public int FireDamage { get; private set; } = 0;
+
+        [DataField("attackSpeedBonus")]
+        public float AttackSpeedBonus { get; private set; } = 0f;
+    }
+}</code></pre>
+                </div>
+
+                <p>Теперь создайте YAML-файл с прототипами:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: customItem
+  id: CustomSword
+  name: custom-sword-test
+  price: 50
+  modifiers:
+    fireDamage: 10
+    attackSpeedBonus: 0.2</code></pre>
+                </div>
+
+                <!-- Спавн сущностей -->
+                <h2>Спавн сущностей в коде [C#]</h2>
+                <p>Для спавна сущностей используйте IEntityManager:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Robust.Shared.Prototypes;
+using Robust.Shared.Map;
+
+public class MySystem : EntitySystem
+{
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+
+    public void SpawnItemAtLocation(string prototypeId, EntityUid targetEntity)
+    {
+        var transform = _entityManager.GetComponent<TransformComponent>(targetEntity);
+        var item = _entityManager.SpawnEntity(prototypeId, transform.Coordinates);
+    }
+}</code></pre>
+                </div>
+
+                <!-- Практические советы -->
+                <h2>Практические советы для новичков</h2>
+                
+                <h3>1. Как начать с прототипов?</h3>
+                <ol>
+                    <li>Сначала изучите существующие прототипы в <code>/Resources/Prototypes/</code></li>
+                    <li>Создайте копию простого прототипа</li>
+                    <li>Измените его свойства (имя, спрайт, компоненты)</li>
+                    <li>Проверьте, работает ли ваш прототип</li>
+                </ol>
+
+                <h3>2. Пример: Создайте простой предмет "Моя Лампа"</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  id: MyLamp
+  name: "Моя Лампа"
+  description: "Простая лампа, которую я создал!"
+  components:
+  - type: Sprite
+    sprite: Objects/Lights/table_lamp.rsi
+    state: icon
+  - type: Item
+    size: 1
+  - type: Physics
+    bodyType: Dynamic
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeAabb
+          bounds: "-0.25,-0.25,0.25,0.25"
+        density: 5
+  - type: PointLight
+    color: "#ffffaa"
+    radius: 3
+    energy: 0.8</code></pre>
+                </div>
+
+                <h3>3. Советы по организации</h3>
+                <ul>
+                    <li><strong>Уникальные ID:</strong> Используйте описательные названия (<code>Wrench</code>, <code>TableLamp</code>)</li>
+                    <li><strong>Абстрактные прототипы:</strong> Используйте их для шаблонов</li>
+                    <li><strong>Наследование:</strong> Максимально используйте для уменьшения дублирования</li>
+                    <li><strong>Комментарии:</strong> Добавляйте комментарии для пояснения</li>
+                </ul>
+
+                <!-- FAQ -->
+                <h2>FAQ - Часто задаваемые вопросы</h2>
+                
+                <h3>Как добавить спрайт к предмету?</h3>
+                <p>Используйте <code>SpriteComponent</code> и укажите путь к RSI-файлу:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: Sprite
+  sprite: Objects/MyCustomItem.rsi
+  state: icon</code></pre>
+                </div>
+
+                <h3>Как сделать предмет поднимаемым?</h3>
+                <p>Добавьте <code>ItemComponent</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: Item
+  size: Small    # Tiny, Small, Normal, Large, Huge</code></pre>
+                </div>
+
+                <h3>Как добавить свет к сущности?</h3>
+                <p>Используйте <code>PointLightComponent</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: PointLight
+  color: "#ffffff"
+  radius: 5
+  energy: 1.0</code></pre>
+                </div>
+
+                <!-- Важные директории -->
+                <h2>Важные директории</h2>
+                <ul>
+                    <li><code>/Resources/Prototypes/</code> - Основная директория с прототипами</li>
+                    <li><code>/Resources/Prototypes/Entities/</code> - Прототипы сущностей</li>
+                    <li><code>/Resources/Prototypes/Entities/Mobs/</code> - Прототипы мобов</li>
+                    <li><code>/Resources/Prototypes/Entities/Objects/</code> - Прототипы объектов</li>
+                </ul>
+
+            </div>
+
+            <!-- Navigation between guides -->
+            <nav class="guide-nav">
+                <span class="guide-nav__link guide-nav__link--prev guide-nav__link--disabled">
+                    Первый гайд
+                </span>
+                <a href="../guides.html" class="btn">
+                    Все гайды
+                </a>
+                <a href="ss14-xaml-ui.html" class="guide-nav__link guide-nav__link--next">
+                    Следующий гайд
+                </a>
+            </nav>
+        </div>
+    </article>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+</body>
+</html>

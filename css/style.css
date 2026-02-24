@@ -568,6 +568,7 @@ a:hover {
     margin-top: 2rem;
     padding-top: 2rem;
     border-top: 1px solid var(--bg-code);
+    color: #ffffff;
 }
 
 .guide__content h2::before {
@@ -575,9 +576,17 @@ a:hover {
     color: var(--text-dim);
 }
 
+.guide__content h3 {
+    color: #e0e0e0;
+}
+
 .guide__content h3::before {
     content: '### ';
     color: var(--text-dim);
+}
+
+.guide__content h4 {
+    color: #c0c0c0;
 }
 
 .guide__content ul, .guide__content ol {
@@ -862,4 +871,184 @@ p code, li code {
 .terminal__output {
     color: var(--text-secondary);
     padding-left: 1rem;
+}
+
+/* ============================================
+   TABLE OF CONTENTS (TOC)
+   ============================================ */
+
+.toc {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    min-width: 150px;
+    max-width: 300px;
+    max-height: 60vh;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    z-index: 100;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.toc__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-code);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.toc__title {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+}
+
+.toc__toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.875rem;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.toc__toggle:hover {
+    text-shadow: var(--glow);
+}
+
+.toc__content {
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: calc(60vh - 3rem);
+    transition: all 0.3s ease;
+}
+
+.toc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.toc__item {
+    margin-bottom: 0.5rem;
+}
+
+.toc__item:last-child {
+    margin-bottom: 0;
+}
+
+.toc__link {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    border-bottom: none;
+    transition: all 0.2s ease;
+    line-height: 1.4;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+.toc__link:hover {
+    color: var(--text-primary);
+    text-shadow: var(--glow);
+}
+
+.toc__link--active {
+    color: var(--text-primary);
+    text-shadow: var(--glow-strong);
+}
+
+/* Уровни отступов */
+.toc__item--level-2 { padding-left: 0; }
+.toc__item--level-3 { padding-left: 1rem; }
+.toc__item--level-4 { padding-left: 2rem; }
+
+/* Стилизация по уровням */
+.toc__item--level-2 > .toc__link {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.toc__item--level-2 > .toc__link:hover,
+.toc__item--level-2 > .toc__link--active {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Текущая глава (по умолчанию скрыта) */
+.toc__current {
+    padding: 0 1rem;
+    max-height: 0;
+    opacity: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Свернутое состояние TOC */
+.toc--collapsed {
+    max-height: 100px;
+}
+
+.toc--collapsed .toc__content {
+    max-height: 0;
+    padding: 0 1rem;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.toc--collapsed .toc__header {
+    max-height: 0;
+    padding: 0 1rem;
+    opacity: 0;
+    overflow: hidden;
+    border-bottom: none;
+}
+
+.toc--collapsed .toc__current {
+    padding: 0.75rem 1rem;
+    max-height: 100px;
+    opacity: 1;
+}
+
+.toc__current-label {
+    font-size: 0.625rem;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.toc__current-title {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    text-shadow: var(--glow);
+}
+
+/* Адаптивность для TOC */
+@media (max-width: 1200px) {
+    .toc {
+        right: 1rem;
+        max-width: 200px;
+    }
+    
+    .toc__link {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .toc {
+        display: none;
+    }
 }

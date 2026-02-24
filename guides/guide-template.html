@@ -55,6 +55,21 @@
         </div>
     </section>
 
+    <!-- Table of Contents -->
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+            <!-- Генерируется JavaScript -->
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
     <!-- Guide Content -->
     <article class="guide">
         <div class="container">

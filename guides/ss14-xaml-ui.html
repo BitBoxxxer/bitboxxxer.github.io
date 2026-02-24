@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Гайд по программированию UI в Space Station 14 (XAML + C#) - основы создания интерфейсов">
+    <meta name="keywords" content="SS14, Space Station 14, XAML, UI, C#, разработка, гайд, туториал, интерфейсы">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/guides/ss14-xaml-ui.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="XAML UI в SS14 - DevGuides">
+    <meta property="og:description" content="Полный гайд по созданию пользовательских интерфейсов в Space Station 14.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-xaml-ui.html">
+    <meta property="og:site_name" content="DevGuides">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    
+    <title>DevGuides // XAML UI в SS14</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="../index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="../index.html" class="nav__link">Главная</a></li>
+                <li><a href="../about.html" class="nav__link">Обо мне</a></li>
+                <li><a href="../projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="../guides.html" class="nav__link nav__link--active">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Guide Header -->
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">XAML UI в Space Station 14</h1>
+            <p class="hero__subtitle">
+                SS14_#2 // Полный гайд по UI разработке // Время чтения: 25 мин
+            </p>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+            <!-- Генерируется JavaScript -->
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
+    <!-- Guide Content -->
+    <article class="guide">
+        <div class="container">
+            <div class="guide__content">
+                
+                <!-- Для кого ориентирован -->
+                <h2>Для кого ориентирован данный гайд?</h2>
+                <p>
+                    Допустим, вы уже прочитали все доступные документации по программированию Space Station 14, но всё ещё не понимаете, как именно что-то должно работать. Этот гайд для новичков, которые хотят научиться создавать пользовательские интерфейсы (UI) для SS14.
+                </p>
+
+                <!-- Вводная -->
+                <h2>Вводная</h2>
+                <p>
+                    Представьте ситуацию: вы прочитали ВСЕ документации по SS14. Все.<br> Вы знаете, что такое Entity, Component, System... Но когда дело доходит до создания окошка с кнопочкой - вы не понимаете что это такое.
+                </p>
+                <p>
+                    <strong>Спокойно!</strong> Этот гайд - поможет базово ознакомиться с UI в разработке SS14. Посмотрим как можно сделать: окна, кнопки, которые реально работают, и интерфейсы, от которых игроки не будут в ужасе закрывать игру ахаха.
+                </p>
+
+                <!-- Архитектура -->
+                <h2>Архитектура Content & Engine</h2>
+                <p>
+                    SS14 есть слои в сборках. Вот краткое пояснение:
+                </p>
+
+                <h3>RobustToolbox (Engine) - "Фундамент"</h3>
+                <p>Это база. Тут живут скучные, но важные вещи:</p>
+                <ul>
+                    <li>1 - Математика и физика (да, без них никуда, как бы нам этого ни хотелось)</li>
+                    <li>2 - Рендер графики (чтобы вы видели свои творения, а не чёрный экран)</li>
+                    <li>3 - Сетевое взаимодействие (чтобы игроки могли друг друга бить кувалдами через интернет)</li>
+                    <li><strong>4 - Система UI (включая XAML)</strong> - наш главный герой этого гайда!</li>
+                </ul>
+
+                <h3>Content (Контент)</h3>
+                <p>В сборке вы увидите папки Content - это ваша песочница:</p>
+                <ul>
+                    <li><strong>Content.Client</strong> - тут живут ваши окна, кнопочки и прочий UI. Ваш второй дом.</li>
+                    <li><strong>Content.Server</strong> - тут живёт логика сервера. Он решает, кто жил, а кто умер.</li>
+                    <li><strong>Content.Shared</strong> - общий код. Швейцарский нож: и клиент, и сервер могут им пользоваться.</li>
+                </ul>
+                <p>
+                    <strong>Важный инсайт:</strong> 99% времени вы будете ковыряться в Content. Это нормально.
+                </p>
+
+                <!-- Система UI -->
+                <h2>Система UI: XAML + Code-behind</h2>
+                <p>
+                    UI в SS14 использует XAML - язык разметки на основе XML для описания структуры интерфейсов.
+                    <br> XAML позволяет описывать деревья контролов в декларативном стиле.
+                    <br> Каждое изменение требует перекомпиляции - горячая перезагрузка не поддерживается.
+                </p>
+
+                <h3>Что такое XAML?</h3>
+                <p>
+                    <strong>XAML</strong> (eXtensible Application Markup Language) - это язык разметки, но который выглядит как XML и... (ладно, это и есть XML)
+                </p>
+                <p>С его помощью вы описываете:</p>
+                <ul>
+                    <li> - Кнопки (чтобы игроки могли на них тыкать)</li>
+                    <li> - Текстовые поля (чтобы игроки могли писать там глупости ехех)</li>
+                    <li> - Панели (чтобы всё это не развалилось)</li>
+                    <li> - Списки (потому что все любят списки)</li>
+                    <li> - И вообще всё, что можно увидеть глазами</li>
+                </ul>
+
+                <h3>Что такое Code-behind?</h3>
+                <p>
+                    <strong>Code-behind</strong> - это ваш C# класс, который дружит с XAML файлом. Он:
+                </p>
+                <ul>
+                    <li> - Слушает, что делает пользователь (нажал кнопку? Получи реакцию!)</li>
+                    <li> - Обновляет данные в UI (чтобы игроки видели актуальную информацию)</li>
+                    <li> - Общается с сервером (потому что без сервера мы никто)</li>
+                </ul>
+
+                <!-- Структура UI файла -->
+                <h2>Структура UI файла</h2>
+                <p>Каждый UI компонент в SS14 состоит из двух файлов:</p>
+                <div class="terminal">
+                    <div class="terminal__header">
+                        <span class="terminal__dot"></span>
+                        <span class="terminal__dot"></span>
+                        <span class="terminal__dot"></span>
+                        <span class="terminal__title">file structure</span>
+                    </div>
+                    <div class="terminal__body">
+                        <p class="terminal__output">
+                            MyWindow.xaml       # Разметка UI (структура, элементы)<br>
+                            MyWindow.xaml.cs    # Логика UI (обработчики событий, связь с данными)
+                        </p>
+                    </div>
+                </div>
+
+                <h3>Пример простой структуры</h3>
+                <p><strong>MyWindow.xaml:</strong></p>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;DefaultWindow xmlns="https://spacestation14.io"
+            Title="Моё окно"
+            MinSize="300 200"&gt;
+    &lt;BoxContainer Orientation="Vertical"&gt;
+        &lt;Label Text="Привет, мир!" /&gt;
+        &lt;Button Name="MyButton" Text="Нажми меня" /&gt;
+    &lt;/BoxContainer&gt;
+&lt;/DefaultWindow&gt;</code></pre>
+                </div>
+
+                <p><strong>MyWindow.xaml.cs:</strong></p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Robust.Client.AutoGenerated;
+using Robust.Client.UserInterface.CustomControls;
+using Robust.Client.UserInterface.XAML;
+
+namespace Content.Client.MyModule.UI;
+
+[GenerateTypedNameReferences]
+public sealed partial class MyWindow : DefaultWindow
+{
+    public MyWindow()
+    {
+        RobustXamlLoader.Load(this);
+
+        // Подписываемся на событие нажатия кнопки
+        MyButton.OnPressed += _ =>
+        {
+            // Действие при нажатии
+        };
+    }
+}</code></pre>
+                </div>
+
+                <!-- Базовые элементы управления -->
+                <h2>Базовые элементы управления (Controls)</h2>
+
+                <h3>1. Контейнеры (Containers)</h3>
+                <p>Контейнеры используются для группировки и расположения элементов.</p>
+
+                <h4>BoxContainer - универсальный контейнер</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Вертикальное расположение (элементы сверху вниз) --&gt;
+&lt;BoxContainer Orientation="Vertical"&gt;
+    &lt;Label Text="Первый" /&gt;
+    &lt;Label Text="Второй" /&gt;
+    &lt;Label Text="Третий" /&gt;
+&lt;/BoxContainer&gt;
+
+&lt;!-- Горизонтальное расположение (элементы слева направо) --&gt;
+&lt;BoxContainer Orientation="Horizontal"&gt;
+    &lt;Label Text="Левый" /&gt;
+    &lt;Label Text="Правый" /&gt;
+&lt;/BoxContainer&gt;</code></pre>
+                </div>
+
+                <p><strong>Важные свойства BoxContainer:</strong></p>
+                <ul>
+                    <li><code>Orientation="Vertical"</code> - вертикальное расположение</li>
+                    <li><code>Orientation="Horizontal"</code> - горизонтальное расположение</li>
+                    <li><code>SeparationOverride="10"</code> - отступ между элементами в пикселях</li>
+                    <li><code>Margin="10 5"</code> - внешний отступ (горизонтальный вертикальный)</li>
+                </ul>
+
+                <h4>ScrollContainer - контейнер с прокруткой</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;ScrollContainer VerticalExpand="True" HScrollEnabled="False"&gt;
+    &lt;BoxContainer Name="ContentList" Orientation="Vertical"&gt;
+        &lt;!-- Много элементов, которые можно прокручивать --&gt;
+    &lt;/BoxContainer&gt;
+&lt;/ScrollContainer&gt;</code></pre>
+                </div>
+
+                <h4>GridContainer - сетка</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;GridContainer Columns="3"&gt;
+    &lt;Label Text="1,1" /&gt;
+    &lt;Label Text="1,2" /&gt;
+    &lt;Label Text="1,3" /&gt;
+    &lt;Label Text="2,1" /&gt;
+    &lt;Label Text="2,2" /&gt;
+    &lt;Label Text="2,3" /&gt;
+&lt;/GridContainer&gt;</code></pre>
+                </div>
+
+                <h4>PanelContainer - контейнер с фоном</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;PanelContainer StyleClasses="BackgroundPanel"&gt;
+    &lt;Label Text="Текст на фоне" /&gt;
+&lt;/PanelContainer&gt;</code></pre>
+                </div>
+
+                <h3>2. Текстовые элементы</h3>
+
+                <h4>Label - простая надпись</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Простой текст --&gt;
+&lt;Label Text="Привет, мир!" /&gt;
+
+&lt;!-- С локализацией --&gt;
+&lt;Label Text="{Loc 'my-window-title'}" /&gt;
+
+&lt;!-- С выравниванием --&gt;
+&lt;Label Text="По центру" HorizontalAlignment="Center" /&gt;
+
+&lt;!-- Со стилем --&gt;
+&lt;Label Text="Заголовок" StyleClasses="LabelHeading" /&gt;
+
+&lt;!-- С ограничением ширины и переносом текста --&gt;
+&lt;Label Text="Длинный текст..." SetWidth="200" /&gt;</code></pre>
+                </div>
+
+                <p><strong>Часто используемые стили Label:</strong></p>
+                <ul>
+                    <li><code>LabelHeading</code> - заголовок</li>
+                    <li><code>LabelSubText</code> - подзаголовок (мелкий текст)</li>
+                    <li><code>LabelBig</code> - большой текст</li>
+                    <li><code>LabelKeyText</code> - текст для клавиш</li>
+                </ul>
+
+                <h4>RichTextLabel - текст с форматированием</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;RichTextLabel Name="Description" SetWidth="300" /&gt;</code></pre>
+                </div>
+                <p>В C# коде можно установить форматированный текст:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>Description.SetMessage(FormattedMessage.FromMarkup
+("Текст с [color=red]красным[/color] словом"));</code></pre>
+                </div>
+
+                <h3>3. Кнопки</h3>
+
+                <h4>Button - обычная кнопка</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Простая кнопка --&gt;
+&lt;Button Text="Нажать" /&gt;
+
+&lt;!-- Кнопка с Name для доступа в коде --&gt;
+&lt;Button Name="ConfirmButton" Text="Подтвердить" /&gt;
+
+&lt;!-- Кнопка-переключатель --&gt;
+&lt;Button Name="ToggleLight" Text="Свет" ToggleMode="True" /&gt;
+
+&lt;!-- Кнопка с иконкой --&gt;
+&lt;Button Name="IconButton"&gt;
+    &lt;TextureRect TexturePath="/Textures/Interface/Icons/plus.png" /&gt;
+&lt;/Button&gt;
+
+&lt;!-- Кнопка во всю ширину --&gt;
+&lt;Button Name="WideButton" Text="Широкая" HorizontalExpand="True" /&gt;</code></pre>
+                </div>
+
+                <p><strong>Стили кнопок:</strong></p>
+                <ul>
+                    <li><code>ButtonSquare</code> - квадратная кнопка</li>
+                    <li><code>OpenLeft</code> - открыта слева (для группы кнопок)</li>
+                    <li><code>OpenRight</code> - открыта справа</li>
+                    <li><code>OpenBoth</code> - открыта с обеих сторон</li>
+                    <li><code>ButtonCaution</code> - красная кнопка (опасность)</li>
+                </ul>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;Button Text="Опасно" StyleClasses="ButtonCaution" /&gt;</code></pre>
+                </div>
+
+                <h4>TextureButton - кнопка с текстурой</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;TextureButton Name="CloseButton"
+               StyleClasses="windowCloseButton"
+               VerticalAlignment="Center" /&gt;</code></pre>
+                </div>
+
+                <h4>CheckBox - флажок</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;CheckBox Name="EnableSound" Text="Включить звук" /&gt;</code></pre>
+                </div>
+
+                <h3>4. Поля ввода</h3>
+
+                <h4>LineEdit - однострочное поле ввода</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Простое поле --&gt;
+&lt;LineEdit Name="NameInput" /&gt;
+
+&lt;!-- С плейсхолдером --&gt;
+&lt;LineEdit Name="SearchBar" PlaceHolder="Поиск..." /&gt;
+
+&lt;!-- С начальным текстом --&gt;
+&lt;LineEdit Name="NameEdit" Text="Имя" /&gt;
+
+&lt;!-- Во всю ширину --&gt;
+&lt;LineEdit Name="WideInput" HorizontalExpand="True" /&gt;</code></pre>
+                </div>
+
+                <h4>SpinBox - ввод чисел</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;SpinBox Name="AmountInput" Value="1" MinWidth="100" /&gt;</code></pre>
+                </div>
+
+                <h4>FloatSpinBox - ввод дробных чисел</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;FloatSpinBox Name="RatioInput" Value="1.0" MinWidth="80" /&gt;</code></pre>
+                </div>
+
+                <h3>5. Выбор из списка</h3>
+
+                <h4>OptionButton - выпадающий список</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;OptionButton Name="CategorySelector" HorizontalExpand="True" /&gt;</code></pre>
+                </div>
+                <p>В C# коде:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Добавление вариантов
+CategorySelector.AddItem("Вариант 1", 1);
+CategorySelector.AddItem("Вариант 2", 2);
+
+// Получение выбранного
+var selectedId = CategorySelector.SelectedId;</code></pre>
+                </div>
+
+                <h4>ItemList - список элементов</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;ScrollContainer VerticalExpand="True"&gt;
+    &lt;ItemList Name="ItemsList" VerticalExpand="True" /&gt;
+&lt;/ScrollContainer&gt;</code></pre>
+                </div>
+
+                <h3>6. Прогресс и индикаторы</h3>
+
+                <h4>ProgressBar - полоса прогресса</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;ProgressBar Name="HealthBar"
+             MinValue="0"
+             MaxValue="100"
+             Value="75"
+             HorizontalExpand="True" /&gt;</code></pre>
+                </div>
+
+                <h3>7. Изображения</h3>
+
+                <h4>TextureRect - изображение</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;TextureRect TexturePath="/Textures/Interface/Icons/star.png"
+             Stretch="KeepAspectCentered"
+             SetSize="32 32" /&gt;</code></pre>
+                </div>
+
+                <h4>SpriteView - просмотр спрайта сущности</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;SpriteView Name="EntityPreview"
+            OverrideDirection="South"
+            Scale="2 2"
+            SetSize="64 64" /&gt;</code></pre>
+                </div>
+
+                <!-- Окна -->
+                <h2>Окна (Windows)</h2>
+
+                <h3>DefaultWindow - базовое окно</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;DefaultWindow xmlns="https://spacestation14.io"
+            Title="{Loc 'my-window-title'}"
+            MinSize="400 300"
+            SetSize="400 300"
+            Resizable="True"&gt;
+    &lt;BoxContainer Orientation="Vertical" Margin="10"&gt;
+        &lt;!-- Содержимое окна --&gt;
+    &lt;/BoxContainer&gt;
+&lt;/DefaultWindow&gt;</code></pre>
+                </div>
+
+                <h3>FancyWindow - улучшенное окно</h3>
+                <p>FancyWindow имеет дополнительные возможности:</p>
+                <ul>
+                    <li>Кнопка справки</li>
+                    <li>Лучший заголовок</li>
+                    <li>Возможность прикрепить гайдбук</li>
+                </ul>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;controls:FancyWindow xmlns="https://spacestation14.io"
+                     xmlns:controls=
+                     "clr-namespace:Content.Client.UserInterface.Controls"
+                     Title="{Loc 'my-fancy-window-title'}"
+                     MinSize="500 400"
+                     Resizable="True"&gt;
+    &lt;BoxContainer Orientation="Vertical" Margin="10"&gt;
+        &lt;!-- Содержимое окна --&gt;
+    &lt;/BoxContainer&gt;
+&lt;/controls:FancyWindow&gt;</code></pre>
+                </div>
+
+                <!-- Свойства элементов -->
+                <h2>Свойства элементов</h2>
+
+                <h3>Размеры</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Минимальный размер --&gt;
+&lt;Label MinSize="100 30" /&gt;
+
+&lt;!-- Точный размер --&gt;
+&lt;Label SetSize="200 50" /&gt;
+
+&lt;!-- Максимальный размер --&gt;
+&lt;Label MaxSize="300 100" /&gt;</code></pre>
+                </div>
+
+                <h3>Расширение</h3>
+                <p><strong>Важно:</strong> <code>HorizontalExpand</code> и <code>VerticalExpand</code> работают <strong>только</strong> в контейнерах <code>BoxContainer</code>, <code>SplitContainer</code> и <code>GridContainer</code>. В других контейнерах эти свойства игнорируются.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Расширяться по горизонтали --&gt;
+&lt;Button HorizontalExpand="True" /&gt;
+
+&lt;!-- Расширяться по вертикали --&gt;
+&lt;BoxContainer VerticalExpand="True" /&gt;
+
+&lt;!-- Расширяться в обе стороны --&gt;
+&lt;PanelContainer HorizontalExpand="True" VerticalExpand="True" /&gt;</code></pre>
+                </div>
+                <p><strong>Пропорциональное распределение места:</strong></p>
+                <p>Если несколько элементов имеют <code>Expand="True"</code>, пространство распределяется пропорционально их <code>SizeFlagsStretchRatio</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Первый элемент получит в 2 раза больше места --&gt;
+&lt;Button VerticalExpand="True" SizeFlagsStretchRatio="2" Text="Большой" /&gt;
+&lt;Button VerticalExpand="True" SizeFlagsStretchRatio="1" Text="Маленький" /&gt;</code></pre>
+                </div>
+
+                <h3>Выравнивание</h3>
+                <p><code>HorizontalAlignment</code> и <code>VerticalAlignment</code> определяют, как элемент располагается внутри <em>выделенного ему пространства</em>. По умолчанию оба значения <code>Stretch</code> (растягивание).</p>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Горизонтальное выравнивание --&gt;
+&lt;Label HorizontalAlignment="Center" /&gt;  &lt;!-- Центр --&gt;
+&lt;Label HorizontalAlignment="Left" /&gt;    &lt;!-- Влево --&gt;
+&lt;Label HorizontalAlignment="Right" /&gt;   &lt;!-- Вправо --&gt;
+&lt;Label HorizontalAlignment="Stretch" /&gt; &lt;!-- Растянуть (по умолчанию) --&gt;
+
+&lt;!-- Вертикальное выравнивание --&gt;
+&lt;Label VerticalAlignment="Center" /&gt;    &lt;!-- Центр --&gt;
+&lt;Label VerticalAlignment="Top" /&gt;       &lt;!-- Вверх --&gt;
+&lt;Label VerticalAlignment="Bottom" /&gt;    &lt;!-- Вниз --&gt;
+&lt;Label VerticalAlignment="Stretch" /&gt;   &lt;!-- Растянуть (по умолчанию) --&gt;</code></pre>
+                </div>
+                <p><strong>Важно понимать разницу:</strong></p>
+                <ul>
+                    <li><code>Alignment</code> — как элемент ведёт себя внутри уже выделенного пространства</li>
+                    <li><code>Expand</code> — сколько пространства родительский контейнер выделит элементу</li>
+                </ul>
+
+                <h3>Отступы</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Внешний отступ (все стороны одинаковые) --&gt;
+&lt;BoxContainer Margin="10" /&gt;
+
+&lt;!-- Внешний отступ (горизонтальный вертикальный) --&gt;
+&lt;BoxContainer Margin="10 5" /&gt;
+
+&lt;!-- Внешний отступ (левый верхний правый нижний) --&gt;
+&lt;BoxContainer Margin="5 10 5 10" /&gt;</code></pre>
+                </div>
+
+                <!-- Name и доступ к элементам -->
+                <h2>Name и доступ к элементам</h2>
+
+                <h3>Атрибут Name</h3>
+                <p>Атрибут <code>Name</code> позволяет обращаться к элементу из C# кода:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;Button Name="ConfirmButton" Text="Подтвердить" /&gt;
+&lt;Label Name="StatusLabel" Text="Статус" /&gt;
+&lt;LineEdit Name="NameInput" PlaceHolder="Введите имя" /&gt;</code></pre>
+                </div>
+
+                <h3>Атрибут Access</h3>
+                <p><code>Access</code> определяет уровень доступа к элементу:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Публичный доступ (можно использовать из других классов) --&gt;
+&lt;Button Name="PublicButton" Access="Public" /&gt;
+
+&lt;!-- Внутренний доступ (только внутри сборки) --&gt;
+&lt;Button Name="InternalButton" Access="Internal" /&gt;
+
+&lt;!-- Приватный доступ (только в этом классе) --&gt;
+&lt;Button Name="PrivateButton" Access="Private" /&gt;</code></pre>
+                </div>
+
+                <!-- Связь XAML и C# кода -->
+                <h2>Связь XAML и C# кода</h2>
+
+                <h3>GenerateTypedNameReferences</h3>
+                <p>Атрибут <code>[GenerateTypedNameReferences]</code> автоматически генерирует ссылки на элементы с <code>Name</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>[GenerateTypedNameReferences]
+public sealed partial class MyWindow : DefaultWindow
+{
+    public MyWindow()
+    {
+        RobustXamlLoader.Load(this);
+
+        // ConfirmButton автоматически доступен!
+        ConfirmButton.Text = "Нажми меня";
+        ConfirmButton.OnPressed += OnConfirmPressed;
+    }
+
+    private void OnConfirmPressed(BaseButton.ButtonEventArgs args)
+    {
+        // Действие при нажатии
+    }
+}</code></pre>
+                </div>
+
+                <h3>Внедрение зависимостей</h3>
+                <p>Для IoC сервисов и других контроллеров используйте <code>[Dependency]</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>[GenerateTypedNameReferences]
+public sealed partial class MyWindow : DefaultWindow
+{
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+
+    public MyWindow()
+    {
+        RobustXamlLoader.Load(this);
+        IoCManager.InjectDependencies(this);
+
+        // Теперь можно использовать _entityManager и _prototype
+    }
+}</code></pre>
+                </div>
+                <p><strong>Важно:</strong> Для entity systems в UI контроллерах используйте <code>[UISystemDependency]</code> вместо <code>[Dependency]</code>.</p>
+
+                <!-- События и обработчики -->
+                <h2>События и обработчики</h2>
+
+                <h3>События кнопок</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Одинарное нажатие
+MyButton.OnPressed += _ => { /* действие */ };
+
+// Нажатие и отпускание
+MyButton.OnMouseDown += _ => { /* нажата */ };
+MyButton.OnMouseUp += _ => { /* отпущена */ };
+
+// Режим переключателя (ToggleMode="True")
+MyToggleButton.OnToggled += args =>
+{
+    if (args.Pressed)
+    {
+        // Включено
+    }
+    else
+    {
+        // Выключено
+    }
+};</code></pre>
+                </div>
+
+                <h3>События LineEdit</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// При изменении текста
+MyInput.OnTextChanged += args =>
+{
+    var text = args.Text;
+};
+
+// При нажатии Enter
+MyInput.OnTextEntered += args =>
+{
+    var text = args.Text;
+};
+
+// При получении/потере фокуса
+MyInput.OnFocusEnter += _ => { /* фокус получен */ };
+MyInput.OnFocusExit += _ => { /* фокус потерян */ };</code></pre>
+                </div>
+
+                <h3>События CheckBox</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>MyCheckBox.OnToggled += args =>
+{
+    var isChecked = args.Pressed;
+};</code></pre>
+                </div>
+
+                <!-- Локализация в UI -->
+                <h2>Локализация в UI</h2>
+
+                <h3>Использование {Loc}</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Текст с локализацией --&gt;
+&lt;Label Text="{Loc 'my-window-title'}" /&gt;
+
+&lt;!-- Кнопка с локализацией --&gt;
+&lt;Button Text="{Loc 'my-button-text'}" /&gt;
+
+&lt;!-- ToolTip с локализацией --&gt;
+&lt;Button Text="?" ToolTip="{Loc 'help-tooltip'}" /&gt;</code></pre>
+                </div>
+
+                <h3>Файлы локализации</h3>
+                <p>Создайте FTL файл в <code>/Resources/Locale/en-US/my-module.ftl</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">ftl</span>
+                    <pre><code>my-window-title = Моё окно
+my-button-text = Нажать
+help-tooltip = Это подсказка</code></pre>
+                </div>
+
+                <!-- Полный пример -->
+                <h2>Полный пример: Окно настроек</h2>
+
+                <h3>SettingsWindow.xaml</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;DefaultWindow xmlns="https://spacestation14.io"
+            Title="{Loc 'settings-window-title'}"
+            MinSize="400 350"
+            Resizable="False"&gt;
+    &lt;BoxContainer Orientation="Vertical" Margin="10" SeparationOverride="8"&gt;
+
+        &lt;!-- Заголовок --&gt;
+        &lt;Label Text="{Loc 'settings-general'}" StyleClasses="LabelHeading" /&gt;
+
+        &lt;!-- Настройка звука --&gt;
+        &lt;BoxContainer Orientation="Horizontal"&gt;
+            &lt;Label Text="{Loc 'settings-sound-volume'}" MinWidth="120" /&gt;
+            &lt;ProgressBar Name="VolumeBar"
+                        MinValue="0" MaxValue="100" Value="50"
+                        HorizontalExpand="True" /&gt;
+        &lt;/BoxContainer&gt;
+
+        &lt;!-- Чекбоксы --&gt;
+        &lt;CheckBox Name="EnableMusicCheckBox" Text="{Loc 'settings-enable-music'}"/&gt;
+        &lt;CheckBox Name="EnableSfxCheckBox" Text="{Loc 'settings-enable-sfx'}"
+         Pressed="True" /&gt;
+
+        &lt;!-- Разделитель --&gt;
+        &lt;PanelContainer StyleClasses="LowDivider" /&gt;
+
+        &lt;!-- Поле ввода имени --&gt;
+        &lt;BoxContainer Orientation="Horizontal"&gt;
+            &lt;Label Text="{Loc 'settings-player-name'}" MinWidth="120" /&gt;
+            &lt;LineEdit Name="PlayerNameInput" HorizontalExpand="True"
+             PlaceHolder="{Loc 'settings-name-placeholder'}" /&gt;
+        &lt;/BoxContainer&gt;
+
+        &lt;!-- Выбор темы --&gt;
+        &lt;BoxContainer Orientation="Horizontal"&gt;
+            &lt;Label Text="{Loc 'settings-theme'}" MinWidth="120" /&gt;
+            &lt;OptionButton Name="ThemeSelector" HorizontalExpand="True" /&gt;
+        &lt;/BoxContainer&gt;
+
+        &lt;!-- Разделитель --&gt;
+        &lt;PanelContainer StyleClasses="LowDivider" /&gt;
+
+        &lt;!-- Кнопки --&gt;
+        &lt;BoxContainer Orientation="Horizontal" HorizontalAlignment="Right"&gt;
+            &lt;Button Name="ResetButton" Text="{Loc 'settings-reset'}"
+             StyleClasses="ButtonSquare" /&gt;
+            &lt;Control MinWidth="10" /&gt;
+            &lt;Button Name="SaveButton" Text="{Loc 'settings-save'}"
+             StyleClasses="ButtonSquare" /&gt;
+        &lt;/BoxContainer&gt;
+
+    &lt;/BoxContainer&gt;
+&lt;/DefaultWindow&gt;</code></pre>
+                </div>
+
+                <h3>SettingsWindow.xaml.cs</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Robust.Client.AutoGenerated;
+using Robust.Client.UserInterface;
+using Robust.Client.UserInterface.CustomControls;
+using Robust.Client.UserInterface.XAML;
+
+namespace Content.Client.MyModule.UI;
+
+[GenerateTypedNameReferences]
+public sealed partial class SettingsWindow : DefaultWindow
+{
+    public SettingsWindow()
+    {
+        RobustXamlLoader.Load(this);
+
+        // Инициализация выпадающего списка
+        ThemeSelector.AddItem("Тёмная", 0);
+        ThemeSelector.AddItem("Светлая", 1);
+        ThemeSelector.AddItem("Системная", 2);
+        ThemeSelector.SelectId(0);
+
+        // Подписка на события
+        SaveButton.OnPressed += OnSavePressed;
+        ResetButton.OnPressed += OnResetPressed;
+    }
+
+    private void OnSavePressed(BaseButton.ButtonEventArgs args)
+    {
+        // Сохранение настроек
+        var playerName = PlayerNameInput.Text;
+        var enableMusic = EnableMusicCheckBox.Pressed;
+        var enableSfx = EnableSfxCheckBox.Pressed;
+        var volume = VolumeBar.Value;
+        var theme = ThemeSelector.SelectedId;
+
+        // ... логика сохранения ...
+
+        Close();
+    }
+
+    private void OnResetPressed(BaseButton.ButtonEventArgs args)
+    {
+        // Сброс к значениям по умолчанию
+        PlayerNameInput.Text = "";
+        EnableMusicCheckBox.Pressed = false;
+        EnableSfxCheckBox.Pressed = true;
+        VolumeBar.Value = 50;
+        ThemeSelector.SelectId(0);
+    }
+}</code></pre>
+                </div>
+
+                <!-- Связь с сервером -->
+                <h2>Связь с сервером (Network Messages)</h2>
+                <p>Для создания интерактивного UI, которое взаимодействует с сервером, нужно:</p>
+
+                <h3>1. Создать сетевые сообщения</h3>
+                <p><strong>Shared/MyWindowMessages.cs:</strong></p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Robust.Shared.Serialization;
+
+namespace Content.Shared.MyModule;
+
+[Serializable, NetSerializable]
+public sealed class MyWindowRequestMessage : EntityEventArgs
+{
+    public string Data { get; }
+
+    public MyWindowRequestMessage(string data)
+    {
+        Data = data;
+    }
+}
+
+[Serializable, NetSerializable]
+public sealed class MyWindowResponseMessage : EntityEventArgs
+{
+    public string Result { get; }
+
+    public MyWindowResponseMessage(string result)
+    {
+        Result = result;
+    }
+}</code></pre>
+                </div>
+
+                <h3>2. Создать UI контроллер на клиенте</h3>
+                <p><strong>Client/MyWindowUIController.cs:</strong></p>
+                <p>UI контроллеры отвечают за создание, обновление и удаление контролов. Entity systems не должны делать это напрямую.</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Content.Shared.MyModule;
+using Robust.Client.GameObjects;
+using Robust.Client.UserInterface.Controllers;
+
+namespace Content.Client.MyModule.UI;
+
+// IOnSystemChanged позволяет реагировать на загрузку/выгрузку системы
+public sealed class MyWindowUIController : UIController, IOnSystemChanged&lt;MyWindowSystem&gt;
+{
+    // Для IoC сервисов и других контроллеров используйте [Dependency]
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    
+    // Для entity systems используйте [UISystemDependency]
+    [UISystemDependency] private readonly MyWindowSystem? _system = default!;
+
+    private MyWindow? _window;
+
+    public void OpenWindow()
+    {
+        if (_window == null)
+        {
+            _window = new MyWindow();
+            _window.OnClose += () => _window = null;
+
+            // Подписываемся на событие кнопки
+            _window.ConfirmButton.OnPressed += OnConfirmPressed;
+        }
+
+        _window.Open();
+    }
+
+    private void OnConfirmPressed(BaseButton.ButtonEventArgs args)
+    {
+        if (_window == null) return;
+
+        var data = _window.DataInput.Text;
+
+        // Отправляем сообщение на сервер
+        RaiseNetworkEvent(new MyWindowRequestMessage(data));
+    }
+
+    public void UpdateResponse(string result)
+    {
+        _window?.ResultLabel.Text = result;
+    }
+
+    // Вызывается при загрузке системы
+    public void OnSystemLoaded(MyWindowSystem system)
+    {
+        // Подписываемся на события системы
+    }
+
+    // Вызывается при выгрузке системы
+    public void OnSystemUnloaded(MyWindowSystem system)
+    {
+        // Отписываемся от событий
+    }
+}</code></pre>
+                </div>
+                <p><strong>Доступные интерфейсы для UI контроллеров:</strong></p>
+                <ul>
+                    <li><code>IOnSystemLoaded&lt;T&gt;</code> - вызывается при загрузке системы</li>
+                    <li><code>IOnSystemUnloaded&lt;T&gt;</code> - вызывается при выгрузке системы</li>
+                    <li><code>IOnStateEntered&lt;T&gt;</code> - вызывается при входе в состояние (например, GameplayState)</li>
+                    <li><code>IOnStateExited&lt;T&gt;</code> - вызывается при выходе из состояния</li>
+                </ul>
+
+                <h3>3. Создать систему на сервере</h3>
+                <p><strong>Server/MyWindowSystem.cs:</strong></p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>using Content.Shared.MyModule;
+using Robust.Server.GameObjects;
+
+namespace Content.Server.MyModule;
+
+public sealed class MyWindowSystem : EntitySystem
+{
+    public override void Initialize()
+    {
+        SubscribeNetworkEvent<MyWindowRequestMessage>(OnRequest);
+    }
+
+    private void OnRequest(MyWindowRequestMessage msg, EntitySessionEventArgs args)
+    {
+        var sender = args.SenderSession;
+
+        // Обрабатываем запрос
+        var result = $"Обработано: {msg.Data}";
+
+        // Отправляем ответ клиенту
+        RaiseNetworkEvent(new MyWindowResponseMessage(result),
+        sender.ConnectedClient);
+    }
+}</code></pre>
+                </div>
+
+                <!-- Стилизация -->
+                <h2>Стилизация (StyleClasses)</h2>
+
+                <h3>Применение стилей</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Кнопка с классом стиля --&gt;
+&lt;Button Text="Опасно" StyleClasses="ButtonCaution" /&gt;
+
+&lt;!-- Несколько классов стилей --&gt;
+&lt;Label Text="Заголовок" StyleClasses="LabelHeading LabelBig" /&gt;</code></pre>
+                </div>
+
+                <h3>Часто используемые стили</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Элемент</th>
+                            <th>Стиль</th>
+                            <th>Описание</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Button</td><td><code>ButtonSquare</code></td><td>Квадратная кнопка</td></tr>
+                        <tr><td>Button</td><td><code>ButtonCaution</code></td><td>Красная кнопка опасности</td></tr>
+                        <tr><td>Button</td><td><code>OpenLeft</code></td><td>Открыта слева</td></tr>
+                        <tr><td>Button</td><td><code>OpenRight</code></td><td>Открыта справа</td></tr>
+                        <tr><td>Button</td><td><code>OpenBoth</code></td><td>Открыта с обеих сторон</td></tr>
+                        <tr><td>Label</td><td><code>LabelHeading</code></td><td>Заголовок</td></tr>
+                        <tr><td>Label</td><td><code>LabelSubText</code></td><td>Мелкий текст</td></tr>
+                        <tr><td>Label</td><td><code>LabelBig</code></td><td>Большой текст</td></tr>
+                        <tr><td>Panel</td><td><code>BackgroundPanel</code></td><td>Фон панели</td></tr>
+                        <tr><td>Panel</td><td><code>LowDivider</code></td><td>Тонкий разделитель</td></tr>
+                        <tr><td>Panel</td><td><code>HighDivider</code></td><td>Толстый разделитель</td></tr>
+                    </tbody>
+                </table>
+
+                <!-- Практические советы -->
+                <h2>Практические советы</h2>
+
+                <h3>1. Отступы и размеры</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">xml</span>
+                    <pre><code>&lt;!-- Используйте Margin для отступов --&gt;
+&lt;BoxContainer Margin="10"&gt;
+    &lt;!-- Содержимое с отступами 10px --&gt;
+&lt;/BoxContainer&gt;
+
+&lt;!-- Используйте MinSize для минимальных размеров --&gt;
+&lt;Button MinSize="100 30" Text="Кнопка" /&gt;
+
+&lt;!-- Используйте HorizontalExpand/VerticalExpand для заполнения --&gt;
+&lt;ScrollContainer VerticalExpand="True" HorizontalExpand="True"&gt;
+    &lt;!-- Заполняет всё доступное пространство --&gt;
+&lt;/ScrollContainer&gt;</code></pre>
+                </div>
+
+                <h3>2. Динамическое добавление элементов</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Добавление элемента в контейнер
+var button = new Button { Text = "Динамическая кнопка" };
+MyContainer.AddChild(button);
+
+// Очистка контейнера
+MyContainer.DisposeAllChildren();</code></pre>
+                </div>
+
+                <h3>3. Показ/скрытие элементов</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Скрыть элемент
+MyElement.Visible = false;
+
+// Показать элементы
+MyElement.Visible = true;</code></pre>
+                </div>
+
+                <h3>4. Отладка UI</h3>
+                <p>Используйте интегрированные инструменты отладки:</p>
+                <ul>
+                    <li><code>devwindow</code> - открывает окно разработчика с вкладкой UI для просмотра структуры интерфейса</li>
+                    <li><code>/uitest [название_UI_окна]</code> - команда для отладки UI
+                        <br>Пример: <code>uitest Slider</code> - откроет тестовые окна для проверки UI</li>
+                    <li><code>~</code> (тильда/ё) - открывает консоль клиента</li>
+                </ul>
+
+                <!-- Частые ошибки -->
+                <h2>Частые ошибки и решения</h2>
+
+                <h3>1. Элемент не найден в коде</h3>
+                <p><strong>Проблема:</strong> <code>MyButton</code> не существует в текущем контексте.</p>
+                <p><strong>Решение:</strong> Убедитесь, что:</p>
+                <ul>
+                    <li>У элемента есть атрибут <code>Name="MyButton"</code></li>
+                    <li>Класс имеет атрибут <code>[GenerateTypedNameReferences]</code></li>
+                    <li>Вызов <code>RobustXamlLoader.Load(this)</code> есть в конструкторе</li>
+                </ul>
+
+                <h3>2. XAML не загружается</h3>
+                <p><strong>Проблема:</strong> Исключение при загрузке XAML.</p>
+                <p><strong>Решение:</strong> Проверьте:</p>
+                <ul>
+                    <li>Правильность XML синтаксиса</li>
+                    <li>Все xmlns ссылки корректны</li>
+                    <li>Все типы элементов существуют</li>
+                </ul>
+
+                <h3>3. Окно не открывается</h3>
+                <p><strong>Проблема:</strong> Окно создаётся, но не отображается.</p>
+                <p><strong>Решение:</strong> Убедитесь, что вызываете <code>Open()</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>var window = new MyWindow();
+window.Open();  // Важно!</code></pre>
+                </div>
+
+                <h3>4. События не работают</h3>
+                <p><strong>Проблема:</strong> Обработчик события не вызывается.</p>
+                <p><strong>Решение:</strong> Проверьте, что подписка на событие происходит после <code>RobustXamlLoader.Load(this)</code>:</p>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>public MyWindow()
+{
+    RobustXamlLoader.Load(this);  // Сначала загрузка
+    MyButton.OnPressed += OnPressed;  // Потом подписка
+}</code></pre>
+                </div>
+
+                <!-- Дополнительные ресурсы -->
+                <h2>Дополнительные ресурсы</h2>
+                <div class="code-block">
+                    <span class="code-block__lang">note</span>
+                    <pre><code>Примечание: Официальная документация SS14 может содержать устаревшую информацию.
+Всегда проверяйте актуальность информации в исходном коде проекта.</code></pre>
+                </div>
+                <ul>
+                    <li><a href="https://docs.spacestation14.com/en/robust-toolbox/user-interface.html" target="_blank" rel="noopener">Официальная документация UI (Robust Toolbox)</a></li>
+                    <li><a href="https://github.com/space-wizards/space-station-14/tree/master/Content.Client/UserInterface" target="_blank" rel="noopener">Примеры UI в SS14 (GitHub)</a></li>
+                    <li><a href="https://docs.spacestation14.com/en/ss14-by-example/ui-and-you.html" target="_blank" rel="noopener">UI and You - руководство от разработчиков</a></li>
+                </ul>
+
+                <!-- Автор -->
+                <h2>Автор гайда</h2>
+                <p><strong>Автор:</strong> Кейси</p>
+                <p><strong>Discord:</strong> <a href="https://discord.com/users/nimf0374" target="_blank" rel="noopener">nimf0374</a></p>
+
+            </div>
+
+            <!-- Navigation between guides -->
+            <nav class="guide-nav">
+                <a href="ss14-prototypes.html" class="guide-nav__link guide-nav__link--prev">
+                    Предыдущий гайд
+                </a>
+                <a href="../guides.html" class="btn">
+                    Все гайды
+                </a>
+                <span class="guide-nav__link guide-nav__link--next guide-nav__link--disabled">
+                    Последний гайд
+                </span>
+            </nav>
+        </div>
+    </article>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+</body>
+</html>
