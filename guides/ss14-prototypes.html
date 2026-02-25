@@ -15,7 +15,6 @@
     <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-prototypes.html">
     <meta property="og:site_name" content="DevGuides">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
@@ -23,16 +22,13 @@
     
     <title>DevGuides // Прототипы SS14</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Styles -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body data-guide-title="Прототипы в Space Station 14" data-guide-id="SS14_#1">
-    <!-- Navigation -->
     <nav class="nav">
         <div class="nav__container">
             <a href="../index.html" class="nav__logo">DevGuides</a>
@@ -45,7 +41,6 @@
         </div>
     </nav>
 
-    <!-- Guide Header -->
     <section class="hero">
         <div class="hero__content">
             <h1 class="hero__title">Прототипы в Space Station 14</h1>
@@ -55,14 +50,13 @@
         </div>
     </section>
 
-    <!-- Table of Contents -->
     <aside class="toc">
         <div class="toc__header">
             <span class="toc__title">СОДЕРЖАНИЕ</span>
             <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
         </div>
         <nav class="toc__content" id="tocContent">
-            <!-- Генерируется JavaScript -->
+            <!--прикол JS-->
         </nav>
         <div class="toc__current" id="tocCurrent">
             <span class="toc__current-label">Текущая глава:</span>
@@ -70,18 +64,15 @@
         </div>
     </aside>
 
-    <!-- Guide Content -->
     <article class="guide">
         <div class="container">
             <div class="guide__content">
                 
-                <!-- Введение -->
                 <h2>Введение</h2>
                 <p>
                     Прототипы - это фундаментальный механизм Space Station 14 для определения данных игры в <strong>YAML-файлах</strong>, которые затем загружаются и используются движком Robust Toolbox. Они помогают <strong>отделить логику от данных</strong>: например, если вы хотите изменить внешний вид или характеристики предмета, вам не нужно перекомпилировать весь код - достаточно изменить соответствующий YAML-прототип.
                 </p>
 
-                <!-- Основные концепции -->
                 <h2>Основные концепции</h2>
                 
                 <h3>1. Что такое прототип?</h3>
@@ -130,7 +121,6 @@
 }</code></pre>
                 </div>
 
-                <!-- Структура YAML -->
                 <h2>Структура YAML-прототипа</h2>
                 
                 <h3>Общий формат</h3>
@@ -221,7 +211,6 @@
     - /Audio/Effects/metal_thud3.ogg</code></pre>
                 </div>
 
-                <!-- Наследование -->
                 <h2>Наследование прототипов</h2>
                 
                 <h3>Базовое наследование</h3>
@@ -251,7 +240,6 @@
     customProperty: "value"</code></pre>
                 </div>
 
-                <!-- Абстрактные прототипы -->
                 <h2>Абстрактные прототипы</h2>
                 <p>Абстрактные прототипы не могут быть использованы напрямую, только наследованы. Они используются для создания базовых шаблонов.</p>
                 <div class="code-block">
@@ -265,7 +253,6 @@
   - type: Input</code></pre>
                 </div>
 
-                <!-- Создание собственного типа -->
                 <h2>Создание собственного типа прототипа</h2>
                 <p>Если вам нужен новый тип прототипа, создайте класс в C#:</p>
                 <div class="code-block">
@@ -314,7 +301,6 @@ namespace Content.Shared.MyModule
     attackSpeedBonus: 0.2</code></pre>
                 </div>
 
-                <!-- Спавн сущностей -->
                 <h2>Спавн сущностей в коде [C#]</h2>
                 <p>Для спавна сущностей используйте IEntityManager:</p>
                 <div class="code-block">
@@ -335,7 +321,6 @@ public class MySystem : EntitySystem
 }</code></pre>
                 </div>
 
-                <!-- Практические советы -->
                 <h2>Практические советы для новичков</h2>
                 
                 <h3>1. Как начать с прототипов?</h3>
@@ -381,7 +366,6 @@ public class MySystem : EntitySystem
                     <li><strong>Комментарии:</strong> Добавляйте комментарии для пояснения</li>
                 </ul>
 
-                <!-- FAQ -->
                 <h2>FAQ - Часто задаваемые вопросы</h2>
                 
                 <h3>Как добавить спрайт к предмету?</h3>
@@ -411,7 +395,6 @@ public class MySystem : EntitySystem
   energy: 1.0</code></pre>
                 </div>
 
-                <!-- Важные директории -->
                 <h2>Важные директории</h2>
                 <ul>
                     <li><code>/Resources/Prototypes/</code> - Основная директория с прототипами</li>
@@ -422,7 +405,6 @@ public class MySystem : EntitySystem
 
             </div>
 
-            <!-- Navigation between guides -->
             <nav class="guide-nav">
                 <span class="guide-nav__link guide-nav__link--prev guide-nav__link--disabled">
                     Первый гайд
@@ -436,8 +418,6 @@ public class MySystem : EntitySystem
             </nav>
         </div>
     </article>
-
-    <!-- Scripts -->
     <script src="../js/main.js"></script>
 </body>
 </html>

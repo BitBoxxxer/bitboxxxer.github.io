@@ -15,7 +15,6 @@
     <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-xaml-ui.html">
     <meta property="og:site_name" content="DevGuides">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
@@ -23,16 +22,12 @@
     
     <title>DevGuides // XAML UI в SS14</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body data-guide-title="XAML UI" data-guide-id="SS14_#2">
-    <!-- Navigation -->
     <nav class="nav">
         <div class="nav__container">
             <a href="../index.html" class="nav__logo">DevGuides</a>
@@ -44,8 +39,6 @@
             </ul>
         </div>
     </nav>
-
-    <!-- Guide Header -->
     <section class="hero">
         <div class="hero__content">
             <h1 class="hero__title">XAML UI в Space Station 14</h1>
@@ -54,8 +47,6 @@
             </p>
         </div>
     </section>
-
-    <!-- Table of Contents -->
     <aside class="toc">
         <div class="toc__header">
             <span class="toc__title">СОДЕРЖАНИЕ</span>
@@ -69,19 +60,15 @@
             <span class="toc__current-title" id="tocCurrentTitle"></span>
         </div>
     </aside>
-
-    <!-- Guide Content -->
     <article class="guide">
         <div class="container">
             <div class="guide__content">
                 
-                <!-- Для кого ориентирован -->
                 <h2>Для кого ориентирован данный гайд?</h2>
                 <p>
                     Допустим, вы уже прочитали все доступные документации по программированию Space Station 14, но всё ещё не понимаете, как именно что-то должно работать. Этот гайд для новичков, которые хотят научиться создавать пользовательские интерфейсы (UI) для SS14.
                 </p>
 
-                <!-- Вводная -->
                 <h2>Вводная</h2>
                 <p>
                     Представьте ситуацию: вы прочитали ВСЕ документации по SS14. Все.<br> Вы знаете, что такое Entity, Component, System... Но когда дело доходит до создания окошка с кнопочкой - вы не понимаете что это такое.
@@ -90,7 +77,6 @@
                     <strong>Спокойно!</strong> Этот гайд - поможет базово ознакомиться с UI в разработке SS14. Посмотрим как можно сделать: окна, кнопки, которые реально работают, и интерфейсы, от которых игроки не будут в ужасе закрывать игру ахаха.
                 </p>
 
-                <!-- Архитектура -->
                 <h2>Архитектура Content & Engine</h2>
                 <p>
                     SS14 есть слои в сборках. Вот краткое пояснение:
@@ -116,7 +102,6 @@
                     <strong>Важный инсайт:</strong> 99% времени вы будете ковыряться в Content. Это нормально.
                 </p>
 
-                <!-- Система UI -->
                 <h2>Система UI: XAML + Code-behind</h2>
                 <p>
                     UI в SS14 использует XAML - язык разметки на основе XML для описания структуры интерфейсов.
@@ -147,7 +132,6 @@
                     <li> - Общается с сервером (потому что без сервера мы никто)</li>
                 </ul>
 
-                <!-- Структура UI файла -->
                 <h2>Структура UI файла</h2>
                 <p>Каждый UI компонент в SS14 состоит из двух файлов:</p>
                 <div class="terminal">
@@ -204,7 +188,6 @@ public sealed partial class MyWindow : DefaultWindow
 }</code></pre>
                 </div>
 
-                <!-- Базовые элементы управления -->
                 <h2>Базовые элементы управления (Controls)</h2>
 
                 <h3>1. Контейнеры (Containers)</h3>
@@ -444,7 +427,6 @@ var selectedId = CategorySelector.SelectedId;</code></pre>
             SetSize="64 64" /&gt;</code></pre>
                 </div>
 
-                <!-- Окна -->
                 <h2>Окна (Windows)</h2>
 
                 <h3>DefaultWindow - базовое окно</h3>
@@ -481,10 +463,7 @@ var selectedId = CategorySelector.SelectedId;</code></pre>
     &lt;/BoxContainer&gt;
 &lt;/controls:FancyWindow&gt;</code></pre>
                 </div>
-
-                <!-- Свойства элементов -->
                 <h2>Свойства элементов</h2>
-
                 <h3>Размеры</h3>
                 <div class="code-block">
                     <span class="code-block__lang">xml</span>
@@ -554,8 +533,6 @@ var selectedId = CategorySelector.SelectedId;</code></pre>
 &lt;!-- Внешний отступ (левый верхний правый нижний) --&gt;
 &lt;BoxContainer Margin="5 10 5 10" /&gt;</code></pre>
                 </div>
-
-                <!-- Name и доступ к элементам -->
                 <h2>Name и доступ к элементам</h2>
 
                 <h3>Атрибут Name</h3>
@@ -580,10 +557,7 @@ var selectedId = CategorySelector.SelectedId;</code></pre>
 &lt;!-- Приватный доступ (только в этом классе) --&gt;
 &lt;Button Name="PrivateButton" Access="Private" /&gt;</code></pre>
                 </div>
-
-                <!-- Связь XAML и C# кода -->
                 <h2>Связь XAML и C# кода</h2>
-
                 <h3>GenerateTypedNameReferences</h3>
                 <p>Атрибут <code>[GenerateTypedNameReferences]</code> автоматически генерирует ссылки на элементы с <code>Name</code>:</p>
                 <div class="code-block">
@@ -627,10 +601,7 @@ public sealed partial class MyWindow : DefaultWindow
 }</code></pre>
                 </div>
                 <p><strong>Важно:</strong> Для entity systems в UI контроллерах используйте <code>[UISystemDependency]</code> вместо <code>[Dependency]</code>.</p>
-
-                <!-- События и обработчики -->
                 <h2>События и обработчики</h2>
-
                 <h3>События кнопок</h3>
                 <div class="code-block">
                     <span class="code-block__lang">csharp</span>
@@ -683,10 +654,7 @@ MyInput.OnFocusExit += _ => { /* фокус потерян */ };</code></pre>
     var isChecked = args.Pressed;
 };</code></pre>
                 </div>
-
-                <!-- Локализация в UI -->
                 <h2>Локализация в UI</h2>
-
                 <h3>Использование {Loc}</h3>
                 <div class="code-block">
                     <span class="code-block__lang">xml</span>
@@ -708,10 +676,7 @@ MyInput.OnFocusExit += _ => { /* фокус потерян */ };</code></pre>
 my-button-text = Нажать
 help-tooltip = Это подсказка</code></pre>
                 </div>
-
-                <!-- Полный пример -->
                 <h2>Полный пример: Окно настроек</h2>
-
                 <h3>SettingsWindow.xaml</h3>
                 <div class="code-block">
                     <span class="code-block__lang">xml</span>
@@ -822,8 +787,6 @@ public sealed partial class SettingsWindow : DefaultWindow
     }
 }</code></pre>
                 </div>
-
-                <!-- Связь с сервером -->
                 <h2>Связь с сервером (Network Messages)</h2>
                 <p>Для создания интерактивного UI, которое взаимодействует с сервером, нужно:</p>
 
@@ -959,10 +922,7 @@ public sealed class MyWindowSystem : EntitySystem
     }
 }</code></pre>
                 </div>
-
-                <!-- Стилизация -->
                 <h2>Стилизация (StyleClasses)</h2>
-
                 <h3>Применение стилей</h3>
                 <div class="code-block">
                     <span class="code-block__lang">xml</span>
@@ -996,10 +956,7 @@ public sealed class MyWindowSystem : EntitySystem
                         <tr><td>Panel</td><td><code>HighDivider</code></td><td>Толстый разделитель</td></tr>
                     </tbody>
                 </table>
-
-                <!-- Практические советы -->
                 <h2>Практические советы</h2>
-
                 <h3>1. Отступы и размеры</h3>
                 <div class="code-block">
                     <span class="code-block__lang">xml</span>
@@ -1046,10 +1003,7 @@ MyElement.Visible = true;</code></pre>
                         <br>Пример: <code>uitest Slider</code> - откроет тестовые окна для проверки UI</li>
                     <li><code>~</code> (тильда/ё) - открывает консоль клиента</li>
                 </ul>
-
-                <!-- Частые ошибки -->
                 <h2>Частые ошибки и решения</h2>
-
                 <h3>1. Элемент не найден в коде</h3>
                 <p><strong>Проблема:</strong> <code>MyButton</code> не существует в текущем контексте.</p>
                 <p><strong>Решение:</strong> Убедитесь, что:</p>
@@ -1088,8 +1042,6 @@ window.Open();  // Важно!</code></pre>
     MyButton.OnPressed += OnPressed;  // Потом подписка
 }</code></pre>
                 </div>
-
-                <!-- Дополнительные ресурсы -->
                 <h2>Дополнительные ресурсы</h2>
                 <div class="code-block">
                     <span class="code-block__lang">note</span>
@@ -1101,15 +1053,11 @@ window.Open();  // Важно!</code></pre>
                     <li><a href="https://github.com/space-wizards/space-station-14/tree/master/Content.Client/UserInterface" target="_blank" rel="noopener">Примеры UI в SS14 (GitHub)</a></li>
                     <li><a href="https://docs.spacestation14.com/en/ss14-by-example/ui-and-you.html" target="_blank" rel="noopener">UI and You - руководство от разработчиков</a></li>
                 </ul>
-
-                <!-- Автор -->
                 <h2>Автор гайда</h2>
                 <p><strong>Автор:</strong> Кейси</p>
                 <p><strong>Discord:</strong> <a href="https://discord.com/users/nimf0374" target="_blank" rel="noopener">nimf0374</a></p>
 
             </div>
-
-            <!-- Navigation between guides -->
             <nav class="guide-nav">
                 <a href="ss14-prototypes.html" class="guide-nav__link guide-nav__link--prev">
                     Предыдущий гайд
@@ -1123,8 +1071,6 @@ window.Open();  // Важно!</code></pre>
             </nav>
         </div>
     </article>
-
-    <!-- Scripts -->
     <script src="../js/main.js"></script>
 </body>
 </html>
