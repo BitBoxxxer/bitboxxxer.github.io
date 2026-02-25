@@ -142,6 +142,18 @@ a:hover {
     color: var(--text-secondary);
 }
 
+/* Título de la guía en la navegación */
+.nav__logo-guide {
+    color: var(--text-secondary);
+    font-weight: 300;
+    font-size: 1rem;
+    margin-left: 0.25rem;
+}
+
+.nav__logo:hover .nav__logo-guide {
+    color: var(--text-primary);
+}
+
 .nav__links {
     display: flex;
     gap: 2rem;

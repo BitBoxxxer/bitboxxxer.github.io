@@ -165,9 +165,23 @@ function setActiveNavLink() {
     });
 }
 
-// Run on page load
+// Actualiza el logo de navegación con el título de la guía
+function updateNavLogo() {
+    const body = document.body;
+    const guideTitle = body.dataset.guideTitle;
+    const guideId = body.dataset.guideId;
+    const navLogo = document.querySelector('.nav__logo');
+    
+    if (guideTitle && navLogo) {
+        const idPart = guideId ? ` (${guideId})` : '';
+        navLogo.innerHTML = `DevGuides <span class="nav__logo-guide">'${guideTitle}${idPart}'</span>`;
+    }
+}
+
+// Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     setActiveNavLink();
+    updateNavLogo();
 });
 
 // Glitch effect on hover for elements with .glitch class

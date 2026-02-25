@@ -8,30 +8,27 @@
     <meta name="author" content="Кейси">
     <link rel="canonical" href="https://bitboxxxer.github.io/guides/guide-template.html">
     
-    <!-- Open Graph / Social Media -->
+    <!-- Open Graph / Redes sociales -->
     <meta property="og:title" content="Название гайда - DevGuides">
     <meta property="og:description" content="Гайд от Кейси: Название гайда.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://bitboxxxer.github.io/guides/guide-template.html">
     <meta property="og:site_name" content="DevGuides">
     
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
     
     <title>DevGuides // Название гайда</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Styles -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
-    <!-- Navigation -->
+<body data-guide-title="Name of Guide" data-guide-id="GUIDE_XXX">
+    <!-- Navegación -->
     <nav class="nav">
         <div class="nav__container">
             <a href="../index.html" class="nav__logo">DevGuides</a>
@@ -44,7 +41,7 @@
         </div>
     </nav>
 
-    <!-- Guide Header -->
+    <!-- Encabezado de la guía -->
     <section class="hero">
         <div class="hero__content">
             <h1 class="hero__title">Название гайда</h1>
@@ -54,14 +51,14 @@
         </div>
     </section>
 
-    <!-- Table of Contents -->
+    <!-- Tabla de contenidos -->
     <aside class="toc">
         <div class="toc__header">
             <span class="toc__title">СОДЕРЖАНИЕ</span>
             <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
         </div>
         <nav class="toc__content" id="tocContent">
-            <!-- Генерируется JavaScript -->
+            <!-- Generado por JavaScript -->
         </nav>
         <div class="toc__current" id="tocCurrent">
             <span class="toc__current-label">Текущая глава:</span>
@@ -69,23 +66,20 @@
         </div>
     </aside>
 
-    <!-- Guide Content -->
+    <!-- Contenido de la guía -->
     <article class="guide">
         <div class="container">
             <div class="guide__content">
-                <!-- Introduction -->
                 <h2>Введение</h2>
                 <p>
                     Краткое введение в тему гайда. Что будет рассмотрено и для кого этот гайд.
                 </p>
 
-                <!-- Section 1 -->
                 <h2>Раздел 1: Название раздела</h2>
                 <p>
                     Основной контент гайда. Разбивай на логические разделы для удобства чтения.
                 </p>
 
-                <!-- Code Example -->
                 <h3>Пример кода</h3>
                 <p>Описание примера:</p>
                 <div class="code-block">
@@ -97,7 +91,6 @@ function example() {
 }</code></pre>
                 </div>
 
-                <!-- Section 2 -->
                 <h2>Раздел 2: Пошаговая инструкция</h2>
                 <p>Разбивай сложные процессы на шаги:</p>
                 
@@ -114,7 +107,6 @@ function example() {
                     </li>
                 </ol>
 
-                <!-- Terminal Example -->
                 <h2>Пример терминала</h2>
                 <div class="terminal">
                     <div class="terminal__header">
@@ -133,7 +125,6 @@ function example() {
                     </div>
                 </div>
 
-                <!-- Tips Section -->
                 <h2>Советы</h2>
                 <ul>
                     <li>Используй <code>code blocks</code> для примеров кода</li>
@@ -142,13 +133,11 @@ function example() {
                     <li>Структурируй контент заголовками</li>
                 </ul>
 
-                <!-- Conclusion -->
                 <h2>Заключение</h2>
                 <p>
                     Подведи итоги гайда. Что было рассмотрено, какие навыки получит читатель.
                 </p>
 
-                <!-- Related Links -->
                 <h3>Полезные ссылки</h3>
                 <ul>
                     <li><a href="#">Официальная документация</a></li>
@@ -157,7 +146,7 @@ function example() {
                 </ul>
             </div>
 
-            <!-- Navigation between guides -->
+            <!-- Navegación entre guías -->
             <nav class="guide-nav">
                 <a href="guide-template.html" class="guide-nav__link guide-nav__link--prev">
                     Предыдущий гайд
@@ -172,7 +161,6 @@ function example() {
         </div>
     </article>
 
-    <!-- Scripts -->
     <script src="../js/main.js"></script>
 </body>
 </html>
