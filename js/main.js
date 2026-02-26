@@ -132,7 +132,7 @@ console.log('%c> Mb DevGuides just simple name for site - think abt it', 'color:
 function createMatrixRain() {
     const canvas = document.createElement('canvas');
     canvas.id = 'matrix-canvas';
-    canvas.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.05;';
+    canvas.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1;';
     document.body.appendChild(canvas);
     
     const ctx = canvas.getContext('2d');
@@ -148,7 +148,7 @@ function createMatrixRain() {
         ctx.fillStyle = 'rgba(13, 13, 13, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = '#00ff41';
+        ctx.fillStyle = '#0066ff';
         ctx.font = `${fontSize}px monospace`;
         
         for (let i = 0; i < drops.length; i++) {
@@ -169,6 +169,9 @@ function createMatrixRain() {
         canvas.height = window.innerHeight;
     });
 }
+
+// Call the function to create the matrix rain effect
+createMatrixRain();
 
 function setActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
