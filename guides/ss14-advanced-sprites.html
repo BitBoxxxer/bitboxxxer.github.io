@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Расширенное использование спрайтов в Space Station 14 - создание пользовательских спрайтов, экспорт, работа с большими спрайтами">
+    <meta name="keywords" content="SS14, Space Station 14, спрайты, RSI, анимации, экспорт, разработка, гайд">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/guides/ss14-advanced-sprites.html">
+    
+    <meta property="og:title" content="Расширенное использование спрайтов SS14 - DevGuides">
+    <meta property="og:description" content="Полный гайд по расширенному использованию спрайтов в Space Station 14.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-advanced-sprites.html">
+    <meta property="og:site_name" content="DevGuides">
+    
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    
+    <title>DevGuides // Расширенное использование спрайтов SS14</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-guide-title="Расширенное использование спрайтов в Space Station 14" data-guide-id="SS14_#4">
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="../index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="../index.html" class="nav__link">Главная</a></li>
+                <li><a href="../projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="../guides.html" class="nav__link nav__link--active">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Расширенное использование спрайтов в Space Station 14</h1>
+            <p class="hero__subtitle">
+                SS14_#4 // Создание пользовательских спрайтов, экспорт, работа с большими спрайтами // Время чтения: 60 мин
+            </p>
+        </div>
+    </section>
+
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+            <!--прикол JS-->
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
+    <article class="guide">
+        <div class="container">
+            <div class="guide__content">
+                
+                <h2>Введение</h2>
+                <p>
+                    Этот гайд охватывает расширенное использование спрайтов, включая создание пользовательских спрайтов для систем, модификацию существующих спрайтов и работу с большими спрайтами. Он строится на основах базовой спрайтовой системы, описанной в `ss14-sprite-system.html`.
+                </p>
+
+                <h2>Создание пользовательских спрайтов для систем</h2>
+                
+                <h3>1. ContentSpriteSystem - Инструмент для экспорта спрайтов</h3>
+                <p>
+                    ContentSpriteSystem предоставляет инструмент для администраторов для экспорта спрайтов во всех 4 направлениях:
+                </p>
+
+                <h3>Использование инструмента для экспорта спрайтов</h3>
+                <ol>
+                    <li><strong>Включите отладочные глаголы</strong> - используйте команду `/adminverbs`</li>
+                    <li><strong>Щелкните правой кнопкой мыши любую сущность</strong> в игровом мире</li>
+                    <li><strong>Выберите "Export Entity"</strong> из меню отладки</li>
+                    <li><strong>Спрайты будут экспортированы в директорию `/Exports`</strong> в формате: `<EntityName>-<Direction>-<EntityId>.png`</li>
+                </ol>
+
+                <h3>Настройка поведения экспорта</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/Sprite/ContentSpriteSystem.cs (упрощённый вариант)
+public sealed class ContentSpriteSystem : EntitySystem
+{
+    [Dependency] private readonly IClientAdminManager _adminManager = default!;
+    [Dependency] private readonly IClyde _clyde = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IResourceManager _resManager = default!;
+    [Dependency] private readonly IUserInterfaceManager _ui = default!;
+
+    public static readonly ResPath Exports = new ResPath("/Exports");
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        _resManager.UserData.CreateDir(Exports);
+        _ui.RootControl.AddChild(new ContentSpriteControl());
+        SubscribeLocalEvent<GetVerbsEvent<Verb>>(GetVerbs);
+    }
+
+    public async Task Export(EntityUid entity, bool includeId = true, CancellationToken cancelToken = default)
+    {
+        var tasks = new Task[4];
+        var i = 0;
+
+        foreach (var dir in new Direction[] { Direction.South, Direction.East, Direction.North, Direction.West })
+        {
+            tasks[i++] = Export(entity, dir, includeId: includeId, cancelToken);
+        }
+
+        await Task.WhenAll(tasks);
+    }
+
+    private void GetVerbs(GetVerbsEvent<Verb> ev)
+    {
+        if (!_adminManager.IsAdmin())
+            return;
+
+        var verb = new Verb
+        {
+            Text = Loc.GetString("export-entity-verb-get-data-text"),
+            Category = VerbCategory.Debug,
+            Act = async () => await Export(ev.Target)
+        };
+
+        ev.Verbs.Add(verb);
+    }
+}</code></pre>
+                </div>
+
+                <h3>2. Пользовательские спрайтовые системы в Content.Client</h3>
+                
+                <h4>Пример 1: Использование RandomSpriteComponent</h4>
+                <p>
+                    Движок SS14 предоставляет встроенный `RandomSpriteComponent`, который позволяет использовать случайные вариации спрайтов:
+                </p>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code># Resources/Prototypes/Entities/MyEntity.yml
+- type: entity
+  name: My Random Entity
+  parent: BaseItem
+  id: MyRandomEntity
+  components:
+  - type: Sprite
+    sprite: Objects/MyCategory/my_sprite.rsi
+    state: default
+  - type: RandomSpriteComponent
+    getAllGroups: false  # Если true, использует все доступные группы, а не одну случайную
+    available:
+      # Группа 1: Красная вариация
+      - base:
+          state: red_base
+        detail:
+          state: red_detail
+          color: "#ff0000"
+      # Группа 2: Синяя вариация
+      - base:
+          state: blue_base
+        detail:
+          state: blue_detail
+          color: "#0000ff"
+      # Группа 3: Зелёная вариация
+      - base:
+          state: green_base
+        detail:
+          state: green_detail
+          color: "#00ff00"</code></pre>
+                </div>
+
+                <h4>Пример 2: Пользовательский спрайтовый компонент для мини-игры</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/MyMinigame/Components/MyMinigameSpriteComponent.cs
+using Robust.Client.GameObjects;
+using Robust.Shared.GameObjects;
+using Robust.Shared.Serialization;
+
+namespace Content.Client.MyMinigame.Components;
+
+[RegisterComponent]
+public sealed partial class MyMinigameSpriteComponent : Component
+{
+    [DataField("sprite")]
+    public SpriteSpecifier Sprite { get; set; } = SpriteSpecifier.Invalid;
+
+    [DataField("animationSpeed")]
+    public float AnimationSpeed { get; set; } = 0.1f;
+
+    [DataField("maxFrames")]
+    public int MaxFrames { get; set; } = 8;
+
+    [DataField("currentFrame")]
+    public int CurrentFrame { get; set; } = 0;
+}</code></pre>
+                </div>
+
+                <h4>Система для контроля спрайта</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/MyMinigame/Systems/MyMinigameSpriteSystem.cs
+using Content.Client.MyMinigame.Components;
+using Robust.Client.GameObjects;
+using Robust.Shared.Timing;
+
+namespace Content.Client.MyMinigame.Systems;
+
+public sealed class MyMinigameSpriteSystem : EntitySystem
+{
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
+
+    private float _timeSinceLastFrame;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<MyMinigameSpriteComponent, ComponentInit>(OnComponentInit);
+    }
+
+    private void OnComponentInit(EntityUid uid, MyMinigameSpriteComponent component, ComponentInit args)
+    {
+        if (component.Sprite is not SpriteSpecifier.Rsi rsi)
+            return;
+
+        // Устанавливаем начальное состояние спрайта
+        if (TryComp<SpriteComponent>(uid, out var sprite))
+        {
+            _sprite.LayerSetSprite((uid, sprite), 0, component.Sprite);
+            _sprite.LayerSetRsiState((uid, sprite), 0, $"frame{component.CurrentFrame}");
+        }
+    }
+
+    public override void FrameUpdate(float frameTime)
+    {
+        _timeSinceLastFrame += frameTime;
+
+        // Обновляем все спрайты мини-игры
+        var query = EntityQueryEnumerator<MyMinigameSpriteComponent, SpriteComponent>();
+        while (query.MoveNext(out var uid, out var comp, out var sprite))
+        {
+            if (_timeSinceLastFrame >= comp.AnimationSpeed)
+            {
+                comp.CurrentFrame = (comp.CurrentFrame + 1) % comp.MaxFrames;
+                _sprite.LayerSetRsiState((uid, sprite), 0, $"frame{comp.CurrentFrame}");
+                _timeSinceLastFrame = 0;
+            }
+        }
+    }
+
+    public void SetFrame(EntityUid uid, int frame, MyMinigameSpriteComponent? component = null, SpriteComponent? sprite = null)
+    {
+        if (!Resolve(uid, ref component, ref sprite))
+            return;
+
+        if (frame < 0 || frame >= component.MaxFrames)
+            return;
+
+        component.CurrentFrame = frame;
+        _sprite.LayerSetRsiState((uid, sprite), 0, $"frame{frame}");
+    }
+}</code></pre>
+                </div>
+
+                <h4>Конфигурация прототипа</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code># Resources/Prototypes/Entities/MyMinigame/my_minigame_entity.yml
+- type: entity
+  name: My Minigame Entity
+  parent: BaseItem
+  id: MyMinigameEntity
+  components:
+  - type: Sprite
+    sprite: Objects/MyMinigame/my_minigame.rsi
+    state: frame0
+  - type: MyMinigameSpriteComponent
+    sprite: Objects/MyMinigame/my_minigame.rsi
+    animationSpeed: 0.2
+    maxFrames: 16</code></pre>
+                </div>
+
+                <h3>3. Система затемнения спрайтов</h3>
+                <p>
+                    Движок SS14 предоставляет встроенную систему затемнения спрайтов, которая автоматически затемняет сущности, когда игрок за ними:
+                </p>
+
+                <h4>Использование SpriteFadeComponent</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code># Resources/Prototypes/Entities/MyFadingEntity.yml
+- type: entity
+  name: My Fading Entity
+  parent: BaseItem
+  id: MyFadingEntity
+  components:
+  - type: Sprite
+    sprite: Objects/MyCategory/my_entity.rsi
+    state: icon
+  - type: SpriteFadeComponent  # Этот компонент включает затемнение</code></pre>
+                </div>
+
+                <h4>Настройка логики затемнения</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/MySystem/Components/MyCustomFadeComponent.cs
+using Content.Shared.Sprite;
+using Robust.Shared.GameObjects;
+
+namespace Content.Client.MySystem.Components;
+
+[RegisterComponent]
+public sealed partial class MyCustomFadeComponent : Component
+{
+    [DataField("fadeDistance")]
+    public float FadeDistance { get; set; } = 5.0f;
+
+    [DataField("targetAlpha")]
+    public float TargetAlpha { get; set; } = 0.3f;
+
+    [DataField("fadeSpeed")]
+    public float FadeSpeed { get; set; } = 2.0f;
+}</code></pre>
+                </div>
+
+                <h4>Пользовательская система затемнения</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/MySystem/Systems/MyCustomFadeSystem.cs
+using Content.Client.MySystem.Components;
+using Content.Shared.Sprite;
+using Robust.Client.GameObjects;
+using Robust.Shared.Map;
+using Robust.Shared.Maths;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Systems;
+
+namespace Content.Client.MySystem.Systems;
+
+public sealed class MyCustomFadeSystem : EntitySystem
+{
+    [Dependency] private readonly SpriteSystem _sprite = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+    [Dependency] private readonly FixtureSystem _fixtures = default!;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<MyCustomFadeComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<MyCustomFadeComponent, ComponentShutdown>(OnComponentShutdown);
+    }
+
+    private void OnComponentInit(EntityUid uid, MyCustomFadeComponent component, ComponentInit args)
+    {
+        // Добавляем FadingSpriteComponent для отслеживания
+        if (!HasComp<FadingSpriteComponent>(uid))
+        {
+            var fadeComp = AddComp<FadingSpriteComponent>(uid);
+            if (TryComp<SpriteComponent>(uid, out var sprite))
+            {
+                fadeComp.OriginalAlpha = sprite.Color.A;
+            }
+        }
+    }
+
+    private void OnComponentShutdown(EntityUid uid, MyCustomFadeComponent component, ComponentShutdown args)
+    {
+        // Восстанавливаем исходную прозрачность
+        if (TryComp<FadingSpriteComponent>(uid, out var fade) &&
+            TryComp<SpriteComponent>(uid, out var sprite))
+        {
+            _sprite.SetColor((uid, sprite), sprite.Color.WithAlpha(fade.OriginalAlpha));
+            RemComp<FadingSpriteComponent>(uid);
+        }
+    }
+
+    public override void FrameUpdate(float frameTime)
+    {
+        var query = EntityQueryEnumerator<MyCustomFadeComponent, SpriteComponent>();
+        while (query.MoveNext(out var uid, out var comp, out var sprite))
+        {
+            // Пользовательская логика затемнения здесь
+            // Пример: Затемнение на основе расстояния от локального игрока
+            var distance = GetDistanceFromPlayer(uid);
+            var alpha = CalculateFadeAlpha(distance, comp);
+            _sprite.SetColor((uid, sprite), sprite.Color.WithAlpha(alpha));
+        }
+    }
+
+    private float GetDistanceFromPlayer(EntityUid uid)
+    {
+        // Реализация расчета расстояния от локального игрока
+        return 0;
+    }
+
+    private float CalculateFadeAlpha(float distance, MyCustomFadeComponent comp)
+    {
+        if (distance <= 0) return comp.TargetAlpha;
+        if (distance >= comp.FadeDistance) return 1.0f;
+
+        var normalized = distance / comp.FadeDistance;
+        return MathHelper.Lerp(comp.TargetAlpha, 1.0f, normalized);
+    }
+}</code></pre>
+                </div>
+
+                <h3>4. Управление масштабом спрайтов</h3>
+                <p>
+                    Движок SS14 предоставляет управление масштабом через `ScaleVisualsComponent` и `SharedScaleVisualsSystem`:
+                </p>
+
+                <h4>Базовая конфигурация масштаба</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code># Resources/Prototypes/Entities/MyScaledEntity.yml
+- type: entity
+  name: My Scaled Entity
+  parent: BaseItem
+  id: MyScaledEntity
+  components:
+  - type: Sprite
+    sprite: Objects/MyCategory/my_entity.rsi
+    state: icon
+  - type: ScaleVisualsComponent
+    scale: 1.5  # 150% масштаб</code></pre>
+                </div>
+
+                <h4>Серверный контроль масштаба</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Shared/MySystem/Systems/SharedMySystem.cs
+using Content.Shared.Sprite;
+using Robust.Shared.GameObjects;
+using Robust.Shared.Maths;
+
+namespace Content.Shared.MySystem.Systems;
+
+public abstract class SharedMySystem : EntitySystem
+{
+    [Dependency] private readonly SharedScaleVisualsSystem _scaleSystem = default!;
+
+    public void SetEntityScale(EntityUid uid, Vector2 scale)
+    {
+        _scaleSystem.SetSpriteScale(uid, scale);
+    }
+
+    public Vector2 GetEntityScale(EntityUid uid)
+    {
+        return _scaleSystem.GetSpriteScale(uid);
+    }
+}</code></pre>
+                </div>
+
+                <h4>Клиентская обработка масштаба</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/MySystem/Systems/MySystem.cs
+using Content.Shared.MySystem.Systems;
+using Content.Shared.Sprite;
+using Robust.Client.GameObjects;
+using Robust.Shared.Maths;
+
+namespace Content.Client.MySystem.Systems;
+
+public sealed class MySystem : SharedMySystem
+{
+    [Dependency] private readonly SpriteSystem _sprite = default!;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<ScaleEntityEvent>(OnScaleEntity);
+    }
+
+    private void OnScaleEntity(ScaleEntityEvent ev)
+    {
+        if (TryComp<SpriteComponent>(ev.Uid, out var sprite))
+        {
+            // Опционально: Пользовательская клиентская обработка масштаба
+            _sprite.SetScale((ev.Uid, sprite), ev.Scale * 1.2f); // 20% больше, чем указано на сервере
+        }
+    }
+
+    public void ToggleScale(EntityUid uid)
+    {
+        var currentScale = GetEntityScale(uid);
+        var newScale = currentScale.X == 1.0f ? new Vector2(1.5f, 1.5f) : Vector2.One;
+        SetEntityScale(uid, newScale);
+    }
+}</code></pre>
+                </div>
+
+                <h3>5. Создание больших спрайтов</h3>
+                
+                <h4>Структура RSI для больших спрайтов</h4>
+                <p>
+                    Для больших спрайтов (например, транспортных средств, структур) используйте большие размеры:
+                </p>
+                <div class="code-block">
+                    <span class="code-block__lang">json</span>
+                    <pre><code>// Resources/Textures/Objects/Vehicles/MyTank.rsi/meta.json
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "size": { "x": 64, "y": 64 },
+  "states": [
+    { "name": "idle", "directions": 4 },
+    { "name": "moving", "directions": 4, "delays": [[0.1, 0.1]] },
+    { "name": "shooting", "directions": 4, "delays": [[0.05, 0.1, 0.15]] }
+  ]
+}</code></pre>
+                </div>
+
+                <h4>Обработка больших спрайтов в коде</h4>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/Vehicles/Components/VehicleSpriteComponent.cs
+using Robust.Client.GameObjects;
+using Robust.Shared.GameObjects;
+
+namespace Content.Client.Vehicles.Components;
+
+[RegisterComponent]
+public sealed partial class VehicleSpriteComponent : Component
+{
+    [DataField("baseSprite")]
+    public SpriteSpecifier BaseSprite { get; set; } = SpriteSpecifier.Invalid;
+
+    [DataField("turretSprite")]
+    public SpriteSpecifier TurretSprite { get; set; } = SpriteSpecifier.Invalid;
+
+    [DataField("turretAngle")]
+    public float TurretAngle { get; set; } = 0f;
+
+    public int TurretLayer { get; set; } = -1;
+}</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>// Content.Client/Vehicles/Systems/VehicleSpriteSystem.cs
+using Content.Client.Vehicles.Components;
+using Robust.Client.GameObjects;
+using Robust.Shared.Maths;
+
+namespace Content.Client.Vehicles.Systems;
+
+public sealed class VehicleSpriteSystem : EntitySystem
+{
+    [Dependency] private readonly SpriteSystem _sprite = default!;
+
+    public override void Initialize()
+    {
+        base.Initialize();
+        SubscribeLocalEvent<VehicleSpriteComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<VehicleSpriteComponent, ComponentShutdown>(OnComponentShutdown);
+    }
+
+    private void OnComponentInit(EntityUid uid, VehicleSpriteComponent component, ComponentInit args)
+    {
+        if (!TryComp<SpriteComponent>(uid, out var sprite))
+            return;
+
+        // Устанавливаем основную спрайт транспортного средства
+        if (component.BaseSprite is SpriteSpecifier.Rsi baseRsi)
+        {
+            _sprite.LayerSetSprite((uid, sprite), 0, component.BaseSprite);
+            _sprite.LayerSetRsiState((uid, sprite), 0, "idle");
+        }
+
+        // Устанавливаем спрайт турели
+        if (component.TurretSprite is SpriteSpecifier.Rsi turretRsi)
+        {
+            component.TurretLayer = _sprite.LayerAdd((uid, sprite));
+            _sprite.LayerSetSprite((uid, sprite), component.TurretLayer, component.TurretSprite);
+            _sprite.LayerSetRsiState((uid, sprite), component.TurretLayer, "turret");
+            _sprite.LayerSetRotation((uid, sprite), component.TurretLayer, Angle.FromDegrees(component.TurretAngle));
+        }
+    }
+
+    private void OnComponentShutdown(EntityUid uid, VehicleSpriteComponent component, ComponentShutdown args)
+    {
+        // Очищаем ресурсы при выключении компонента
+    }
+
+    public void SetTurretAngle(EntityUid uid, float angle, VehicleSpriteComponent? component = null, SpriteComponent? sprite = null)
+    {
+        if (!Resolve(uid, ref component, ref sprite))
+            return;
+
+        if (component.TurretLayer == -1)
+            return;
+
+        component.TurretAngle = angle;
+        _sprite.LayerSetRotation((uid, sprite), component.TurretLayer, Angle.FromDegrees(angle));
+    }
+}</code></pre>
+                </div>
+
+                <h2>Советы по оптимизации спрайтов</h2>
+                
+                <h3>Лучшие практики</h3>
+                <ul>
+                    <li>Используйте спрайты одинакового размера для упрощения работы с атласами</li>
+                    <li>Избегайте слишком мелких или слишком больших спрайтов</li>
+                    <li>Оптимизируйте количество состояний спрайтов</li>
+                    <li>Используйте сжатие PNG для уменьшения размера файлов</li>
+                    <li>Избегайте прозрачности там, где она не нужна</li>
+                    <li>Используйте спрайтовые атласы для группировки связанных спрайтов</li>
+                </ul>
+
+                <h2>Заключение</h2>
+                <p>
+                    Расширенное использование спрайтов в Space Station 14 открывает широкие возможности для создания уникальных визуальных эффектов и высококачественного контента. Понимание инструментов экспорта, работы с большими спрайтами и динамической модификации спрайтов помогает разработчикам создавать более интересные и привлекательные игры.
+                </p>
+
+                <h3>Полезные ссылки</h3>
+                <ul>
+                    <li><a href="ss14-sprite-system.html">Архитектура спрайтовой системы SS14</a></li>
+                    <li><a href="ss14-prototypes.html">Прототипы в SS14</a></li>
+                    <li><a href="ss14-xaml-ui.html">XAML UI для SS14</a></li>
+                </ul>
+            </div>
+
+            <nav class="guide-nav">
+                <a href="ss14-sprite-system.html" class="guide-nav__link guide-nav__link--prev">
+                    Предыдущий гайд: Архитектура спрайтовой системы SS14
+                </a>
+                <a href="../guides.html" class="btn">
+                    Все гайды
+                </a>
+                <a href="guide-template.html" class="guide-nav__link guide-nav__link--next">
+                    Следующий гайд
+                </a>
+            </nav>
+        </div>
+    </article>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

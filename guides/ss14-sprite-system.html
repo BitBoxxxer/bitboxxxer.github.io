@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Гайд по архитектуре спрайтовой системы в Space Station 14 - RSI, анимации, оптимизация текстур">
+    <meta name="keywords" content="SS14, Space Station 14, спрайты, RSI, анимации, графика, разработка, гайд">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/guides/ss14-sprite-system.html">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Архитектура спрайтовой системы SS14 - DevGuides">
+    <meta property="og:description" content="Полный гайд по архитектуре спрайтовой системы в Space Station 14.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-sprite-system.html">
+    <meta property="og:site_name" content="DevGuides">
+    
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    
+    <title>DevGuides // Архитектура спрайтовой системы SS14</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-guide-title="Архитектура спрайтовой системы в Space Station 14" data-guide-id="SS14_#3">
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="../index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="../index.html" class="nav__link">Главная</a></li>
+                <li><a href="../projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="../guides.html" class="nav__link nav__link--active">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Архитектура спрайтовой системы в Space Station 14</h1>
+            <p class="hero__subtitle">
+                SS14_#3 // Основы RSI, анимации, оптимизация текстур // Время чтения: 45 мин
+            </p>
+        </div>
+    </section>
+
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+            <!--прикол JS-->
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
+    <article class="guide">
+        <div class="container">
+            <div class="guide__content">
+                
+                <h2>Обзор</h2>
+                <p>
+                    Спрайтовая система в Space Station 14 - это комплексная архитектура для управления визуальными элементами игры. Построенная на движке RobustToolBox, она обеспечивает эффективное, гибкое и поддерживаемое управление спрайтами для всех игровых сущностей и элементов интерфейса.
+                </p>
+
+                <h2>Обработка спрайтов на уровне движка (RobustToolBox)</h2>
+                
+                <h3>RSI (Runtime Sprite Image) система</h3>
+                <p>
+                    <strong>Расположение:</strong> `RobustToolbox/Robust.Client/Graphics/RSI/`
+                </p>
+                <p>
+                    Система RSI является основным компонентом движка для работы с файлами спрайтов. Она поддерживает:
+                </p>
+                <ul>
+                    <li>Многнаправленные спрайты (1, 4 или 8 направлений)</li>
+                    <li>Анимации с кадрами и настраиваемыми задержками</li>
+                    <li>Определения спрайтов на основе метаданных</li>
+                    <li>Оптимизацию через текстуровые атласы</li>
+                </ul>
+
+                <h3>Основные файлы RSI</h3>
+                <ul>
+                    <li><code>RSI.cs</code> - Основной класс RSI, хранит определения спрайтов и состояний</li>
+                    <li><code>RSI.State.cs</code> - Индивидуальное состояние спрайта с поддержкой анимации</li>
+                </ul>
+
+                <h3>Структура RSI</h3>
+                <p>
+                    Каждый RSI представляет собой директорию с следующей структурой:
+                </p>
+                <div class="code-block">
+                    <span class="code-block__lang">text</span>
+                    <pre><code>your_sprite.rsi/
+├── meta.json         # Метаданные
+├── state1.png        # Состояние 1 (один кадр)
+├── state2-1.png      # Состояние 2 (кадр 1)
+├── state2-2.png      # Состояние 2 (кадр 2)
+└── state2-3.png      # Состояние 2 (кадр 3)</code></pre>
+                </div>
+
+                <h3>Пример meta.json</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">json</span>
+                    <pre><code>{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from vgstation at https://github.com/vgstation-coders/vgstation13/commit/1cdfb0230cc96d0ba751fa002d04f8aa2f25ad7d",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "stunbaton_off"
+    },
+    {
+      "name": "stunbaton_on",
+      "delays": [
+        [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+      ]
+    },
+    {
+      "name": "on-inhand-left",
+      "directions": 4,
+      "delays": [
+        [0.1, 0.1, 0.1, 0.1],
+        [0.1, 0.1, 0.1, 0.1],
+        [0.1, 0.1, 0.1, 0.1],
+        [0.1, 0.1, 0.1, 0.1]
+      ]
+    }
+  ]
+}</code></pre>
+                </div>
+
+                <h3>SpriteComponent</h3>
+                <p>
+                    <strong>Расположение:</strong> `RobustToolbox/Robust.Client/GameObjects/Components/Renderable/SpriteComponent.cs`
+                </p>
+                <p>
+                    SpriteComponent - это основной компонент для рендеринга спрайтов на сущностях. Ключевые функции:
+                </p>
+                <ul>
+                    <li><strong>Поддержка многослойности:</strong> Каждый спрайт может иметь несколько слоев для сложных визуальных эффектов</li>
+                    <li><strong>Направленные спрайты:</strong> Автоматически выбирает спрайт на основе направления сущности</li>
+                    <li><strong>Обработка анимаций:</strong> Поддерживает анимации с кадрами и пользовательскими задержками</li>
+                    <li><strong>Трансформации:</strong> Управление масштабом, поворотом и прозрачностью</li>
+                    <li><strong>Слоевая маппинг:</strong> Именованные слои для удобного управления состояниями</li>
+                </ul>
+
+                <h3>SpriteSystem</h3>
+                <p>
+                    <strong>Расположение:</strong> `RobustToolbox/Robust.Client/GameObjects/EntitySystems/SpriteSystem.cs`
+                </p>
+                <p>
+                    SpriteSystem управляет всеми операциями с спрайтами в движке:
+                </p>
+                <ul>
+                    <li><strong>Обновление кадров:</strong> Обрабатывает прогрессию анимаций</li>
+                    <li><strong>Манипуляция слоями:</strong> Добавление, удаление и изменение слоев спрайтов</li>
+                    <li><strong>Загрузка ресурсов:</strong> Загрузка и кэширование ресурсов RSI и текстур</li>
+                    <li><strong>Управление анимациями:</strong> Воспроизведение, пауза и синхронизация анимаций</li>
+                    <li><strong>Оптимизация рендеринга:</strong> Обнаружение неактивных спрайтов и пространственное разбиение</li>
+                </ul>
+
+                <h2>Реализация спрайтов на уровне контента</h2>
+                
+                <h3>Компоненты Content.Shared</h3>
+                <p>
+                    <strong>Расположение:</strong> `Content.Shared/Sprite/`
+                </p>
+                <ol>
+                    <li><strong>RandomSpriteComponent</strong> - Обрабатывает случайные вариации спрайтов с поддержкой групп
+                        <ul>
+                            <li>Позволяет указывать доступные группы спрайтов с состояниями слоев и цветами</li>
+                            <li>Поддерживает выбор либо всех групп, либо случайной одиночной группы</li>
+                            <li>Сетевая компонент для синхронизации сервер-клиент</li>
+                        </ul>
+                    </li>
+                    <li><strong>ScaleVisualsComponent</strong> - Управляет масштабом спрайта с сервера
+                        <ul>
+                            <li>Сетевая компонент для серверного контроля масштаба спрайта</li>
+                            <li>Поддерживает отслеживание исходного масштаба для восстановления</li>
+                        </ul>
+                    </li>
+                    <li><strong>SpriteFadeComponent</strong> - Отмечает сущность для затемнения спрайта
+                        <ul>
+                            <li>Сетевая компонент, заставляющая клиент затемнять сущность, когда игрок за ней</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3>Пример RandomSpriteComponent</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">csharp</span>
+                    <pre><code>[RegisterComponent, NetworkedComponent]
+public sealed partial class RandomSpriteComponent : Component
+{
+    [DataField("getAllGroups")]
+    public bool GetAllGroups;
+
+    [DataField("available")]
+    public List<Dictionary<string, Dictionary<string, string?>>> Available = new();
+
+    [DataField("selected")]
+    public Dictionary<string, (string State, Color? Color)> Selected = new();
+}</code></pre>
+                </div>
+
+                <h3>Системы Content.Client</h3>
+                <p>
+                    <strong>Расположение:</strong> `Content.Client/Sprite/`
+                </p>
+                <ol>
+                    <li><strong>ContentSpriteSystem</strong> - Инструмент для администраторов для экспорта спрайтов
+                        <ul>
+                            <li>Экспортирует спрайт во всех 4 направлениях (Юг, Восток, Север, Запад)</li>
+                            <li>Использует целевой рендеринг для захвата спрайта сущности</li>
+                            <li>Доступно через административный глагол "Export Sprite"</li>
+                        </ul>
+                    </li>
+                    <li><strong>RandomSpriteSystem</strong> - Клиентская обработка случайных спрайтов
+                        <ul>
+                            <li>Обрабатывает обновления состояния компонента с сервера</li>
+                            <li>Обновляет как SpriteComponent, так и визуал ClothingComponent</li>
+                            <li>Поддерживает слоевую маппинг через перечисления или строковые ключи</li>
+                        </ul>
+                    </li>
+                    <li><strong>SpriteFadeSystem</strong> - Реализация анимации затемнения
+                        <ul>
+                            <li>Затемняет сущности, когда игрок за ними</li>
+                            <li>Отслеживает позицию игрока и курсор мыши для логики затемнения</li>
+                            <li>Управляет FadingSpriteComponent для отслеживания активного затемнения</li>
+                            <li>Восстанавливает исходную прозрачность при выключении компонента</li>
+                        </ul>
+                    </li>
+                    <li><strong>ScaleVisualsSystem</strong> - Управление масштабом с сервера
+                        <ul>
+                            <li>Обрабатывает AppearanceChangeEvent для обновления масштаба спрайта</li>
+                            <li>Отслеживает исходный масштаб для восстановления при удалении компонента</li>
+                            <li>Работает с ScaleVisualsComponent и SharedScaleVisualsSystem</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h2>Структура ресурсов спрайтов</h2>
+                
+                <h3>Организация директорий</h3>
+                <p>
+                    Спрайты организованы в директории `Resources/Textures/`:
+                </p>
+                <div class="code-block">
+                    <span class="code-block__lang">text</span>
+                    <pre><code>Resources/Textures/
+├── Objects/              # Игровые объекты
+│   ├── Weapons/          # Оружие (ближний бой, огнестрельное, Throwable)
+│   ├── Misc/             # Разное
+│   ├── Consumable/       # Еда и напитки
+│   ├── Devices/          # Электронные устройства
+│   └── Storage/          # Контейнеры и хранилища
+├── Mobs/                 # Живые сущности
+├── Effects/              # Визуальные эффекты
+├── Decals/               # Наполнители пола
+├── Interface/            # Спрайты интерфейса
+├── Tiles/                # Пол и стены
+└── Structures/           # Здания и структуры</code></pre>
+                </div>
+
+                <h3>Пример структуры RSI - Бензопила</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">text</span>
+                    <pre><code>Resources/Textures/Objects/Weapons/Melee/chainsaw.rsi/
+├── meta.json            # Метаданные
+├── icon.png             # Состояние покоя (анимированное)
+├── inhand-left.png      # Левая рука (4 направления, анимированно)
+├── inhand-right.png     # Правая рука (4 направления, анимированно)
+├── wielded-inhand-left.png  # Рука в несении (лево, 4 направления, анимированно)
+└── wielded-inhand-right.png # Рука в несении (право, 4 направления, анимированно)</code></pre>
+                </div>
+
+                <h2>Определение спрайтов в прототипах</h2>
+                
+                <h3>Базовый Sprite Component</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  name: chainsaw
+  parent: BaseItem
+  id: Chainsaw
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Melee/chainsaw.rsi
+    state: icon
+  - type: Item
+    sprite: Objects/Weapons/Melee/chainsaw.rsi
+  - type: MeleeWeapon
+    autoAttack: true
+    damage:
+      types:
+        Slash: 2
+        Blunt: 2
+        Structural: 4</code></pre>
+                </div>
+
+                <h3>Сложный спрайт с слоями и визуализаторами</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">yaml</span>
+                    <pre><code>- type: entity
+  name: stun prod
+  parent: [BaseItem, BaseMinorContraband]
+  id: Stunprod
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Melee/stunprod.rsi
+    layers:
+    - state: stunprod_off
+      map: [ "enum.ToggleableVisuals.Layer" ]
+  - type: ItemToggle
+    soundActivate:
+      collection: sparks
+    soundDeactivate:
+      collection: sparks
+  - type: Stunbaton
+    energyPerUse: 120
+  - type: GenericVisualizer
+    visuals:
+      enum.ToggleableVisuals.Enabled:
+        enum.ToggleableVisuals.Layer:
+          True: {state: stunprod_on}
+          False: {state: stunprod_off}</code></pre>
+                </div>
+
+                <h2>Инструменты и обработка спрайтов</h2>
+                
+                <h3>Iconsmooth Tool</h3>
+                <p>
+                    <strong>Расположение:</strong> `Tools/iconsmooth.py` и `iconsmooth_lib.py`
+                </p>
+                <p>
+                    Конвертирует спрайтовые листы в иконные состояния с антиалиасингом.
+                </p>
+                <h3>Использование</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">bash</span>
+                    <pre><code>python3 iconsmooth.py input.png METRICS MODE OUTPREFIX</code></pre>
+                </div>
+
+                <h3>Параметры</h3>
+                <ul>
+                    <li><code>input.png</code>: Исходный спрайтовый лист</li>
+                    <li><code>METRICS</code>: Конфигурация тайлов (например, 32x32)</li>
+                    <li><code>MODE</code>: Режим конвертации (например, walls, floors)</li>
+                    <li><code>OUTPREFIX</code>: Префикс для выходных файлов</li>
+                </ul>
+
+                <h3>Плагины Aseprite</h3>
+                <p>
+                    <strong>Расположение:</strong> `Tools/SS14 Aseprite Plugins/`
+                </p>
+                <p>
+                    Плагины для редактора спрайтов Aseprite:
+                </p>
+                <ul>
+                    <li><strong>Displacement Map Visualizer.lua</strong>: Предварительный просмотр карты смещений</li>
+                    <li><strong>Displacement Map Flip.lua</strong>: Отражение карт смещений по горизонтали/вертикали</li>
+                    <li><strong>Displacement Map Shift.lua</strong>: Сдвиг карт смещений</li>
+                    <li><strong>Aseprite Templates</strong>: Шаблоны для создания спрайтов</li>
+                </ul>
+
+                <h2>Загрузка и кэширование спрайтов</h2>
+                
+                <h3>RSIResource</h3>
+                <p>
+                    <strong>Расположение:</strong> `RobustToolbox/Robust.Client/ResourceManagement/ResourceTypes/RSIResource.cs`
+                </p>
+                <p>
+                    RSIResource отвечает за загрузку и кэширование файлов RSI:
+                </p>
+                <ul>
+                    <li><strong>Асинхронная загрузка:</strong> Неблокирующая загрузка ресурсов</li>
+                    <li><strong>Восстановление после ошибок:</strong> Вариант fallback на error.rsi, если RSI не найден</li>
+                    <li><strong>Генерация атласов:</strong> Оптимизация загрузки и рендеринга текстур</li>
+                    <li><strong>Управление кэшем:</strong> Кэширует загруженные RSI для будущих обращений</li>
+                </ul>
+
+                <h3>Пайплайн загрузки ресурсов</h3>
+                <ol>
+                    <li>Ресурсы загружаются из ContentPack</li>
+                    <li>Метаданные RSI парсятся из meta.json</li>
+                    <li>PNG-файлы загружаются и обрабатываются</li>
+                    <li>Текстуры упаковываются в атласы для оптимизации GPU</li>
+                    <li>Ресурсы кэшируются для будущих использований</li>
+                </ol>
+
+                <h2>Система анимаций спрайтов</h2>
+                
+                <h3>Архитектура анимаций</h3>
+                <p>
+                    Каждое состояние спрайта может иметь анимации с:
+                </p>
+                <ul>
+                    <li><strong>Задержками между кадрами:</strong> Указывает время между каждым кадром</li>
+                    <li><strong>Направленными анимациями:</strong> Отдельные анимации для каждого направления</li>
+                    <li><strong>Управлением циклами:</strong> Циклические или одноразовые анимации</li>
+                </ul>
+
+                <h3>Определение анимации</h3>
+                <div class="code-block">
+                    <span class="code-block__lang">json</span>
+                    <pre><code>{
+  "name": "stunbaton_on",
+  "delays": [
+    [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+  ]
+}</code></pre>
+                </div>
+
+                <h3>Система анимаций</h3>
+                <p>
+                    SpriteSystem.FrameUpdate() управляет прогрессией анимаций:
+                </p>
+                <ul>
+                    <li><strong>Очередь обновления кадров:</strong> Сущности с анимированными спрайтами помещены в очередь для обновлений</li>
+                    <li><strong>Синхронизация времени:</strong> Анимации синхронизируются с игровым временем</li>
+                    <li><strong>Поддержка паузы:</strong> Пауза анимаций, когда сущность приостановлена</li>
+                    <li><strong>Неактивные спрайты:</strong> Пропускает обновления для неанимированных спрайтов</li>
+                </ul>
+
+                <h2>Расширенные функции спрайтов</h2>
+                
+                <h3>Направленные спрайты</h3>
+                <ul>
+                    <li><strong>4-направленная система:</strong> Юг, Восток, Север, Запад</li>
+                    <li><strong>Автоматический выбор:</strong> На основе направления сущности</li>
+                    <li><strong>Поддержка состояний:</strong> Состояния могут иметь 1, 4 или 8 направлений</li>
+                </ul>
+
+                <h3>Система слоев</h3>
+                <ul>
+                    <li><strong>Несколько слоев на спрайт:</strong> Сложные визуальные эффекты путем объединения слоев</li>
+                    <li><strong>Независимые свойства:</strong> Каждый слой имеет свой RSI, состояние и свойства</li>
+                    <li><strong>Слоевая маппинг:</strong> Именованные слои для удобного управления состояниями</li>
+                </ul>
+
+                <h3>Визуализаторы</h3>
+                <ul>
+                    <li><strong>GenericVisualizer:</strong> Связывает поля данных с визуальными изменениями</li>
+                    <li><strong>Серверный контроль:</strong> Позволяет серверу обновлять внешний вид спрайта</li>
+                    <li><strong>Переходы между состояниями:</strong> Обрабатывает плавные переходы между визуальными состояниями</li>
+                </ul>
+
+                <h2>Оптимизация производительности</h2>
+                
+                <h3>Неактивные спрайты</h3>
+                <ul>
+                    <li><strong>Автоматическое обнаружение:</strong> Спрайты без анимаций помечаются как неактивные</li>
+                    <li><strong>Оптимизация обновлений:</strong> Пропускает обновления кадров для лучшей производительности</li>
+                </ul>
+
+                <h3>Текстуровые атласы</h3>
+                <ul>
+                    <li><strong>Упаковка спрайтов:</strong> Спрайты упаковываются в атласы для уменьшения числа вызовов отрисовки</li>
+                    <li><strong>Оптимизация GPU:</strong> Уменьшает переключение текстур и улучшает эффективность кэша</li>
+                </ul>
+
+                <h3>Кэширование</h3>
+                <ul>
+                    <li><strong>Кэш RSI:</strong> Загруженные RSI кэшируются</li>
+                    <li><strong>Кэш компонентов спрайтов:</strong> Компоненты повторно используются при возможности</li>
+                    <li><strong>Предварительная загрузка:</strong> Ресурсы загружаются заранее для быстрого доступа</li>
+                </ul>
+
+                <h2>Инструменты для отладки и разработки</h2>
+                
+                <h3>Инструмент для экспорта спрайтов</h3>
+                <ul>
+                    <li><strong>Административный глагол:</strong> Экспорт спрайтов сущности как PNG</li>
+                    <li><strong>Поддержка направлений:</strong> Экспортирует все 4 направления</li>
+                    <li><strong>Место вывода:</strong> Директория `/Exports`</li>
+                </ul>
+
+                <h3>Наложение границ спрайтов</h3>
+                <ul>
+                    <li><strong>Визуализация для отладки:</strong> Показывает границы спрайтов для детекции столкновений</li>
+                    <li><strong>Кодирование цветом:</strong> Разные цвета для разных типов границ</li>
+                </ul>
+
+                <h3>Система дерева спрайтов</h3>
+                <ul>
+                    <li><strong>Пространственное разбиение:</strong> Оптимизирует порядок рендеринга и проверки видимости</li>
+                    <li><strong>Быстрый поиск:</strong> Улучшает производительность при большом количестве сущностей</li>
+                </ul>
+
+                <h2>Заключение</h2>
+                <p>
+                    Архитектура спрайтовой системы в Space Station 14 - это мощный и гибкий инструмент для создания визуально привлекательного и производительного игрового контента. Понимание основ RSI, SpriteSystem и спрайтовых компонентов является важным для разработки качественных модов и контента.
+                </p>
+
+                <h3>Полезные ссылки</h3>
+                <ul>
+                    <li><a href="ss14-prototypes.html">Прототипы в SS14</a></li>
+                    <li><a href="ss14-xaml-ui.html">XAML UI для SS14</a></li>
+                    <li><a href="ss14-advanced-sprites.html">Расширенное использование спрайтов</a></li>
+                </ul>
+            </div>
+
+            <nav class="guide-nav">
+                <a href="ss14-xaml-ui.html" class="guide-nav__link guide-nav__link--prev">
+                    Предыдущий гайд: XAML UI для SS14
+                </a>
+                <a href="../guides.html" class="btn">
+                    Все гайды
+                </a>
+                <a href="ss14-advanced-sprites.html" class="guide-nav__link guide-nav__link--next">
+                    Следующий гайд: Расширенное использование спрайтов
+                </a>
+            </nav>
+        </div>
+    </article>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

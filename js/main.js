@@ -333,7 +333,13 @@ function initTocScrollSpy() {
     updateActiveSection();
 }
 
-// Инициализация TOC
+// TOC
 document.addEventListener('DOMContentLoaded', () => {
     initToc();
+    // свернутый, потому что так удобнее, не ?
+    const toc = document.querySelector('.toc');
+    const toggleBtn = document.querySelector('.toc__toggle');
+    if (toc && !toc.classList.contains('toc--collapsed')) {
+        toc.classList.add('toc--collapsed');
+    }
 });
