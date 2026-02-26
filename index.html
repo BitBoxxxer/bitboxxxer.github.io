@@ -32,6 +32,7 @@
         <div class="nav__container">
             <a href="index.html" class="nav__logo">DevGuides</a>
             <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <button class="nav__updates" onclick="toggleUpdates()">[ UPDATES ]</button>
             <ul class="nav__links" id="navLinks">
                 <li><a href="index.html" class="nav__link nav__link--active">Главная</a></li>
                 <li><a href="projects.html" class="nav__link">Проекты</a></li>
@@ -39,6 +40,80 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Updats -->
+    <div class="updates-panel" id="updatesPanel">
+        <div class="updates-panel__header">
+            <h3 class="updates-panel__title">Последние обновления</h3>
+            <button class="updates-panel__close" onclick="toggleUpdates()">[ × ]</button>
+        </div>
+        <div class="updates-panel__body">
+            <div class="updates-list">
+                <!--1 -->
+                <div class="update-item">
+                    <div class="update-item__header">
+                        <h4 class="update-item__title">XAML UI для SS14</h4>
+                        <span class="update-item__date">24-02-2026</span>
+                    </div>
+                    <p class="update-item__description">Новый гайд: Создание пользовательских интерфейсов в Space Station 14</p>
+                    <div class="update-item__tags">
+                        <span class="tag">SS14</span>
+                        <span class="tag">XAML</span>
+                        <span class="tag">UI</span>
+                    </div>
+                    <a href="guides/ss14-xaml-ui.html" class="update-item__link">[ Читать гайд ]</a>
+                </div>
+
+                <!--2 -->
+                <div class="update-item">
+                    <div class="update-item__header">
+                        <h4 class="update-item__title">Прототипы для SS14</h4>
+                        <span class="update-item__date">22-02-2026</span>
+                    </div>
+                    <p class="update-item__description">Разработка прототипов для Space Station 14 с нуля</p>
+                    <div class="update-item__tags">
+                        <span class="tag">SS14</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">prototype</span>
+                    </div>
+                    <a href="guides/ss14-prototypes.html" class="update-item__link">[ Читать гайд ]</a>
+                </div>
+
+                <!-- 3 -->
+                <div class="update-item">
+                    <div class="update-item__header">
+                        <h4 class="update-item__title">Настройка рабочего пространства</h4>
+                        <span class="update-item__date">01-02-2026</span>
+                    </div>
+                    <p class="update-item__description">Советы по комфортной настройке IDE и рабочего окружения</p>
+                    <div class="update-item__tags">
+                        <span class="tag">IDE</span>
+                        <span class="tag">Windows</span>
+                        <span class="tag">productivity</span>
+                    </div>
+                    <a href="guides/guide-template.html" class="update-item__link">[ Читать гайд ]</a>
+                </div>
+
+                <!-- 4 -->
+                <div class="update-item">
+                    <div class="update-item__header">
+                        <h4 class="update-item__title">Терминал для разработчика</h4>
+                        <span class="update-item__date">28-01-2026</span>
+                    </div>
+                    <p class="update-item__description">Основные команды терминала для повседневной работы</p>
+                    <div class="update-item__tags">
+                        <span class="tag">terminal</span>
+                        <span class="tag">Windows</span>
+                        <span class="tag">basics</span>
+                    </div>
+                    <a href="guides/guide-template.html" class="update-item__link">[ Читать гайд ]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="updates-overlay" id="updatesOverlay" onclick="toggleUpdates()"></div>
 
     <section class="hero">
         <div class="hero__content">

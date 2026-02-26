@@ -1,12 +1,37 @@
-/* ============================================
-   DevGuides - Main JavaScript
-   ============================================ */
-
 // Mobile Navigation Toggle
 function toggleNav() {
     const navLinks = document.getElementById('navLinks');
     navLinks.classList.toggle('nav__links--active');
 }
+
+// Updats
+function toggleUpdates() {
+    const updatesPanel = document.getElementById('updatesPanel');
+    const updatesOverlay = document.getElementById('updatesOverlay');
+    
+    if (updatesPanel && updatesOverlay) {
+        updatesPanel.classList.toggle('updates-panel--active');
+        updatesOverlay.classList.toggle('updates-overlay--active');
+        
+        document.body.style.overflow = updatesPanel.classList.contains('updates-panel--active') ? 'hidden' : '';
+    }
+}
+
+// Close
+document.addEventListener('click', function(event) {
+    const updatesPanel = document.getElementById('updatesPanel');
+    const updatesOverlay = document.getElementById('updatesOverlay');
+    const updatesButton = document.querySelector('.nav__updates');
+    
+    if (updatesPanel && updatesOverlay && updatesButton) {
+        const isClickInsidePanel = updatesPanel.contains(event.target);
+        const isClickOnButton = updatesButton.contains(event.target);
+        
+        if (!isClickInsidePanel && !isClickOnButton && updatesPanel.classList.contains('updates-panel--active')) {
+            toggleUpdates();
+        }
+    }
+});
 
 // Close mobile nav when clicking outside
 document.addEventListener('click', function(event) {
@@ -97,9 +122,11 @@ document.querySelectorAll('.code-block').forEach(block => {
 });
 
 // Console Easter Egg
-console.log('%c> DevGuides v1.0', 'color: #00ff41; font-family: monospace; font-size: 16px;');
+// anyway its fun :)))
+console.log('%c> DevGuides v1.9', 'color: #00ff41; font-family: monospace; font-size: 16px;');
 console.log('%c> Welcome, Developer!', 'color: #00ff41; font-family: monospace;');
 console.log('%c> Made with code and passion', 'color: #00cc33; font-family: monospace;');
+console.log('%c> Mb DevGuides just simple name for site - think abt it', 'color: #00cc33; font-family: monospace;');
 
 // Matrix rain effect in background (optional - can be enabled)
 function createMatrixRain() {
@@ -143,10 +170,6 @@ function createMatrixRain() {
     });
 }
 
-// Uncomment to enable matrix rain effect:
-// createMatrixRain();
-
-// Active navigation link highlighting
 function setActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav__link');
@@ -184,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateNavLogo();
 });
 
-// Glitch effect on hover for elements with .glitch class
 document.querySelectorAll('.glitch').forEach(element => {
     element.addEventListener('mouseenter', () => {
         element.style.animation = 'glitch 0.3s ease infinite';
@@ -195,9 +217,7 @@ document.querySelectorAll('.glitch').forEach(element => {
     });
 });
 
-// ============================================
-// Table of Contents (TOC)
-// ============================================
+//(TOC)
 
 let tocHeadings = [];
 let tocLinks = [];
@@ -208,31 +228,25 @@ function initToc() {
     
     if (!tocContent || !guideContent) return;
     
-    // Находим все заголовки h2, h3, h4
     tocHeadings = Array.from(guideContent.querySelectorAll('h2, h3, h4'));
     
     if (tocHeadings.length === 0) return;
     
-    // Создаём список
     const list = document.createElement('ul');
     list.className = 'toc__list';
     
     tocHeadings.forEach((heading, index) => {
-        // Добавляем id к заголовку если нет
         if (!heading.id) {
             heading.id = 'section-' + index;
         }
         
-        // Создаём элемент списка
         const item = document.createElement('li');
         const level = parseInt(heading.tagName.charAt(1));
         item.className = 'toc__item toc__item--level-' + level;
         
-        // Создаём ссылку
         const link = document.createElement('a');
         link.href = '#' + heading.id;
         link.className = 'toc__link';
-        // Убираем префикс ## или ### из текста
         link.textContent = heading.textContent.replace(/^#+\s/, '');
         
         // Обработчик клика
@@ -247,10 +261,8 @@ function initToc() {
     
     tocContent.appendChild(list);
     
-    // Сохраняем ссылки для scroll spy
     tocLinks = Array.from(document.querySelectorAll('.toc__link'));
     
-    // Инициализируем отслеживание прокрутки
     initTocScrollSpy();
 }
 
@@ -283,7 +295,6 @@ function initTocScrollSpy() {
         });
         
         if (currentSection) {
-            // Обновляем активную ссылку
             tocLinks.forEach(link => {
                 link.classList.remove('toc__link--active');
                 if (link.getAttribute('href') === '#' + currentSection.id) {
@@ -291,14 +302,12 @@ function initTocScrollSpy() {
                 }
             });
             
-            // Обновляем текущую главу
             if (tocCurrentTitle) {
                 tocCurrentTitle.textContent = currentSection.textContent.replace(/^#+\s/, '');
             }
         }
     }
     
-    // Клик по текущей главе разворачивает TOC
     if (tocCurrent) {
         tocCurrent.addEventListener('click', () => {
             const toc = document.querySelector('.toc');
@@ -309,11 +318,10 @@ function initTocScrollSpy() {
     }
     
     window.addEventListener('scroll', updateActiveSection);
-    // Запускаем начальное обновление
     updateActiveSection();
 }
 
-// Инициализация TOC при загрузке
+// Инициализация TOC
 document.addEventListener('DOMContentLoaded', () => {
     initToc();
 });
