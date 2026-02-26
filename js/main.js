@@ -132,7 +132,7 @@ console.log('%c> Mb DevGuides just simple name for site - think abt it', 'color:
 function createMatrixRain() {
     const canvas = document.createElement('canvas');
     canvas.id = 'matrix-canvas';
-    canvas.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.1;';
+    canvas.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.5;';
     document.body.appendChild(canvas);
     
     const ctx = canvas.getContext('2d');
