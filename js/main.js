@@ -173,6 +173,15 @@ function createMatrixRain() {
 // Call the function to create the matrix rain effect
 createMatrixRain();
 
+// typing hero title - style 2
+document.addEventListener('DOMContentLoaded', () => {
+    const heroTitle = document.querySelector('.hero__title');
+    if (heroTitle) {
+        const originalText = heroTitle.textContent;
+        typeWriter(heroTitle, originalText, 100);
+    }
+});
+
 function setActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav__link');
