@@ -123,7 +123,7 @@ document.querySelectorAll('.code-block').forEach(block => {
 
 // Console Easter Egg
 // anyway its fun :)))
-console.log('%c> DevGuides v1.9', 'color: #00ff41; font-family: monospace; font-size: 16px;');
+console.log('%c> DevGuides v2', 'color: #00ff41; font-family: monospace; font-size: 16px;');
 console.log('%c> Welcome, Developer!', 'color: #00ff41; font-family: monospace;');
 console.log('%c> Made with code and passion', 'color: #00cc33; font-family: monospace;');
 console.log('%c> Mb DevGuides just simple name for site - think abt it', 'color: #00cc33; font-family: monospace;');
