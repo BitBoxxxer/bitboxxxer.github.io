@@ -124,8 +124,6 @@ document.querySelectorAll('.code-block').forEach(block => {
 // Console Easter Egg
 // anyway its fun :)))
 console.log('%c> DevGuides v2', 'color: #00ff41; font-family: monospace; font-size: 16px;');
-console.log('%c> Welcome, Developer!', 'color: #00ff41; font-family: monospace;');
-console.log('%c> Made with code and passion', 'color: #00cc33; font-family: monospace;');
 console.log('%c> Mb DevGuides just simple name for site - think abt it', 'color: #00cc33; font-family: monospace;');
 
 // Matrix rain effect in background (optional - can be enabled)
@@ -285,11 +283,7 @@ function toggleToc() {
     toc.classList.toggle('toc--collapsed');
     
     const toggleBtn = document.querySelector('.toc__toggle');
-    if (toc.classList.contains('toc--collapsed')) {
-        toggleBtn.textContent = '[ + ]';
-    } else {
-        toggleBtn.textContent = '[ − ]';
-    }
+    toggleBtn.textContent = '[ − ]'; // просто потому что "+" кнопка кажется излишней
 }
 
 function initTocScrollSpy() {
@@ -333,13 +327,77 @@ function initTocScrollSpy() {
     updateActiveSection();
 }
 
-// TOC
+function initGuidesToc() {
+    const tocContent = document.getElementById('tocContent');
+    if (!tocContent) return;
+
+    const sections = [
+        { text: 'Space Station 14', href: '#ss14' },
+        { text: 'Основы разработки', href: '#basics' },
+        { text: 'C# разработка', href: '#csharp' }
+    ];
+
+    const list = document.createElement('ul');
+    list.className = 'toc__list';
+
+    sections.forEach(section => {
+        const item = document.createElement('li');
+        item.className = 'toc__item toc__item--level-2';
+
+        const link = document.createElement('a');
+        link.href = section.href;
+        link.className = 'toc__link';
+        link.textContent = section.text;
+
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector(section.href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        item.appendChild(link);
+        list.appendChild(item);
+    });
+
+    tocContent.appendChild(list);
+
+    const tocLinks = document.querySelectorAll('.toc__link');
+    const headings = sections.map(s => document.querySelector(s.href)).filter(Boolean);
+
+    function updateActiveGuide() {
+        let activeIndex = -1;
+        for (let i = 0; i < headings.length; i++) {
+            const heading = headings[i];
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 100) {
+                activeIndex = i;
+            } else {
+                break;
+            }
+        }
+        tocLinks.forEach((link, idx) => {
+            if (idx === activeIndex) {
+                link.classList.add('toc__link--active');
+            } else {
+                link.classList.remove('toc__link--active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveGuide);
+    updateActiveGuide();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    const isGuidesPage = window.location.pathname.includes('guides.html');
+    if (isGuidesPage) {
+        initGuidesToc();
+        const toc = document.querySelector('.toc');
+        toc?.classList.remove('toc--collapsed');
+    } else {
     initToc();
     // свернутый, потому что так удобнее, не ?
     const toc = document.querySelector('.toc');
-    const toggleBtn = document.querySelector('.toc__toggle');
     if (toc && !toc.classList.contains('toc--collapsed')) {
         toc.classList.add('toc--collapsed');
+    }
     }
 });
