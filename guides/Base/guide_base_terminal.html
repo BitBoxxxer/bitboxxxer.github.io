@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Терминал - базовая вещь, присутствующая в жизни каждого разработчика">
+    <meta name="keywords" content="Terminal, windows, терминал, гайд, guide, разработка, гайд">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/guides/ss14-advanced-sprites.html">
+    
+    <meta property="og:title" content="Базовые знания по использованию терминала Windows - DevGuides">
+    <meta property="og:description" content="Полный гайд по использованию терминала OS Windows">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-advanced-sprites.html">
+    <meta property="og:site_name" content="DevGuides">
+    
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon-16x16.png">
+    
+    <title>Основные команды терминала для разработчика. Навигация, файлы, процессы.</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body data-guide-title="Основные команды терминала для разработчика." data-guide-id="Base_#2">
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="../../index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="../../index.html" class="nav__link">Главная</a></li>
+                <li><a href="../../projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="../../guides.html" class="nav__link nav__link--active">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Базовое использование терминала Windows.</h1>
+            <p class="hero__subtitle">
+                Base_#2 // Базовый коуч по использованию терминала и его пользу / необходимость в среде разработки // Время чтения: 30 мин
+            </p>
+        </div>
+    </section>
+
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+            <!--прикол JS-->
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
+    <article class="guide">
+        <div class="container">
+            <div class="guide__content">
+                <h2>Введение</h2>
+                <p>
+                    Этот гайд нужен для базового ознакомления с терминалом и его командами ОС Windows
+                </p>
+
+                <h2>Что тут забыл Git ?</h2>
+                <p>
+                    Ранее, в Base_#1 уроке по основам Git - мы разобрали что исполняемые команды можно выполнять в git Bash терминале.<br>
+                    Но так же все команды git можно использовать и в обычном терминале вашей ОС или терминале в вашей IDE (Например Rider или VSC).
+                </p>
+
+                <h2>Все терминалы - одинаковы ?</h2>
+                <p>
+                    Можно скаать и так. Но в любом случае есть разница - ограничениях прав пользователя к тем или иным действиям.
+                    <br>Допустим для исполнения некоторых команд - вам потребуется запуск терминала с правами администратора. (Что можно сделать через ПКМ - открыть от администратора).
+                </p>
+                <h2>Windows 10/11</h2>
+                <p>
+                    В операционной системе Windows есть предустановленные системные терминалы (консоль и PowerShell).<br>
+                    Консоль - обычная консоль, позволяющая легко написать команду и получить вывод.<br>
+                    PowerShell ISE - [интеграционная среда сценариев] даст вам полный контроль над консолью. В ее окне есть плашки настроек, например как:<br>
+                    <code>Предустановленный список доступных команд, где можно выбрать нужны модуль, исполняющий те или иные команды</code>
+                </p>
+
+            </div>
+        </div>
+    </article>
+
+
+    <script src="../../js/main.js"></script>
+</body>
+</html>
