@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Git с нуля. Понимаем и разбираем что это такое. Как это может выручить и помочь при разработках проектов ?">
+    <meta name="keywords" content="Git, Github, репозиторий, ветка, проект, сохранение, начинающие, с нуля, разработка, гайд">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/guides/ss14-advanced-sprites.html">
+    
+    <meta property="og:title" content="Расширенное использование спрайтов SS14 - DevGuides">
+    <meta property="og:description" content="Полный гайд по расширенному использованию спрайтов в Space Station 14.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bitboxxxer.github.io/guides/ss14-advanced-sprites.html">
+    <meta property="og:site_name" content="DevGuides">
+    
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+    
+    <title>DevGuides // Git основы с нуля</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body data-guide-title="Знакомство с Git для новичков :D">
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="../../index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="../../index.html" class="nav__link">Главная</a></li>
+                <li><a href="../../projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="../../guides.html" class="nav__link nav__link--active">Гайды</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Что такое Git и как \ зачем им пользоваться ?</h1>
+            <p class="hero__subtitle">
+                Git #1 // Время чтения: ~~ 20 мин
+            </p>
+        </div>
+    </section>
+
+    <aside class="toc">
+        <div class="toc__header">
+            <span class="toc__title">СОДЕРЖАНИЕ</span>
+            <button class="toc__toggle" onclick="toggleToc()">[ − ]</button>
+        </div>
+        <nav class="toc__content" id="tocContent">
+        </nav>
+        <div class="toc__current" id="tocCurrent">
+            <span class="toc__current-label">Текущая глава:</span>
+            <span class="toc__current-title" id="tocCurrentTitle"></span>
+        </div>
+    </aside>
+
+    <article class="guide">
+        <div class="container">
+            <div class="guide__conyent">
+                <h2>Введение</h2>
+            <p>
+                Git - это система контроля версий, которая стала неотъемлемой частью современной разработки. Она записывает изменения в файлах проекта и позволяет в любой момент вернуться к любому сохранённому состоянию. Git работает локально на вашем компьютере и не требует постоянного подключения к интернету.
+            </p>
+            <p>
+                GitHub - это облачная платформа, которая хранит Git-репозитории и добавляет удобный веб-интерфейс, инструменты для совместной работы, отслеживания задач и автоматизации. Понимание разницы между Git (инструмент) и GitHub (сервис) - первый шаг к грамотному управлению проектами.
+            </p>
+            <p>
+                Этот гайд проведёт вас от установки Git и регистрации на GitHub до повседневных сценариев работы с ветками, коммитами и удалёнными репозиториями.
+            </p>
+
+            <h2>Установка Git и первичная настройка</h2>
+
+            <h3>Установка на Windows, macOS, Linux</h3>
+            <p>
+                Скачайте установщик с официального сайта <a href="https://git-scm.com/downloads" target="_blank">git-scm.com/downloads</a>. Для Windows выбирайте 64-битную версию, для macOS - установщик .dmg или через Homebrew, для Linux используйте пакетный менеджер (например, <code>sudo apt install git</code> на Ubuntu).
+            </p>
+            <p>
+                В процессе установки на Windows оставьте все параметры по умолчанию, но убедитесь, что отмечен пункт «Git Bash Here» - он добавит удобное контекстное меню для запуска терминала Git через ПКМ.
+            </p>
+
+            <h3>Первичная конфигурация</h3>
+            <p>
+                Откройте терминал (Git Bash на Windows, стандартный терминал на macOS/Linux) и выполните две обязательные команды:
+            </p>
+            <pre><code>git config --global user.name "Ваше Имя или Никнейм"
+            git config --global user.email "ваш.email@example.com"</code></pre>
+            <p>
+                Эти данные будут прикрепляться к каждому коммиту. Можно также настроить редактор для сообщений коммитов (по умолчанию используется Vim) и другие параметры:
+            </p>
+            <pre><code>git config --global core.editor "code --wait"   # использовать VS Code
+            git config --global init.defaultBranch main      # установить имя основной ветки</code></pre>
+            <p>
+                Проверить текущие настройки можно командой <code>git config --list</code>.
+            </p>
+
+            <h2>Регистрация на GitHub пошагово</h2>
+
+            <h3>Шаг 1: Создание аккаунта</h3>
+            <p>
+                Перейдите на <a href="https://github.com" target="_blank">github.com</a> и нажмите кнопку <strong>Sign up</strong> в правом верхнем углу.
+            </p>
+            <ol>
+                <li>Введите желаемый <strong>Username</strong> - он станет частью URL вашего профиля и репозиториев. Выбирайте короткое и запоминающееся имя, которое будет отражать вас как разработчика.</li>
+                <li>Укажите действующий <strong>Email</strong> - на него придёт письмо для подтверждения. Рекомендуется использовать почту, которую вы не потеряете со временем.</li>
+                <li>Придумайте надёжный <strong>пароль</strong>. Используйте комбинацию букв, цифр и спецсимволов.</li>
+                <li>Пройдите простую проверку на робота (Puzzle) и нажмите <strong>Create account</strong>.</li>
+            </ol>
+
+            <h3>Шаг 2: Подтверждение email</h3>
+            <p>
+                На указанную почту придёт письмо от GitHub с кодом подтверждения. Введите этот код в открывшейся форме. Если письмо не приходит, проверьте папку «Спам» или запросите повторную отправку.
+            </p>
+
+            <h3>Шаг 3: Настройка профиля</h3>
+            <p>
+                GitHub предложит несколько вопросов о вашем опыте и целях использования. Можно пропустить этот шаг, нажав <strong>Skip personalization</strong>. После этого вы попадёте на главную страницу своего аккаунта.
+            </p>
+
+            <h3>Шаг 4: Добавление SSH-ключа (рекомендуется)</h3>
+            <p>
+                Для безопасного взаимодействия с GitHub без постоянного ввода пароля настройте SSH-ключ. Откройте терминал и выполните:
+            </p>
+            <pre><code>ssh-keygen -t ed25519 -C "ваш.email@example.com"</code></pre>
+            <p>
+                Нажмите Enter, чтобы сохранить ключ в папке по умолчанию. Затем скопируйте содержимое публичного ключа:
+            </p>
+            <pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
+            <p>
+                На GitHub зайдите в <strong>Settings → SSH and GPG keys</strong>, нажмите <strong>New SSH key</strong>, вставьте скопированный текст и сохраните. Теперь вы можете клонировать и пушить репозитории по SSH.
+            </p>
+
+            <h2>Основные понятия Git</h2>
+
+            <ul>
+                <li><strong>Репозиторий</strong> - папка проекта, в которой Git отслеживает изменения. Может быть локальным (на вашем компьютере) и удалённым (на GitHub).</li>
+                <li><strong>Коммит</strong> - снимок состояния файлов в определённый момент времени. Каждый коммит имеет уникальный хеш, автора, дату и сообщение.</li>
+                <li><strong>Индекс (staging area)</strong> - промежуточная область, куда добавляются файлы перед коммитом. Это позволяет гибко формировать коммит из части изменений.</li>
+                <li><strong>Ветка</strong> - отдельная линия разработки. Позволяет работать над новыми фичами, не затрагивая основную ветку (обычно <code>main</code> или <code>master</code>).</li>
+                <li><strong>Удалённый репозиторий (remote)</strong> - ссылка на репозиторий, расположенный на GitHub или другом сервере. Обычно называется <code>origin</code>.</li>
+            </ul>
+
+            <h2>Создание первого локального репозитория</h2>
+
+            <p>
+                Предположим, у вас есть папка с проектом. Откройте терминал в этой папке и выполните:
+            </p>
+            <pre><code>git init</code></pre>
+            <p>
+                Появится скрытая директория <code>.git</code> - здесь Git хранит всю историю и метаданные.
+            </p>
+            <p>
+                Добавим все файлы в индекс и создадим первый коммит:
+            </p>
+            <pre><code>git add .
+            git commit -m "Первоначальная версия проекта"</code></pre>
+            <p>
+                Флаг <code>-m</code> позволяет указать сообщение коммита прямо в командной строке. Если опустить флаг, откроется текстовый редактор для написания более развёрнутого сообщения.
+            </p>
+
+            <h2>Просмотр истории и состояния</h2>
+
+            <p>
+                Посмотреть, какие файлы изменены и что находится в индексе:
+            </p>
+            <pre><code>git status</code></pre>
+            <p>
+                Вывести историю коммитов в кратком виде:
+            </p>
+            <pre><code>git log --oneline</code></pre>
+            <p>
+                Для детального просмотра с информацией об авторе и дате:
+            </p>
+            <pre><code>git log</code></pre>
+
+            <h2>Связь с удалённым репозиторием на GitHub</h2>
+
+            <h3>Создание репозитория на GitHub</h3>
+            <ol>
+                <li>Нажмите на значок «+» в правом верхнем углу GitHub и выберите <strong>New repository</strong>.</li>
+                <li>Введите имя репозитория. Оно должно быть уникальным в пределах вашего аккаунта.</li>
+                <li>Выберите видимость: <strong>Public</strong> (виден всем) или <strong>Private</strong> (доступен только вам и приглашённым пользователям).</li>
+                <li>Не отмечайте галочки «Initialize this repository with a README», «.gitignore» или «license», если вы уже создали репозиторий локально - иначе возникнет конфликт.</li>
+                <li>Нажмите <strong>Create repository</strong>.</li>
+            </ol>
+
+            <h3>Привязка локального репозитория к удалённому</h3>
+            <p>
+                Скопируйте URL вашего репозитория (HTTPS или SSH) и выполните в терминале:
+            </p>
+            <pre><code>git remote add origin https://github.com/ваш_логин/имя_репозитория.git</code></pre>
+            <p>
+                Проверьте, что удалённый репозиторий добавился:
+            </p>
+            <pre><code>git remote -v</code></pre>
+            <p>
+                Отправьте коммиты на GitHub (первый пуш потребует указать ветку и настроить отслеживание):
+            </p>
+            <pre><code>git branch -M main
+            git push -u origin main</code></pre>
+            <p>
+                Флаг <code>-u</code> связывает локальную ветку <code>main</code> с удалённой <code>origin/main</code>, и в дальнейшем достаточно будет писать просто <code>git push</code>.
+            </p>
+
+            <h2>Клонирование существующего репозитория</h2>
+            <p>
+                Чтобы скачать чужой проект или свой с другого компьютера, используйте команду <code>clone</code>:
+            </p>
+            <pre><code>git clone https://github.com/автор/проект.git</code></pre>
+            <p>
+                После клонирования Git автоматически создаст папку с именем репозитория и привяжет удалённый репозиторий <code>origin</code>.
+            </p>
+
+            <h2>Работа с ветками</h2>
+
+            <h3>Создание и переключение веток</h3>
+            <pre><code>git branch feature/awesome-idea    # создать ветку
+            git checkout feature/awesome-idea   # переключиться на неё</code></pre>
+            <p>
+                Или одной командой:
+            </p>
+            <pre><code>git checkout -b feature/awesome-idea</code></pre>
+            <p>
+                Посмотреть список всех веток:
+            </p>
+            <pre><code>git branch -a</code></pre>
+
+            <h3>Слияние веток</h3>
+            <p>
+                После завершения работы над фичей нужно слить изменения в основную ветку. Сначала переключитесь на <code>main</code>:
+            </p>
+            <pre><code>git checkout main</code></pre>
+            <p>
+                Затем выполните слияние:
+            </p>
+            <pre><code>git merge feature/awesome-idea</code></pre>
+            <p>
+                Если конфликтов нет, Git автоматически создаст коммит слияния. Если конфликты есть, их нужно разрешить вручную (об этом ниже).
+            </p>
+
+            <h3>Удаление ветки</h3>
+            <p>
+                После успешного слияния ветку можно удалить:
+            </p>
+            <pre><code>git branch -d feature/awesome-idea</code></pre>
+
+            <h2>Разрешение конфликтов слияния</h2>
+            <p>
+                Конфликт возникает, когда две ветки изменили одни и те же строки в одном файле. Git помечает конфликтующие участки специальными маркерами:
+            </p>
+            <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+            ваша версия (текущая ветка)
+            =======
+            версия из сливаемой ветки
+            &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/awesome-idea</code></pre>
+            <p>
+                Чтобы разрешить конфликт, отредактируйте файл, оставив нужный вариант, и удалите маркеры. Затем добавьте исправленный файл в индекс и завершите слияние:
+            </p>
+            <pre><code>git add имя_файла
+            git commit -m "Разрешён конфликт в файле X"</code></pre>
+
+            <h2>Получение и отправка изменений</h2>
+
+            <h3>Скачать свежие изменения с удалённого репозитория</h3>
+            <pre><code>git pull origin main</code></pre>
+            <p>
+                Команда <code>pull</code> - это сокращение для <code>git fetch</code> (получение изменений) и <code>git merge</code> (слияние с текущей веткой). Если вы уверены, что локальных изменений нет, можно использовать <code>pull --rebase</code> для более чистой истории.
+            </p>
+
+            <h3>Отправить свои коммиты</h3>
+            <pre><code>git push origin main</code></pre>
+            <p>
+                Если ветка ещё не существует на удалённом сервере, используйте:
+            </p>
+            <pre><code>git push -u origin имя_ветки</code></pre>
+
+            <h2>Дополнительные полезные команды</h2>
+
+            <h3>Просмотр изменений</h3>
+            <p>
+                Показать разницу между рабочим каталогом и индексом:
+            </p>
+            <pre><code>git diff</code></pre>
+            <p>
+                Показать разницу между индексом и последним коммитом:
+            </p>
+            <pre><code>git diff --staged</code></pre>
+
+            <h3>Отмена изменений</h3>
+            <p>
+                Убрать файл из индекса, но оставить изменения в рабочем каталоге:
+            </p>
+            <pre><code>git reset HEAD имя_файла</code></pre>
+            <p>
+                Полностью отменить изменения в файле (вернуть к состоянию последнего коммита):
+            </p>
+            <pre><code>git checkout -- имя_файла</code></pre>
+            <p>
+                Откатить последний коммит, сохранив изменения в рабочем каталоге:
+            </p>
+            <pre><code>git reset --soft HEAD~1</code></pre>
+            <p>
+                Удалить последний коммит и все его изменения (осторожно!):
+            </p>
+            <pre><code>git reset --hard HEAD~1</code></pre>
+
+            <h3>Спрятать незакоммиченные изменения</h3>
+            <pre><code>git stash</code></pre>
+            <p>
+                Восстановить спрятанные изменения:
+            </p>
+            <pre><code>git stash pop</code></pre>
+
+            <h3>Просмотр удалённых веток</h3>
+            <pre><code>git branch -r</code></pre>
+
+            <h2>Рекомендации по стилю коммитов</h2>
+            <p>
+                Хорошие сообщения коммитов экономят время вам и вашей команде. Придерживайтесь простых правил:
+            </p>
+            <ul>
+                <li>Используйте повелительное наклонение: «Добавить», «Исправить», «Обновить».</li>
+                <li>Ограничивайте первую строку 50 символами - это заголовок.</li>
+                <li>После заголовка оставляйте пустую строку, затем подробное описание (опционально).</li>
+                <li>Указывайте в сообщении, что именно сделано и, возможно, почему.</li>
+            </ul>
+            <p>
+                Пример хорошего коммита:
+            </p>
+            <pre><code>Добавить валидацию email в форме регистрации
+
+            Поле email теперь проверяется на корректность формата
+            с использованием регулярного выражения. Ошибка отображается
+            под полем ввода и блокирует отправку формы.</code></pre>
+
+            <h2>Пример рабочего процесса (Feature Branch Workflow)</h2>
+            <ol>
+                <li>Создайте новую ветку от <code>main</code>: <code>git checkout -b feature/name</code>.</li>
+                <li>Вносите изменения, регулярно коммитьте.</li>
+                <li>Периодически подтягивайте изменения из <code>main</code>, чтобы избежать больших конфликтов: <code>git pull origin main</code>.</li>
+                <li>Когда фича готова, отправьте ветку на GitHub: <code>git push -u origin feature/name</code>.</li>
+                <li>На GitHub создайте Pull Request из вашей ветки в <code>main</code>.</li>
+                <li>После ревью и одобрения выполните слияние через интерфейс GitHub.</li>
+                <li>Удалите ветку локально и на удалённом сервере.</li>
+            </ol>
+
+            <h2>Что дальше?</h2>
+            <p>
+                Git - глубокая система, и этот гайд охватывает лишь основы, необходимые для комфортного старта. Рекомендуем изучить следующие темы:
+            </p>
+            <ul>
+                <li><strong>Интерактивный rebase</strong> - для очистки истории коммитов.</li>
+                <li><strong>Cherry-pick</strong> - перенос отдельных коммитов между ветками.</li>
+                <li><strong>Теги (tags)</strong> - для отметки релизных версий.</li>
+                <li><strong>Git Hooks</strong> - автоматизация проверок перед коммитом или пушем.</li>
+                <li><strong>GitHub Actions</strong> - CI/CD прямо в репозитории.</li>
+            </ul>
+            <p>
+                Отличный интерактивный тренажёр для закрепления навыков: <a href="https://learngitbranching.js.org/?locale=ru_RU" target="_blank">Learn Git Branching</a>. А официальная документация Git всегда доступна по команде <code>git help &lt;команда&gt;</code> или на <a href="https://git-scm.com/doc" target="_blank">git-scm.com/doc</a>.
+            </p>
+
+            <h2>Заключение</h2>
+            <p>
+                Использование Git и GitHub - обязательный навык для любого современного разработчика. Даже если вы работаете в одиночку, система контроля версий сэкономит нервы при случайном удалении файла или неудачном эксперименте. Начните применять Git уже сегодня, и через неделю вы будете удивляться, как раньше обходились без него.
+            </p>
+
+            </div>
+        </div>
+
+    </article>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
