@@ -117,7 +117,7 @@
 
     <section class="hero">
         <div class="hero__content">
-            <h1 class="hero__title">Проекты Кейси</h1>
+            <h1 class="hero__title">Проекты</h1>
             <p class="hero__subtitle">
                 Активные разработки // Завершённые проекты // Планы на будущее
             </p>
@@ -131,14 +131,14 @@
         <div class="container">
             <h2 class="section__title">Активные проекты</h2>
             <div class="cards-grid">
-                <!--1 -->
+                <!--NO SS14 DUH-->
                 <article class="card project-card">
                     <span class="project-card__status project-card__status--active">ACTIVE</span>
                     <div class="card__header">
                         <h3 class="card__title">Hlebec Engine</h3>
                     </div>
                     <p class="card__description">
-                        Описание проекта. Какие технологии используются и что делает проект.
+                        Математический движок с проекцией фигур через формулы в 3D пространстве. Имеет свой UI на WPF с прикольными эффектами, как "god rays" etc ;p
                     </p>
                     <div class="card__tags">
                         <span class="tag">C#</span>
@@ -146,6 +146,7 @@
                         <span class="tag">Silk.Net</span>
                         <span class="tag">WPF</span>
                         <span class="tag">Math</span>
+                        <span class="tag">MVVM</span>
                     </div>
                     <div class="card__links">
                         <a href="#" class="card__link">GitHub</a>
@@ -153,23 +154,44 @@
                     </div>
                 </article>
 
-                <!-- 2 -->
                 <article class="card project-card">
-                    <span class="project-card__status">COMPLETED</span>
+                    <span class="project-card__status project-card__status--active">ACTIVE</span>
                     <div class="card__header">
-                        <h3 class="card__title">SS14 UI Framework</h3>
+                        <h3 class="card__title">IT Top College Journal<br> [Mobile]</h3>
                     </div>
                     <p class="card__description">
-                        UI расширения для серверов. Расширяет возможности для разметок
+                        Android приложение. Работает с API колледжа (в котором я с друзьями обучаюсь) - просто удобная замена сайту, созданная для студентов за отсутствием аналога для смартфонов
                     </p>
                     <div class="card__tags">
-                        <span class="tag">C#</span>
-                        <span class="tag">WPF</span>
-                        <span class="tag">CSS</span>
+                        <span class="tag">Android</span>
+                        <span class="tag">Flutter/Dart</span>
+                        <span class="tag">Student journal</span>
                     </div>
                     <div class="card__links">
                         <a href="#" class="card__link">GitHub</a>
                         <a href="#" class="card__link">Demo</a>
+                    </div>
+                </article>
+
+                <!-- SS14 PROJECTS -->
+                <article class="card project-card">
+                    <span class="project-card__status">ACTIVE</span>
+                    <div class="card__header">
+                        <h3 class="card__title">SS14 MP4 Framework</h3>
+                    </div>
+                    <p class="card__description">
+                        Расширение Видео-Плеер. MP4 формата. Библиотека [LibVLCSharp]
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">RobustToolBox</span>
+                        <span class="tag">LibVLCSharp</span>
+                        <span class="tag">VIDEO</span>
+                    </div>
+                    <div class="card__links">
+                        <!-- <a href="#" class="card__link">GitHub</a>
+                        <a href="#" class="card__link">Demo</a> -->
+                        <a href="#" class="card__link">[ Позже добавлю ссылку на пулл реквест ]</a>
                     </div>
                 </article>
             </div>
@@ -183,34 +205,20 @@
                 <article class="card project-card">
                     <span class="project-card__status">COMPLETED</span>
                     <div class="card__header">
-                        <h3 class="card__title">Название проекта</h3>
+                        <h3 class="card__title">Log Viewer - IT Top College Journal</h3>
                     </div>
                     <p class="card__description">
-                        Краткое описание проекта. Какие технологии использовались.
+                        WPF приложение на C# для просмотра и управления зашифрованными логами с использованием SHA-256 и AES-256 шифрования.
+                        <br>Пользователь может отправлять баг-репорт с зашифрованным документом мне на рабочую, как разработчику
                     </p>
                     <div class="card__tags">
-                        <span class="tag">тег</span>
-                        <span class="tag">тег</span>
+                        <span class="tag">С#</span>
+                        <span class="tag">WPF</span>
+                        <span class="tag">SHA-256 && AES-256</span>
+                        <span class="tag">MVVM</span>
                     </div>
                     <div class="card__links">
-                        <span class="card__link text-dim">Не скоро...</span>
-                    </div>
-                </article>
-
-                <article class="card project-card">
-                    <span class="project-card__status">COMPLETED</span>
-                    <div class="card__header">
-                        <h3 class="card__title">Название проекта</h3>
-                    </div>
-                    <p class="card__description">
-                        Краткое описание проекта. Какие технологии использовались.
-                    </p>
-                    <div class="card__tags">
-                        <span class="tag">тег</span>
-                        <span class="tag">тег</span>
-                    </div>
-                    <div class="card__links">
-                        <span class="card__link text-dim">Не скоро...</span>
+                        <span class="card__link text-dim">Завершен</span>
                     </div>
                 </article>
             </div>
@@ -224,39 +232,49 @@
                 <article class="card project-card">
                     <span class="project-card__status">PLANNED</span>
                     <div class="card__header">
-                        <h3 class="card__title">Название проекта</h3>
+                        <h3 class="card__title">Симуляция живого человека</h3>
                     </div>
                     <p class="card__description">
-                        Краткое описание будущего проекта. Что планируется реализовать.
+                        Живой человек ?<br> Скорее огромная работа с паттернами поведения. Человек должен заполнять бланки собственных характеристик после оп-х тестов.
+                        <br>Искуственная личность будет проживать в цифровом мире и взаимодействовать с другими циф. симуляциями ! (Идея не может уйти из головы, я пока думаю над реализацией)
                     </p>
                     <div class="card__tags">
-                        <span class="tag">тег</span>
-                        <span class="tag">Coming Soon</span>
+                        <span class="tag">simulation</span>
+                        <span class="tag">life</span>
                     </div>
                     <div class="card__links">
-                        <span class="card__link text-dim">Скоро...</span>
+                        <span class="card__link text-dim">В будущем... [ориентировка на 2027+]</span>
                     </div>
                 </article>
 
-                <article class="card project-card">
-                    <span class="project-card__status">PLANNED</span>
+                <!-- SS14 prjcts-->
+                 <article class="card project-card">
+                    <span class="project-card__status">ACTIVE</span>
                     <div class="card__header">
-                        <h3 class="card__title">Название проекта</h3>
+                        <h3 class="card__title">SS14 UI Framework</h3>
                     </div>
                     <p class="card__description">
-                        Краткое описание будущего проекта. Что планируется реализовать.
+                        UI расширение для серверов. Создание собственного UI стиля с настройками для клиента.<br> Каждая сборка сможет создавать собственный UI стиль !
                     </p>
                     <div class="card__tags">
-                        <span class="tag">тег</span>
-                        <span class="tag">Coming Soon</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">create</span>
+                        <span class="tag">UI</span>
+                        <span class="tag">ONLY CLIENT SIDE</span>
                     </div>
                     <div class="card__links">
-                        <span class="card__link text-dim">Скоро...</span>
+                        <a href="#" class="card__link">GitHub</a>
+                        <a href="#" class="card__link">Demo</a>
+                    </div>
+                    <div class="card__links">
+                        <span class="card__link text-dim">В будущем... [ориентировка на 2026 - 2027]</span>
                     </div>
                 </article>
             </div>
         </div>
     </section>
+    <!--TODO: сделать ссылки на страницы проектов-->
+    <p class="terminal__output">[ Ссылки на страницы проектов сделаю позже - публичные разработки вы можете уточнить у меня лично в дискорде, либо найти на Github акке ]</p>
 
     <section class="section">
         <div class="container">
@@ -269,11 +287,14 @@
                 </div>
                 <div class="terminal__body">
                     <p class="terminal__line">
-                        <span class="terminal__prompt">echo $STATS</span>
+                        <span class="terminal__prompt">ПАМЯТНИК { Цитаты моих друзей }</span>
                     </p>
                     <p class="terminal__output">
-                        Всего проектов: X | Активных: X | Завершённых: X | В планах: X
+                        Стас: "Курить плохо" && "Хочу пиццы";
                     </p>
+                    <div class="card__links">
+                        <span class="card__link text-dim">( Хочешь тоже оставить след -> Свяжитесь со мной в дискорде:D )</span>
+                    </div>
                 </div>
             </div>
         </div>
