@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Научно-популярные статьи от Кейси: физика, которая прячется за бытовыми вещами - лазеры, аэрозоли, наночастицы и законы, объясняющие их опасность.">
+    <meta name="keywords" content="наука, физика, лазерная безопасность, наночастицы, аэрозоли, закон Стокса, ап-конверсия">
+    <meta name="author" content="Кейси">
+    <link rel="canonical" href="https://bitboxxxer.github.io/science.html">
+
+    <meta property="og:title" content="Наука - DevGuides">
+    <meta property="og:description" content="Научно-популярные статьи от Кейси о физике за бытовыми вещами.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bitboxxxer.github.io/science.html">
+    <meta property="og:site_name" content="DevGuides">
+
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+
+    <title>DevGuides // Наука</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav__container">
+            <a href="index.html" class="nav__logo">DevGuides</a>
+            <button class="nav__toggle" onclick="toggleNav()">[ MENU ]</button>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="index.html" class="nav__link">Главная</a></li>
+                <li><a href="projects.html" class="nav__link">Проекты</a></li>
+                <li><a href="guides.html" class="nav__link">Гайды</a></li>
+                <li><a href="science.html" class="nav__link nav__link--active">Наука</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero__content">
+            <h1 class="hero__title">Наука</h1>
+            <p class="hero__subtitle">
+                Физика, которая прячется за бытовыми вещами
+            </p>
+            <p class="hero__subtitle">
+                Не про мой конкретный проект - просто интересные явления, законы и почему они иногда опасны
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="science-articles">
+        <div class="container">
+            <h2 class="section__title">Статьи</h2>
+            <div class="cards-grid">
+                <article class="card guide-card">
+                    <span class="guide-card__number">SCI_001</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Свет наоборот: ап-конверсия наночастиц</h3>
+                    </div>
+                    <p class="card__description">
+                        Как невидимый ИК-луч заставляет кристалл светиться зелёным, и при чём тут степенной закон.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">физика</span>
+                        <span class="tag">наночастицы</span>
+                        <span class="tag">люминесценция</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="science/upconversion-glow.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+
+                <article class="card guide-card">
+                    <span class="guide-card__number">SCI_002</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Невидимый лазер: почему ИК опаснее видимого</h3>
+                    </div>
+                    <p class="card__description">
+                        Закон Бера-Ламберта, отсутствие моргательного рефлекса на ИК и классы лазерной безопасности.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">лазеры</span>
+                        <span class="tag">безопасность</span>
+                        <span class="tag">оптика</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="science/ir-laser-safety.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+
+                <article class="card guide-card">
+                    <span class="guide-card__number">SCI_003</span>
+                    <div class="card__header">
+                        <h3 class="card__title">Туман, закон Стокса и опасность увлажнителей</h3>
+                    </div>
+                    <p class="card__description">
+                        Физика ультразвуковой атомизации и почему бытовой увлажнитель воздуха не так безобиден, как кажется.
+                    </p>
+                    <div class="card__tags">
+                        <span class="tag">аэрозоли</span>
+                        <span class="tag">ультразвук</span>
+                        <span class="tag">закон Стокса</span>
+                    </div>
+                    <div class="card__links">
+                        <a href="science/ultrasonic-mist-stokes-law.html" class="card__link">Читать</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

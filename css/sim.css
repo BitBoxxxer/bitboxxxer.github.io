@@ -1,0 +1,213 @@
+/* ============================================
+   INTERACTIVE SIM BLOCKS - extends terminal theme
+   ============================================ */
+
+.sim-block {
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    margin: 2rem 0;
+    position: relative;
+}
+
+.sim-block__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-code);
+}
+
+.sim-block__title {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+}
+
+.sim-block__title::before {
+    content: '~/sim $ run ';
+    color: var(--text-secondary);
+}
+
+.sim-block__badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    border: 1px solid var(--text-dim);
+    padding: 0.1rem 0.4rem;
+}
+
+.sim-block__stage {
+    position: relative;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.sim-canvas-wrap {
+    position: relative;
+    width: 100%;
+    background: #000000;
+    border: 1px solid var(--bg-code);
+    overflow: hidden;
+}
+
+.sim-canvas-wrap canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.sim-block__controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 0 1rem 1rem 1rem;
+}
+
+.sim-control label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 0.35rem;
+}
+
+.sim-control label b {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sim-control input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 2px;
+    background: var(--text-dim);
+    outline: none;
+}
+
+.sim-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 11px;
+    height: 11px;
+    background: var(--text-primary);
+    box-shadow: var(--glow);
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.sim-control input[type="range"]::-moz-range-thumb {
+    width: 11px;
+    height: 11px;
+    background: var(--text-primary);
+    box-shadow: var(--glow);
+    cursor: pointer;
+    border: none;
+    border-radius: 0;
+}
+
+.sim-readouts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.5rem;
+    padding: 0 1rem 1rem 1rem;
+}
+
+.sim-ro {
+    border: 1px solid var(--bg-code);
+    padding: 0.5rem 0.65rem;
+}
+
+.sim-ro__k {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+    margin-bottom: 0.2rem;
+}
+
+.sim-ro__v {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    text-shadow: var(--glow);
+}
+
+.sim-ro__v small {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-shadow: none;
+    margin-left: 0.2rem;
+}
+
+.sim-btn-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0 1rem 1rem 1rem;
+}
+
+.sim-btn {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sim-btn:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+}
+
+.sim-btn.sim-btn--active {
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    box-shadow: var(--glow);
+}
+
+.sim-note {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    padding: 0 1rem 1rem 1rem;
+    line-height: 1.6;
+    border-top: 1px dashed var(--bg-code);
+    padding-top: 0.75rem;
+    margin-top: -0.25rem;
+}
+
+.sim-note code {
+    background: var(--bg-code);
+    padding: 0.1rem 0.3rem;
+    border: 1px solid var(--text-dim);
+}
+
+.sim-legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    padding: 0 1rem;
+}
+
+.sim-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.sim-legend i {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+@media (max-width: 640px) {
+    .sim-block__controls,
+    .sim-readouts {
+        grid-template-columns: 1fr;
+    }
+}
